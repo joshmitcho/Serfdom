@@ -1,11 +1,11 @@
 [gd_scene load_steps=9 format=3 uid="uid://drgptv3pxrnyk"]
 
-[ext_resource type="Texture2D" uid="uid://dnnkb7wtqthx1" path="res://Art/pickup notification.png" id="1_nk480"]
+[ext_resource type="Texture2D" uid="uid://dnnkb7wtqthx1" path="res://Art/UI/pickup notification.png" id="1_nk480"]
 [ext_resource type="Script" path="res://Scripts/ui & inventory/pickup_notification.gd" id="1_o7g8h"]
 [ext_resource type="PackedScene" uid="uid://dj4uo1mrdxxha" path="res://Scenes/shadow_sprite.tscn" id="3_f018d"]
-[ext_resource type="FontFile" uid="uid://crd6qgr13h034" path="res://PixelRPG.ttf" id="3_x7y3d"]
-[ext_resource type="Texture2D" uid="uid://bpp02gt4ei5wv" path="res://Art/shadow spill cover.png" id="4_gys05"]
-[ext_resource type="FontFile" uid="uid://c2it3k3fijg8r" path="res://stardew numbers font.png" id="6_vv5an"]
+[ext_resource type="FontFile" uid="uid://crd6qgr13h034" path="res://Fonts/PixelRPG.ttf" id="3_x7y3d"]
+[ext_resource type="Texture2D" uid="uid://bpp02gt4ei5wv" path="res://Art/UI/shadow spill cover.png" id="4_gys05"]
+[ext_resource type="FontFile" uid="uid://c2it3k3fijg8r" path="res://Fonts/stardew numbers font.png" id="6_vv5an"]
 [ext_resource type="Script" path="res://Scripts/tweens/tween_bounce.gd" id="7_naelw"]
 
 [sub_resource type="FontVariation" id="FontVariation_rh8oi"]

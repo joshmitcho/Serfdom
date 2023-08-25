@@ -76,5 +76,4 @@ func grow_if_watered():
 		for key in lifecycle:
 			if days_watered >= lifecycle[key]:
 				stage = key
-	print("days watered: ", days_watered, ", stage: ", stage)
 	animator.set_frame_and_progress(stage, 0)

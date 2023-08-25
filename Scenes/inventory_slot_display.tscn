@@ -1,10 +1,10 @@
 [gd_scene load_steps=7 format=3 uid="uid://dutjtyluty2rm"]
 
 [ext_resource type="Script" path="res://Scripts/ui & inventory/inventory_slot_display.gd" id="1_nt8kr"]
-[ext_resource type="Texture2D" uid="uid://b5vdpkmm5tsna" path="res://Art/hotbar highlight.png" id="3_bco0e"]
+[ext_resource type="Texture2D" uid="uid://b5vdpkmm5tsna" path="res://Art/UI/hotbar highlight.png" id="3_bco0e"]
 [ext_resource type="PackedScene" uid="uid://dj4uo1mrdxxha" path="res://Scenes/shadow_sprite.tscn" id="4_23v32"]
 [ext_resource type="Texture2D" uid="uid://bpp02gt4ei5wv" path="res://Art/shadow spill cover.png" id="4_qb2jg"]
-[ext_resource type="FontFile" uid="uid://c2it3k3fijg8r" path="res://stardew numbers font.png" id="6_qchqo"]
+[ext_resource type="FontFile" uid="uid://c2it3k3fijg8r" path="res://Fonts/stardew numbers font.png" id="6_qchqo"]
 
 [sub_resource type="FontVariation" id="FontVariation_cmbv1"]
 base_font = ExtResource("6_qchqo")

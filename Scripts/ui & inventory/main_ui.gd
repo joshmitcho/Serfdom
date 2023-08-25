@@ -6,8 +6,8 @@ class_name MainUI
 @onready var inventory_texture_rect: TextureRect = $InventoryTexture
 @onready var tab_bar: TabBar = %TabBar
 
-var hotbar_texture = preload("res://Art/hotbar.png")
-var inventory_texture = preload("res://Art/inventory.png")
+var hotbar_texture = preload("res://Art/UI/hotbar.png")
+var inventory_texture = preload("res://Art/UI/inventory.png")
 var inventory_atlas: AtlasTexture = AtlasTexture.new()
 var inventory_atlas_rects = [
 	Rect2(0, 0, 222, 85), Rect2(0, 85, 222, 85), Rect2(0, 170, 222, 85)

@@ -8,9 +8,7 @@
 [ext_resource type="Script" path="res://Scripts/map.gd" id="3_gij5e"]
 [ext_resource type="PackedScene" uid="uid://bnmts2w5hv0li" path="res://Scenes/smoke.tscn" id="4_iqa2q"]
 [ext_resource type="Texture2D" uid="uid://dql2hyywqkpd8" path="res://Art/stardew hoed soil.png" id="4_qlpw5"]
-[ext_resource type="Texture2D" uid="uid://c0fkb7mdroa01" path="res://Light.png" id="5_3op4d"]
 [ext_resource type="PackedScene" uid="uid://bbfg54sxpqpb0" path="res://Scenes/crop.tscn" id="5_3uuej"]
-[ext_resource type="Texture2D" uid="uid://dk2ne50ur455p" path="res://Art/tile highlight.png" id="6_vhdu6"]
 [ext_resource type="PackedScene" uid="uid://cayxrobcojs74" path="res://Scenes/placeable.tscn" id="7_alfw3"]
 [ext_resource type="PackedScene" uid="uid://c6ovpkyegha2i" path="res://Scenes/main_ui.tscn" id="7_gmysd"]
 [ext_resource type="Texture2D" uid="uid://dtlglmyqss8bk" path="res://Art/jamiebrownhill/Rural Village/Tilesets/RVWalls.png" id="9_sx2ua"]
@@ -20,7 +18,9 @@
 [ext_resource type="Script" path="res://Scripts/ui & inventory/pickup_notification_container.gd" id="12_j34wj"]
 [ext_resource type="Texture2D" uid="uid://w75oajoljjaf" path="res://Art/jamiebrownhill/Rural Village/Tilesets/RVDecoration.png" id="12_kkq0w"]
 [ext_resource type="PackedScene" uid="uid://bg27ojx5244u6" path="res://Scenes/sound_machine.tscn" id="13_g03bn"]
+[ext_resource type="Texture2D" uid="uid://dk2ne50ur455p" path="res://Art/UI/tile highlight.png" id="14_3mp1p"]
 [ext_resource type="Script" path="res://Scripts/ui & inventory/daynightcycle.gd" id="16_a2ymu"]
+[ext_resource type="Texture2D" uid="uid://c0fkb7mdroa01" path="res://Art/Light.png" id="16_cg4o2"]
 [ext_resource type="PackedScene" uid="uid://dykpg0g35y45r" path="res://Scenes/energy_ui.tscn" id="20_8xfi4"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_n164m"]
@@ -6676,7 +6676,7 @@ custom_minimum_size = Vector2(16, 16)
 offset_right = 16.0
 offset_bottom = 16.0
 mouse_filter = 2
-texture = ExtResource("6_vhdu6")
+texture = ExtResource("14_3mp1p")
 
 [node name="Player" parent="." instance=ExtResource("3_48pke")]
 unique_name_in_owner = true
@@ -6695,7 +6695,7 @@ energy = 0.05
 shadow_enabled = true
 shadow_filter = 2
 shadow_filter_smooth = 4.0
-texture = ExtResource("5_3op4d")
+texture = ExtResource("16_cg4o2")
 
 [node name="Lantern" type="PointLight2D" parent="Player"]
 visible = false
@@ -6703,7 +6703,7 @@ position = Vector2(0, 6)
 color = Color(1, 0.6, 0.270588, 1)
 energy = 0.6
 shadow_filter_smooth = 2.0
-texture = ExtResource("5_3op4d")
+texture = ExtResource("16_cg4o2")
 
 [node name="Camera2d" type="Camera2D" parent="."]
 position = Vector2(168, -120)

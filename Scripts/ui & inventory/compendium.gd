@@ -95,7 +95,7 @@ func _ready():
 func load_items_from_csv():
 	num_sprites = items_spritesheet.get_size() / Vector2(16, 16)
 	
-	var file = FileAccess.open("res://Serfdom - items.csv", FileAccess.READ)
+	var file = FileAccess.open("res://Data/Serfdom - items.csv", FileAccess.READ)
 	var content = file.get_as_text().strip_edges().split('\n').slice(1)
 	
 	var i: int = 0
@@ -108,7 +108,7 @@ func load_items_from_csv():
 
 
 func load_crops_from_csv():
-	var file = FileAccess.open("res://Serfdom - crops.csv", FileAccess.READ)
+	var file = FileAccess.open("res://Data/Serfdom - crops.csv", FileAccess.READ)
 	var content = file.get_as_text().strip_edges().split('\n').slice(1)
 	
 	for line in content:

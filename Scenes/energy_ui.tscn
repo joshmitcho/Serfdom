@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://dykpg0g35y45r"]
 
 [ext_resource type="Script" path="res://Scripts/ui & inventory/energy_ui.gd" id="1_krn1a"]
-[ext_resource type="Texture2D" uid="uid://ovqj3n1hdwyy" path="res://Art/energy bar.png" id="1_nj2xl"]
+[ext_resource type="Texture2D" uid="uid://ovqj3n1hdwyy" path="res://Art/UI/energy bar.png" id="1_nj2xl"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mko8s"]
 atlas = ExtResource("1_nj2xl")

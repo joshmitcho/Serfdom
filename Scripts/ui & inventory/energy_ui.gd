@@ -4,7 +4,7 @@ const ENERGY_TO_PIXEL_RATIO: float = 15.0
 const EXTRA_PIXELS: int = 15
 var max_bar_size: float
 
-const GRADIENT: Image = preload("res://Art/green red gradient.png")
+const GRADIENT: Image = preload("res://Art/UI/green red gradient.png")
 const GRADIENT_WIDTH = 144
 
 func update_bar_size(new_current_energy: int):
