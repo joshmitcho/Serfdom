@@ -1,0 +1,83 @@
+[gd_scene load_steps=4 format=3 uid="uid://ceolcwatpaicu"]
+
+[ext_resource type="Script" path="res://Scripts/ui & inventory/daynightcycle_ui.gd" id="1_altij"]
+[ext_resource type="FontFile" uid="uid://crd6qgr13h034" path="res://PixelRPG.ttf" id="3_ld1p5"]
+[ext_resource type="Texture2D" uid="uid://b435cqm35cj4u" path="res://Art/time money ui.png" id="3_so0y8"]
+
+[node name="TimeMoneyUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -320.0
+offset_bottom = -180.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_altij")
+
+[node name="TimeMoneyUITexture" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 42.0
+offset_bottom = 64.0
+texture = ExtResource("3_so0y8")
+
+[node name="CenterContainerDay" type="CenterContainer" parent="."]
+layout_mode = 0
+offset_top = 5.0
+offset_right = 44.0
+offset_bottom = 16.0
+
+[node name="DayLabel" type="Label" parent="CenterContainerDay"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.415686, 0.145098, 0.145098, 1)
+theme_override_colors/font_shadow_color = Color(0.745098, 0.290196, 0.184314, 0.215686)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/shadow_outline_size = 0
+theme_override_fonts/font = ExtResource("3_ld1p5")
+theme_override_font_sizes/font_size = 8
+text = "WED. 88"
+
+[node name="CenterContainerTime" type="CenterContainer" parent="."]
+layout_mode = 0
+offset_top = 16.0
+offset_right = 44.0
+offset_bottom = 27.0
+
+[node name="TimeLabel" type="Label" parent="CenterContainerTime"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.415686, 0.145098, 0.145098, 1)
+theme_override_colors/font_shadow_color = Color(0.745098, 0.290196, 0.184314, 0.215686)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/shadow_outline_size = 0
+theme_override_fonts/font = ExtResource("3_ld1p5")
+theme_override_font_sizes/font_size = 8
+text = "12:00 pm"
+
+[node name="MoneyLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = 31.0
+offset_right = 38.0
+offset_bottom = 42.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.415686, 0.145098, 0.145098, 1)
+theme_override_colors/font_shadow_color = Color(0.745098, 0.290196, 0.184314, 0.215686)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/shadow_outline_size = 0
+theme_override_fonts/font = ExtResource("3_ld1p5")
+theme_override_font_sizes/font_size = 8
+text = "500"
+horizontal_alignment = 2

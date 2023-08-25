@@ -1,0 +1,74 @@
+[gd_scene load_steps=11 format=3 uid="uid://bnmts2w5hv0li"]
+
+[ext_resource type="Texture2D" uid="uid://7c12mmyuu6fa" path="res://Art/jamiebrownhill/Rural Village/Animated Tiles/Village Animated Smoke.png" id="1_xgm4l"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6qq4y"]
+atlas = ExtResource("1_xgm4l")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nc3w0"]
+atlas = ExtResource("1_xgm4l")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b60mq"]
+atlas = ExtResource("1_xgm4l")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0k5w8"]
+atlas = ExtResource("1_xgm4l")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ff31"]
+atlas = ExtResource("1_xgm4l")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yijy3"]
+atlas = ExtResource("1_xgm4l")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vd2mh"]
+atlas = ExtResource("1_xgm4l")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k54kk"]
+atlas = ExtResource("1_xgm4l")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_f5gi6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6qq4y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nc3w0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b60mq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0k5w8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8ff31")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yijy3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vd2mh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k54kk")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[node name="Smoke" type="AnimatedSprite2D"]
+z_index = 15
+sprite_frames = SubResource("SpriteFrames_f5gi6")
+autoplay = "default"
+frame = 7
+frame_progress = 0.35251

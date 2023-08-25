@@ -1,0 +1,127 @@
+[gd_scene load_steps=16 format=3 uid="uid://cayxrobcojs74"]
+
+[ext_resource type="Script" path="res://Scripts/placeable.gd" id="1_v3sjl"]
+[ext_resource type="Texture2D" uid="uid://dftmtilioeacy" path="res://Art/placeables.png" id="2_anmoq"]
+[ext_resource type="Script" path="res://Scripts/tweens/tween_shake.gd" id="3_1ntn7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qxhk0"]
+size = Vector2(14, 9)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wb1ig"]
+atlas = ExtResource("2_anmoq")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xkst2"]
+atlas = ExtResource("2_anmoq")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3d4wh"]
+atlas = ExtResource("2_anmoq")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cpcct"]
+atlas = ExtResource("2_anmoq")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x0e4a"]
+atlas = ExtResource("2_anmoq")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wtfha"]
+atlas = ExtResource("2_anmoq")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n3nno"]
+atlas = ExtResource("2_anmoq")
+region = Rect2(32, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vqwuj"]
+atlas = ExtResource("2_anmoq")
+region = Rect2(48, 16, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5j45q"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wb1ig")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xkst2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3d4wh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cpcct")
+}],
+"loop": false,
+"name": &"chest",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x0e4a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wtfha")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n3nno")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vqwuj")
+}],
+"loop": false,
+"name": &"deluxe_chest",
+"speed": 5.0
+}]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_r2gf4"]
+polygon = PackedVector2Array(0, 0, 3, 0, 6, 4, 6, 7, 4, 9, 0, 9, -3, 9, -5, 7, -5, 4, -3, 0)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_852ub"]
+radius = 12.0
+
+[node name="Placeable" type="Area2D"]
+script = ExtResource("1_v3sjl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_qxhk0")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 10
+sprite_frames = SubResource("SpriteFrames_5j45q")
+animation = &"chest"
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+visible = false
+position = Vector2(0, -4)
+occluder = SubResource("OccluderPolygon2D_r2gf4")
+
+[node name="HitSFXPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="BreakSFXPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="ShakeTween" type="Node2D" parent="."]
+script = ExtResource("3_1ntn7")
+x_max = 1
+r_max = 5
+
+[node name="InvisibilityTrigger" type="Area2D" parent="."]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InvisibilityTrigger"]
+position = Vector2(0, -18)
+shape = SubResource("CircleShape2D_852ub")
+
+[node name="PhysicsCollider" type="StaticBody2D" parent="."]
+z_index = 10
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PhysicsCollider"]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_qxhk0")
+
+[connection signal="body_entered" from="InvisibilityTrigger" to="." method="_on_invisibility_trigger_body_entered"]
+[connection signal="body_exited" from="InvisibilityTrigger" to="." method="_on_invisibility_trigger_body_exited"]

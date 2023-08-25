@@ -1,0 +1,110 @@
+[gd_scene load_steps=13 format=3 uid="uid://bbfg54sxpqpb0"]
+
+[ext_resource type="Script" path="res://Scripts/crop.gd" id="1_l7ak2"]
+[ext_resource type="Texture2D" uid="uid://s4sp2vr1bo6d" path="res://Art/jamiebrownhill/World of Solaria Crops/Crops.png" id="3_te2im"]
+[ext_resource type="Script" path="res://Scripts/tweens/tween_shake.gd" id="5_tbgrn"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ioncu"]
+atlas = ExtResource("3_te2im")
+region = Rect2(176, 64, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tu2wf"]
+atlas = ExtResource("3_te2im")
+region = Rect2(368, 64, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jay04"]
+atlas = ExtResource("3_te2im")
+region = Rect2(400, 64, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7quea"]
+atlas = ExtResource("3_te2im")
+region = Rect2(432, 64, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2xce6"]
+atlas = ExtResource("3_te2im")
+region = Rect2(464, 64, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_td7sh"]
+atlas = ExtResource("3_te2im")
+region = Rect2(496, 64, 16, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5j45q"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ioncu")
+}],
+"loop": false,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tu2wf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jay04")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7quea")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2xce6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_td7sh")
+}],
+"loop": false,
+"name": &"wheat",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qxhk0"]
+size = Vector2(14, 9)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_r2gf4"]
+polygon = PackedVector2Array(0, 0, 3, 0, 6, 4, 6, 7, 4, 9, 0, 9, -3, 9, -5, 7, -5, 4, -3, 0)
+
+[node name="Crop" type="Area2D"]
+z_index = 10
+script = ExtResource("1_l7ak2")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_5j45q")
+offset = Vector2(0, -8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_qxhk0")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+visible = false
+position = Vector2(0, -4)
+occluder = SubResource("OccluderPolygon2D_r2gf4")
+
+[node name="HitSFXPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="BreakSFXPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="ShakeTween" type="Node2D" parent="."]
+script = ExtResource("5_tbgrn")
+x_max = 1
+r_max = 5
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+custom_minimum_size = Vector2(16, 16)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0.462745)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

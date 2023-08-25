@@ -1,0 +1,49 @@
+[gd_scene load_steps=6 format=3 uid="uid://dykpg0g35y45r"]
+
+[ext_resource type="Script" path="res://Scripts/ui & inventory/energy_ui.gd" id="1_krn1a"]
+[ext_resource type="Texture2D" uid="uid://ovqj3n1hdwyy" path="res://Art/energy bar.png" id="1_nj2xl"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mko8s"]
+atlas = ExtResource("1_nj2xl")
+region = Rect2(0, 0, 14, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fvper"]
+atlas = ExtResource("1_nj2xl")
+region = Rect2(0, 16, 14, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m707g"]
+atlas = ExtResource("1_nj2xl")
+region = Rect2(0, 32, 14, 16)
+
+[node name="EnergyUI" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_krn1a")
+
+[node name="Top" type="TextureRect" parent="."]
+layout_mode = 0
+offset_top = -32.0
+offset_right = 14.0
+offset_bottom = -16.0
+texture = SubResource("AtlasTexture_mko8s")
+
+[node name="Stretch" type="TextureRect" parent="."]
+layout_mode = 0
+offset_top = -16.0
+offset_right = 14.0
+pivot_offset = Vector2(0, 16)
+texture = SubResource("AtlasTexture_fvper")
+
+[node name="Bottom" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 14.0
+offset_bottom = 16.0
+texture = SubResource("AtlasTexture_m707g")
+
+[node name="EnergyBar" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 4.0
+offset_top = -18.0
+offset_right = 10.0
+offset_bottom = 13.0
+pivot_offset = Vector2(0, 31)

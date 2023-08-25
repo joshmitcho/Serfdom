@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://didcs8bt1m1fj"]
+
+[ext_resource type="Script" path="res://Scripts/ui & inventory/cursor_item_display.gd" id="1_smj1b"]
+[ext_resource type="PackedScene" uid="uid://dj4uo1mrdxxha" path="res://Scenes/shadow_sprite.tscn" id="2_bh0fd"]
+[ext_resource type="FontFile" uid="uid://c2it3k3fijg8r" path="res://stardew numbers font.png" id="3_ljtdj"]
+
+[sub_resource type="FontVariation" id="FontVariation_enra3"]
+base_font = ExtResource("3_ljtdj")
+spacing_glyph = -1
+
+[node name="CursorItemDisplay" type="CenterContainer"]
+offset_right = 18.0
+offset_bottom = 18.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+mouse_default_cursor_shape = 2
+script = ExtResource("1_smj1b")
+
+[node name="ShadowSprite" parent="." instance=ExtResource("2_bh0fd")]
+position = Vector2(-8, -8)
+
+[node name="ItemAmountLabel" type="Label" parent="ShadowSprite"]
+unique_name_in_owner = true
+offset_left = 7.0
+offset_top = 13.0
+offset_right = 20.0
+offset_bottom = 23.0
+theme_override_fonts/font = SubResource("FontVariation_enra3")
+text = "999"
+horizontal_alignment = 2

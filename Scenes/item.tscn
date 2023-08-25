@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://s3pg6ploa33b"]
+
+[ext_resource type="Texture2D" uid="uid://2iflerpuamft" path="res://Art/jamiebrownhill/Rural Village/Tilesets/RVNature.png" id="1_3ykcf"]
+
+[node name="Item" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("1_3ykcf")
+hframes = 16
+vframes = 24
+frame = 55
