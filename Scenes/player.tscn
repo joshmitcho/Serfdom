@@ -1,4 +1,4 @@
-[gd_scene load_steps=478 format=3 uid="uid://ct67tvs8mb3fe"]
+[gd_scene load_steps=479 format=3 uid="uid://ct67tvs8mb3fe"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_eq0v4"]
 [ext_resource type="Texture2D" uid="uid://be0wbsk31870k" path="res://Art/jamiebrownhill/Sprite Pack/16x16/Base/Axe-Sheet.png" id="2_14omj"]
@@ -14,12 +14,13 @@
 [ext_resource type="Texture2D" uid="uid://s76k483g0app" path="res://Art/jamiebrownhill/Sprite Pack/16x16/Base/Attack-Sheet.png" id="6_w6jvk"]
 [ext_resource type="Texture2D" uid="uid://did7w1mpvsn7a" path="res://Art/jamiebrownhill/Sprite Pack/16x16/Base/Tools/Hammer-Sheet.png" id="7_38y8m"]
 [ext_resource type="Script" path="res://Scripts/states/state_idle_move.gd" id="7_v1pvp"]
-[ext_resource type="Script" path="res://Scripts/states/state_use_tool.gd" id="8_lsbos"]
 [ext_resource type="AudioStream" uid="uid://b5qa0ps0esolj" path="res://SFX/pop.wav" id="9_3eion"]
 [ext_resource type="Texture2D" uid="uid://bjjnemhy6jdrf" path="res://Art/jamiebrownhill/Sprite Pack/16x16/Base/Tools/Watering Can-Sheet.png" id="11_3gng7"]
 [ext_resource type="PackedScene" uid="uid://dj4uo1mrdxxha" path="res://Scenes/shadow_sprite.tscn" id="12_vllri"]
 [ext_resource type="Script" path="res://Scripts/states/state_menu_open.gd" id="13_wi7tr"]
 [ext_resource type="Texture2D" uid="uid://byuskfy3a8376" path="res://Art/jamiebrownhill/Sprite Pack/16x16/Base/Tools/Sickle-Sheet.png" id="14_l757c"]
+[ext_resource type="Script" path="res://Scripts/states/state_chest_open.gd" id="19_blshq"]
+[ext_resource type="Script" path="res://Scripts/states/state_use_item.gd" id="19_yrg7j"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gnr7d"]
 atlas = ExtResource("4_ro86s")
@@ -3482,8 +3483,12 @@ script = ExtResource("7_v1pvp")
 process_mode = 3
 script = ExtResource("13_wi7tr")
 
-[node name="UseTool" type="Node" parent="StateMachine"]
-script = ExtResource("8_lsbos")
+[node name="ChestOpen" type="Node" parent="StateMachine"]
+process_mode = 3
+script = ExtResource("19_blshq")
+
+[node name="UseItem" type="Node" parent="StateMachine"]
+script = ExtResource("19_yrg7j")
 
 [node name="MagnetismArea" type="Area2D" parent="."]
 collision_layer = 0
@@ -3525,5 +3530,6 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(1, 1, 1, 0.137255)
 
-[connection signal="place_attempted" from="StateMachine/UseTool" to="." method="_on_place_attempted"]
-[connection signal="tool_used" from="StateMachine/UseTool" to="." method="on_tool_used"]
+[connection signal="do_action_pressed" from="StateMachine/IdleMove" to="." method="_on_do_action_pressed"]
+[connection signal="place_attempted" from="StateMachine/UseItem" to="." method="_on_place_attempted"]
+[connection signal="tool_used" from="StateMachine/UseItem" to="." method="_on_tool_used"]

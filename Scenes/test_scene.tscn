@@ -1,19 +1,20 @@
-[gd_scene load_steps=36 format=3 uid="uid://yb6ysburvtly"]
+[gd_scene load_steps=37 format=3 uid="uid://yb6ysburvtly"]
 
 [ext_resource type="Texture2D" uid="uid://cmwnh0i8jv60b" path="res://Art/jamiebrownhill/Rural Village/Tilesets/RVTerrain.png" id="1_gpxcs"]
 [ext_resource type="Texture2D" uid="uid://2iflerpuamft" path="res://Art/jamiebrownhill/Rural Village/Tilesets/RVNature.png" id="2_t6wfj"]
 [ext_resource type="Texture2D" uid="uid://c656w5e7hl8n1" path="res://Art/jamiebrownhill/Rural Village/Animated Tiles/Village Animated Water.png" id="3_6e0fq"]
-[ext_resource type="PackedScene" uid="uid://bot8nl6mvhde2" path="res://Scenes/destroyable.tscn" id="3_037ks"]
 [ext_resource type="PackedScene" uid="uid://ct67tvs8mb3fe" path="res://Scenes/player.tscn" id="3_48pke"]
 [ext_resource type="Script" path="res://Scripts/map.gd" id="3_gij5e"]
+[ext_resource type="PackedScene" uid="uid://bot8nl6mvhde2" path="res://Scenes/ground items/destroyable.tscn" id="4_f5d7b"]
 [ext_resource type="PackedScene" uid="uid://bnmts2w5hv0li" path="res://Scenes/smoke.tscn" id="4_iqa2q"]
 [ext_resource type="Texture2D" uid="uid://dql2hyywqkpd8" path="res://Art/stardew hoed soil.png" id="4_qlpw5"]
-[ext_resource type="PackedScene" uid="uid://bbfg54sxpqpb0" path="res://Scenes/crop.tscn" id="5_3uuej"]
-[ext_resource type="PackedScene" uid="uid://cayxrobcojs74" path="res://Scenes/placeable.tscn" id="7_alfw3"]
-[ext_resource type="PackedScene" uid="uid://c6ovpkyegha2i" path="res://Scenes/main_ui.tscn" id="7_gmysd"]
+[ext_resource type="PackedScene" uid="uid://bbfg54sxpqpb0" path="res://Scenes/ground items/crop.tscn" id="5_6s4qr"]
+[ext_resource type="PackedScene" uid="uid://c6ovpkyegha2i" path="res://Scenes/ui & inventory/main_ui.tscn" id="7_gmysd"]
+[ext_resource type="PackedScene" uid="uid://cayxrobcojs74" path="res://Scenes/ground items/chest.tscn" id="7_nalbn"]
+[ext_resource type="PackedScene" uid="uid://by4r78g3a2aoa" path="res://Scenes/ground items/machine.tscn" id="8_dld3n"]
 [ext_resource type="Texture2D" uid="uid://dtlglmyqss8bk" path="res://Art/jamiebrownhill/Rural Village/Tilesets/RVWalls.png" id="9_sx2ua"]
 [ext_resource type="Texture2D" uid="uid://botfmhq8cftsm" path="res://Art/jamiebrownhill/Rural Village/Tilesets/RVRoofs.png" id="10_ggwih"]
-[ext_resource type="PackedScene" uid="uid://ceolcwatpaicu" path="res://Scenes/time_money_ui.tscn" id="11_dhbkl"]
+[ext_resource type="PackedScene" uid="uid://ceolcwatpaicu" path="res://Scenes/ui & inventory/time_money_ui.tscn" id="11_dhbkl"]
 [ext_resource type="Texture2D" uid="uid://b8x0djbixt2b3" path="res://Art/jamiebrownhill/Rural Village/Tilesets/RVDoorsWindows.png" id="11_ltaxj"]
 [ext_resource type="Script" path="res://Scripts/ui & inventory/pickup_notification_container.gd" id="12_j34wj"]
 [ext_resource type="Texture2D" uid="uid://w75oajoljjaf" path="res://Art/jamiebrownhill/Rural Village/Tilesets/RVDecoration.png" id="12_kkq0w"]
@@ -21,7 +22,7 @@
 [ext_resource type="Texture2D" uid="uid://dk2ne50ur455p" path="res://Art/UI/tile highlight.png" id="14_3mp1p"]
 [ext_resource type="Script" path="res://Scripts/ui & inventory/daynightcycle.gd" id="16_a2ymu"]
 [ext_resource type="Texture2D" uid="uid://c0fkb7mdroa01" path="res://Art/Light.png" id="16_cg4o2"]
-[ext_resource type="PackedScene" uid="uid://dykpg0g35y45r" path="res://Scenes/energy_ui.tscn" id="20_8xfi4"]
+[ext_resource type="PackedScene" uid="uid://dykpg0g35y45r" path="res://Scenes/ui & inventory/energy_ui.tscn" id="20_8xfi4"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_n164m"]
 polygon = PackedVector2Array(-4.5, -5, 0.5, -5, 1, 0.5, -5, -1)
@@ -2747,10 +2748,11 @@ texture = ExtResource("3_6e0fq")
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_eo8d5"]
 resource_name = "ground_objects"
-scenes/0/scene = ExtResource("3_037ks")
-scenes/1/scene = ExtResource("5_3uuej")
+scenes/0/scene = ExtResource("4_f5d7b")
+scenes/1/scene = ExtResource("5_6s4qr")
 scenes/2/scene = ExtResource("4_iqa2q")
-scenes/3/scene = ExtResource("7_alfw3")
+scenes/3/scene = ExtResource("7_nalbn")
+scenes/4/scene = ExtResource("8_dld3n")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4wr35"]
 texture = ExtResource("4_qlpw5")
@@ -6678,14 +6680,16 @@ offset_bottom = 16.0
 mouse_filter = 2
 texture = ExtResource("14_3mp1p")
 
-[node name="Player" parent="." instance=ExtResource("3_48pke")]
+[node name="Player" parent="." node_paths=PackedStringArray("map", "camera") instance=ExtResource("3_48pke")]
 unique_name_in_owner = true
 z_index = 10
 position = Vector2(168, -120)
 collision_mask = 2049
+map = NodePath("../Map")
+camera = NodePath("../Camera2D")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="Player"]
-remote_path = NodePath("../../Camera2d")
+remote_path = NodePath("../../Camera2D")
 
 [node name="LanternShadow" type="PointLight2D" parent="Player"]
 visible = false
@@ -6705,7 +6709,7 @@ energy = 0.6
 shadow_filter_smooth = 2.0
 texture = ExtResource("16_cg4o2")
 
-[node name="Camera2d" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(168, -120)
 limit_left = -400
 limit_top = -400
@@ -6771,7 +6775,10 @@ unique_name_in_owner = true
 process_mode = 3
 
 [connection signal="current_energy_changed" from="Player" to="CanvasLayer/EnergyUI" method="update_bar_size"]
+[connection signal="do_action_pressed" from="Player" to="Map" method="do_action_pressed"]
 [connection signal="hold_changed" from="Player" to="Map" method="_on_player_hold_changed"]
+[connection signal="hotbar_to_bottom" from="Player" to="CanvasLayer/MainUI" method="_hotbar_to_bottom"]
+[connection signal="hotbar_to_top" from="Player" to="CanvasLayer/MainUI" method="_hotbar_to_top"]
 [connection signal="item_picked_up" from="Player" to="CanvasLayer/PickupNotificationContainer" method="_on_player_pickup"]
 [connection signal="max_energy_changed" from="Player" to="CanvasLayer/EnergyUI" method="new_max_bar_size"]
 [connection signal="place_attempted" from="Player" to="Map" method="_on_player_place_attempted"]

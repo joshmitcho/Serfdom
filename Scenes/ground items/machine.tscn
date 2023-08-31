@@ -1,0 +1,95 @@
+[gd_scene load_steps=12 format=3 uid="uid://by4r78g3a2aoa"]
+
+[ext_resource type="Script" path="res://Scripts/ground items/machine.gd" id="1_ur8qk"]
+[ext_resource type="Texture2D" uid="uid://dftmtilioeacy" path="res://Art/placeables.png" id="2_bquuh"]
+[ext_resource type="Script" path="res://Scripts/tweens/tween_shake.gd" id="3_c23id"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qxhk0"]
+size = Vector2(14, 9)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uao8l"]
+atlas = ExtResource("2_bquuh")
+region = Rect2(0, 96, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3fo5y"]
+atlas = ExtResource("2_bquuh")
+region = Rect2(16, 96, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_058xu"]
+atlas = ExtResource("2_bquuh")
+region = Rect2(32, 96, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ae5h8"]
+atlas = ExtResource("2_bquuh")
+region = Rect2(48, 96, 16, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5j45q"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uao8l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3fo5y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_058xu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ae5h8")
+}],
+"loop": false,
+"name": &"pickle_barrel",
+"speed": 5.0
+}]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_r2gf4"]
+polygon = PackedVector2Array(0, 0, 3, 0, 6, 4, 6, 7, 4, 9, 0, 9, -3, 9, -5, 7, -5, 4, -3, 0)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_852ub"]
+radius = 12.0
+
+[node name="Machine" type="Area2D"]
+script = ExtResource("1_ur8qk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_qxhk0")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 10
+sprite_frames = SubResource("SpriteFrames_5j45q")
+animation = &"pickle_barrel"
+offset = Vector2(0, -8)
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+visible = false
+position = Vector2(0, -4)
+occluder = SubResource("OccluderPolygon2D_r2gf4")
+
+[node name="HitSFXPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="BreakSFXPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="ShakeTween" type="Node2D" parent="."]
+script = ExtResource("3_c23id")
+x_max = 1
+r_max = 5
+
+[node name="InvisibilityTrigger" type="Area2D" parent="."]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InvisibilityTrigger"]
+position = Vector2(0, -18)
+shape = SubResource("CircleShape2D_852ub")
+
+[node name="PhysicsCollider" type="StaticBody2D" parent="."]
+z_index = 10
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PhysicsCollider"]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_qxhk0")
+
+[connection signal="body_entered" from="InvisibilityTrigger" to="." method="_on_invisibility_trigger_body_entered"]
+[connection signal="body_exited" from="InvisibilityTrigger" to="." method="_on_invisibility_trigger_body_exited"]

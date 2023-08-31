@@ -1,6 +1,6 @@
 extends VBoxContainer
 
-var pickup_notification_base = preload("res://Scenes/pickup_notification.tscn")
+var pickup_notification_base = preload("res://Scenes/ui & inventory/pickup_notification.tscn")
 
 func _on_player_pickup(item: Item, amount: int):
 	var current_notifications = get_children()

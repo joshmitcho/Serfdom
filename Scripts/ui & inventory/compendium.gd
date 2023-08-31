@@ -26,6 +26,14 @@ const sfx_plant_seed = [
 	preload("res://SFX/plant_seed_2.wav")
 ]
 
+const TOOL_TIERS: Dictionary = {
+	"rusty": 10,
+	"bronze": 14,
+	"steel": 19,
+	"adamant": 24,
+	"mithril": 30
+}
+
 const all_destroyables: Dictionary = {
 	"stump_0": [
 		"axe", 20,

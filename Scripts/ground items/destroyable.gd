@@ -99,6 +99,10 @@ func die():
 	queue_free()
 
 
+func do_action():
+	print("no interaction")
+
+
 func _on_invisibility_trigger_body_entered(body):
 	if is_instance_of(body, Player) and is_tree:
 		var tween = create_tween()

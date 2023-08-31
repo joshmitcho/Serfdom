@@ -2,7 +2,6 @@
 extends Destroyable
 class_name Placeable
 
-
 func initialize(p_name: StringName = "name"):
 	sfx_pitches.shuffle()
 	play_pitched_sfx(hit_sfx_player, Compendium.sfx_axe)
@@ -22,3 +21,4 @@ func initialize(p_name: StringName = "name"):
 
 func take_hit(_power: int):
 	super.die()
+

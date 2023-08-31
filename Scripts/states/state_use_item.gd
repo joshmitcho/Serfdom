@@ -1,20 +1,17 @@
-# state_use_tool.gd
+# state_use_item.gd
 extends PlayerState
 
 signal tool_used(tool: String, tool_offsets: Array, power: int)
-signal place_attempted(placeable: Item, offsets: Array)
+signal place_attempted(placeable: Item, offset: Vector2i)
 
-var is_static: bool
 
-func enter(msg := {}) -> void:
-	is_static = msg["is_static"]
-
+func enter(_msg := {}) -> void:
 	var facing_string = player.animator.animation.split("_")[-1]
 	var current_item = Inventory.get_current_item()
 	
 	# if you're placing an object / planting a crop
 	if is_instance_of(current_item, Item) and current_item.is_placeable:
-		emit_signal("place_attempted", current_item, [player.facing, Vector2i.ZERO])
+		emit_signal("place_attempted", current_item, player.facing)
 		state_machine.transition_to("IdleMove")
 		return
 	
@@ -36,8 +33,8 @@ func enter(msg := {}) -> void:
 	emit_signal("tool_used", tool_type, [Vector2i.ZERO, player.facing], current_item.power)
 	
 	await player.animator.animation_finished
-	if Input.is_action_pressed("use_tool"):
-		state_machine.transition_to("UseTool", {"is_static": is_static})
+	if Input.is_action_pressed("use_item"):
+		state_machine.transition_to("UseItem")
 		return
 	
 	state_machine.transition_to("IdleMove")

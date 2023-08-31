@@ -1,6 +1,6 @@
 [gd_scene load_steps=59 format=3 uid="uid://bot8nl6mvhde2"]
 
-[ext_resource type="Script" path="res://Scripts/destroyable.gd" id="1_k7ova"]
+[ext_resource type="Script" path="res://Scripts/ground items/destroyable.gd" id="1_k7ova"]
 [ext_resource type="Texture2D" uid="uid://2iflerpuamft" path="res://Art/jamiebrownhill/Rural Village/Tilesets/RVNature.png" id="2_kerkf"]
 [ext_resource type="Texture2D" uid="uid://diytspr2oilon" path="res://Art/tree.png" id="3_m13ly"]
 [ext_resource type="Script" path="res://Scripts/tweens/tween_shake.gd" id="3_sv522"]

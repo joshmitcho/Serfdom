@@ -1,16 +1,16 @@
 [gd_scene load_steps=7 format=3 uid="uid://dutjtyluty2rm"]
 
-[ext_resource type="Script" path="res://Scripts/ui & inventory/inventory_slot_display.gd" id="1_nt8kr"]
-[ext_resource type="Texture2D" uid="uid://b5vdpkmm5tsna" path="res://Art/UI/hotbar highlight.png" id="3_bco0e"]
-[ext_resource type="PackedScene" uid="uid://dj4uo1mrdxxha" path="res://Scenes/shadow_sprite.tscn" id="4_23v32"]
-[ext_resource type="Texture2D" uid="uid://bpp02gt4ei5wv" path="res://Art/shadow spill cover.png" id="4_qb2jg"]
-[ext_resource type="FontFile" uid="uid://c2it3k3fijg8r" path="res://Fonts/stardew numbers font.png" id="6_qchqo"]
+[ext_resource type="Script" path="res://Scripts/ui & inventory/item_slot.gd" id="1_kh5lp"]
+[ext_resource type="Texture2D" uid="uid://b5vdpkmm5tsna" path="res://Art/UI/hotbar highlight.png" id="2_7qvc8"]
+[ext_resource type="PackedScene" uid="uid://dj4uo1mrdxxha" path="res://Scenes/shadow_sprite.tscn" id="3_1cv6b"]
+[ext_resource type="Texture2D" uid="uid://bpp02gt4ei5wv" path="res://Art/UI/shadow spill cover.png" id="4_78sy6"]
+[ext_resource type="FontFile" uid="uid://c2it3k3fijg8r" path="res://Fonts/stardew numbers font.png" id="5_4pmlf"]
 
 [sub_resource type="FontVariation" id="FontVariation_cmbv1"]
-base_font = ExtResource("6_qchqo")
+base_font = ExtResource("5_4pmlf")
 spacing_glyph = -1
 
-[node name="InventorySlotDisplay" type="CenterContainer"]
+[node name="ItemSlot" type="CenterContainer"]
 custom_minimum_size = Vector2(18, 18)
 anchors_preset = 15
 anchor_right = 1.0
@@ -22,7 +22,7 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_default_cursor_shape = 2
-script = ExtResource("1_nt8kr")
+script = ExtResource("1_kh5lp")
 
 [node name="Button" type="Button" parent="."]
 modulate = Color(1, 1, 1, 0)
@@ -31,15 +31,14 @@ layout_mode = 2
 action_mode = 0
 
 [node name="Highlight" type="Sprite2D" parent="."]
-texture = ExtResource("3_bco0e")
+texture = ExtResource("2_7qvc8")
 centered = false
 offset = Vector2(-3, -4)
 
-[node name="ShadowSprite" parent="." instance=ExtResource("4_23v32")]
-vframes = 5
+[node name="ShadowSprite" parent="." instance=ExtResource("3_1cv6b")]
 
 [node name="ShadowSpillCover" type="Sprite2D" parent="ShadowSprite"]
-texture = ExtResource("4_qb2jg")
+texture = ExtResource("4_78sy6")
 centered = false
 offset = Vector2(-3, -4)
 
@@ -61,7 +60,7 @@ theme_override_constants/margin_top = -17
 [node name="HotkeyLabel" type="Label" parent="MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_fonts/font = ExtResource("6_qchqo")
+theme_override_fonts/font = ExtResource("5_4pmlf")
 text = ";"
 
 [connection signal="pressed" from="Button" to="." method="_on_clicked"]

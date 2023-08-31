@@ -1,10 +1,9 @@
-[gd_scene load_steps=19 format=3 uid="uid://c6ovpkyegha2i"]
+[gd_scene load_steps=18 format=3 uid="uid://c6ovpkyegha2i"]
 
 [ext_resource type="Texture2D" uid="uid://dkj6s6022obi0" path="res://Art/UI/hotbar.png" id="1_fdtle"]
 [ext_resource type="Script" path="res://Scripts/ui & inventory/main_ui.gd" id="1_jlsw2"]
 [ext_resource type="Texture2D" uid="uid://btb3lsxgf8w05" path="res://Art/UI/menu tabs.png" id="2_vd1n6"]
-[ext_resource type="PackedScene" uid="uid://dutjtyluty2rm" path="res://Scenes/inventory_slot_display.tscn" id="4_3q8l1"]
-[ext_resource type="PackedScene" uid="uid://didcs8bt1m1fj" path="res://Scenes/cursor_item_display.tscn" id="4_377nl"]
+[ext_resource type="PackedScene" uid="uid://dutjtyluty2rm" path="res://Scenes/ui & inventory/inventory_slot_display.tscn" id="4_3q8l1"]
 [ext_resource type="Texture2D" uid="uid://tytlnjvhxca5" path="res://Art/UI/menu tab icons.png" id="5_ie0lv"]
 [ext_resource type="Script" path="res://Scripts/ui & inventory/inventory_display.gd" id="10_0lx4k"]
 
@@ -56,6 +55,7 @@ region = Rect2(63, 0, 21, 24)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rq32r"]
 atlas = ExtResource("1_fdtle")
+region = Rect2(0, 0, 222, 32)
 
 [node name="MainUI" type="Control"]
 process_mode = 3
@@ -76,9 +76,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -103.0
-offset_top = -54.0
-offset_right = -19.0
+offset_left = -100.0
+offset_top = -55.0
+offset_right = -16.0
 offset_bottom = -22.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -221,13 +221,5 @@ layout_mode = 2
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="InventoryTexture"]
 unique_name_in_owner = true
-
-[node name="CursorItemDisplay" parent="InventoryTexture" instance=ExtResource("4_377nl")]
-unique_name_in_owner = true
-layout_mode = 2
-offset_left = 10.0
-offset_top = 29.0
-offset_right = 28.0
-offset_bottom = 47.0
 
 [connection signal="tab_changed" from="TabBar" to="." method="_on_tab_changed"]

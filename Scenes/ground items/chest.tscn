@@ -1,0 +1,292 @@
+[gd_scene load_steps=26 format=3 uid="uid://cayxrobcojs74"]
+
+[ext_resource type="Script" path="res://Scripts/ground items/chest.gd" id="1_dwkwb"]
+[ext_resource type="Texture2D" uid="uid://dftmtilioeacy" path="res://Art/placeables.png" id="2_anmoq"]
+[ext_resource type="Script" path="res://Scripts/tweens/tween_shake.gd" id="3_1ntn7"]
+[ext_resource type="Texture2D" uid="uid://25r5c60pnjts" path="res://Art/UI/chest ui.png" id="4_5pntc"]
+[ext_resource type="Script" path="res://Scripts/ui & inventory/item_container.gd" id="4_pttq6"]
+[ext_resource type="Script" path="res://Scripts/ui & inventory/chest_ui.gd" id="5_dckvq"]
+[ext_resource type="Script" path="res://Scripts/ui & inventory/item_container_display.gd" id="6_vtwer"]
+[ext_resource type="PackedScene" uid="uid://dutjtyluty2rm" path="res://Scenes/ui & inventory/item_slot.tscn" id="8_k337s"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qxhk0"]
+size = Vector2(14, 9)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wdamd"]
+atlas = ExtResource("2_anmoq")
+region = Rect2(0, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vbced"]
+atlas = ExtResource("2_anmoq")
+region = Rect2(16, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pg0wx"]
+atlas = ExtResource("2_anmoq")
+region = Rect2(32, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ppbw5"]
+atlas = ExtResource("2_anmoq")
+region = Rect2(48, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nokj0"]
+atlas = ExtResource("2_anmoq")
+region = Rect2(0, 64, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_exjc4"]
+atlas = ExtResource("2_anmoq")
+region = Rect2(16, 64, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oe7vj"]
+atlas = ExtResource("2_anmoq")
+region = Rect2(32, 64, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ekqmg"]
+atlas = ExtResource("2_anmoq")
+region = Rect2(48, 64, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vh7bv"]
+atlas = ExtResource("2_anmoq")
+region = Rect2(0, 32, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qbc4j"]
+atlas = ExtResource("2_anmoq")
+region = Rect2(16, 32, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wsop4"]
+atlas = ExtResource("2_anmoq")
+region = Rect2(32, 32, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sublw"]
+atlas = ExtResource("2_anmoq")
+region = Rect2(48, 32, 16, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5j45q"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wdamd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vbced")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pg0wx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ppbw5")
+}],
+"loop": false,
+"name": &"crude_chest",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nokj0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_exjc4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oe7vj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ekqmg")
+}],
+"loop": false,
+"name": &"deluxe_chest",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vh7bv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qbc4j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wsop4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sublw")
+}],
+"loop": false,
+"name": &"improved_chest",
+"speed": 5.0
+}]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_r2gf4"]
+polygon = PackedVector2Array(0, 0, 3, 0, 6, 4, 6, 7, 4, 9, 0, 9, -3, 9, -5, 7, -5, 4, -3, 0)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_852ub"]
+radius = 12.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fgp61"]
+atlas = ExtResource("4_5pntc")
+region = Rect2(0, 0, 254, 79)
+
+[node name="Chest" type="Area2D"]
+script = ExtResource("1_dwkwb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_qxhk0")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 10
+sprite_frames = SubResource("SpriteFrames_5j45q")
+animation = &"crude_chest"
+offset = Vector2(0, -8)
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+visible = false
+position = Vector2(0, -4)
+occluder = SubResource("OccluderPolygon2D_r2gf4")
+
+[node name="HitSFXPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="BreakSFXPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="ShakeTween" type="Node2D" parent="."]
+script = ExtResource("3_1ntn7")
+x_max = 1
+r_max = 5
+
+[node name="InvisibilityTrigger" type="Area2D" parent="."]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InvisibilityTrigger"]
+position = Vector2(0, -18)
+shape = SubResource("CircleShape2D_852ub")
+
+[node name="PhysicsCollider" type="StaticBody2D" parent="."]
+z_index = 10
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PhysicsCollider"]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_qxhk0")
+
+[node name="ItemContainer" type="Node" parent="."]
+script = ExtResource("4_pttq6")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ChestUI" type="TextureRect" parent="CanvasLayer"]
+unique_name_in_owner = true
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -127.0
+offset_right = 127.0
+offset_bottom = 79.0
+grow_horizontal = 2
+mouse_filter = 0
+texture = SubResource("AtlasTexture_fgp61")
+script = ExtResource("5_dckvq")
+atlas = SubResource("AtlasTexture_fgp61")
+
+[node name="ItemContainerDisplay" type="VBoxContainer" parent="CanvasLayer/ChestUI" node_paths=PackedStringArray("parent")]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 27.0
+offset_top = 32.0
+offset_right = 229.0
+offset_bottom = 98.0
+theme_override_constants/separation = 8
+script = ExtResource("6_vtwer")
+parent = NodePath("../../../ItemContainer")
+
+[node name="Slots" type="GridContainer" parent="CanvasLayer/ChestUI/ItemContainerDisplay"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 5
+theme_override_constants/v_separation = 6
+columns = 9
+
+[node name="ItemSlot" parent="CanvasLayer/ChestUI/ItemContainerDisplay/Slots" instance=ExtResource("8_k337s")]
+layout_mode = 2
+
+[node name="ItemSlot2" parent="CanvasLayer/ChestUI/ItemContainerDisplay/Slots" instance=ExtResource("8_k337s")]
+layout_mode = 2
+
+[node name="ItemSlot3" parent="CanvasLayer/ChestUI/ItemContainerDisplay/Slots" instance=ExtResource("8_k337s")]
+layout_mode = 2
+
+[node name="ItemSlot4" parent="CanvasLayer/ChestUI/ItemContainerDisplay/Slots" instance=ExtResource("8_k337s")]
+layout_mode = 2
+
+[node name="ItemSlot5" parent="CanvasLayer/ChestUI/ItemContainerDisplay/Slots" instance=ExtResource("8_k337s")]
+layout_mode = 2
+
+[node name="ItemSlot6" parent="CanvasLayer/ChestUI/ItemContainerDisplay/Slots" instance=ExtResource("8_k337s")]
+layout_mode = 2
+
+[node name="ItemSlot7" parent="CanvasLayer/ChestUI/ItemContainerDisplay/Slots" instance=ExtResource("8_k337s")]
+layout_mode = 2
+
+[node name="ItemSlot8" parent="CanvasLayer/ChestUI/ItemContainerDisplay/Slots" instance=ExtResource("8_k337s")]
+layout_mode = 2
+
+[node name="ItemSlot9" parent="CanvasLayer/ChestUI/ItemContainerDisplay/Slots" instance=ExtResource("8_k337s")]
+layout_mode = 2
+
+[node name="ItemSlot10" parent="CanvasLayer/ChestUI/ItemContainerDisplay/Slots" instance=ExtResource("8_k337s")]
+layout_mode = 2
+
+[node name="ItemSlot11" parent="CanvasLayer/ChestUI/ItemContainerDisplay/Slots" instance=ExtResource("8_k337s")]
+layout_mode = 2
+
+[node name="ItemSlot12" parent="CanvasLayer/ChestUI/ItemContainerDisplay/Slots" instance=ExtResource("8_k337s")]
+layout_mode = 2
+
+[node name="ItemSlot13" parent="CanvasLayer/ChestUI/ItemContainerDisplay/Slots" instance=ExtResource("8_k337s")]
+layout_mode = 2
+
+[node name="ItemSlot14" parent="CanvasLayer/ChestUI/ItemContainerDisplay/Slots" instance=ExtResource("8_k337s")]
+layout_mode = 2
+
+[node name="ItemSlot15" parent="CanvasLayer/ChestUI/ItemContainerDisplay/Slots" instance=ExtResource("8_k337s")]
+layout_mode = 2
+
+[node name="ItemSlot16" parent="CanvasLayer/ChestUI/ItemContainerDisplay/Slots" instance=ExtResource("8_k337s")]
+layout_mode = 2
+
+[node name="ItemSlot17" parent="CanvasLayer/ChestUI/ItemContainerDisplay/Slots" instance=ExtResource("8_k337s")]
+layout_mode = 2
+
+[node name="ItemSlot18" parent="CanvasLayer/ChestUI/ItemContainerDisplay/Slots" instance=ExtResource("8_k337s")]
+layout_mode = 2
+
+[node name="ItemSlot19" parent="CanvasLayer/ChestUI/ItemContainerDisplay/Slots" instance=ExtResource("8_k337s")]
+layout_mode = 2
+
+[node name="ItemSlot20" parent="CanvasLayer/ChestUI/ItemContainerDisplay/Slots" instance=ExtResource("8_k337s")]
+layout_mode = 2
+
+[node name="ItemSlot21" parent="CanvasLayer/ChestUI/ItemContainerDisplay/Slots" instance=ExtResource("8_k337s")]
+layout_mode = 2
+
+[node name="ItemSlot22" parent="CanvasLayer/ChestUI/ItemContainerDisplay/Slots" instance=ExtResource("8_k337s")]
+layout_mode = 2
+
+[node name="ItemSlot23" parent="CanvasLayer/ChestUI/ItemContainerDisplay/Slots" instance=ExtResource("8_k337s")]
+layout_mode = 2
+
+[node name="ItemSlot24" parent="CanvasLayer/ChestUI/ItemContainerDisplay/Slots" instance=ExtResource("8_k337s")]
+layout_mode = 2
+
+[node name="ItemSlot25" parent="CanvasLayer/ChestUI/ItemContainerDisplay/Slots" instance=ExtResource("8_k337s")]
+layout_mode = 2
+
+[node name="ItemSlot26" parent="CanvasLayer/ChestUI/ItemContainerDisplay/Slots" instance=ExtResource("8_k337s")]
+layout_mode = 2
+
+[node name="ItemSlot27" parent="CanvasLayer/ChestUI/ItemContainerDisplay/Slots" instance=ExtResource("8_k337s")]
+layout_mode = 2
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="CanvasLayer/ChestUI"]
+unique_name_in_owner = true
+
+[connection signal="body_entered" from="InvisibilityTrigger" to="." method="_on_invisibility_trigger_body_entered"]
+[connection signal="body_exited" from="InvisibilityTrigger" to="." method="_on_invisibility_trigger_body_exited"]
+[connection signal="items_changed" from="ItemContainer" to="CanvasLayer/ChestUI/ItemContainerDisplay" method="on_items_changed"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://bwdbw2is3xsf6"]
 
-[ext_resource type="Script" path="res://Scripts/drop.gd" id="2_5s2lr"]
+[ext_resource type="Script" path="res://Scripts/ui & inventory/drop.gd" id="2_5s2lr"]
 [ext_resource type="Texture2D" uid="uid://dt743dbybsyff" path="res://Art/items.png" id="2_phak4"]
 [ext_resource type="Script" path="res://Scripts/tweens/tween_bounce.gd" id="3_ne0j5"]
 

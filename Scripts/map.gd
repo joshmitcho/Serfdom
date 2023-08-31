@@ -13,8 +13,8 @@ const GREEN_HIGHLIGHT = Color("00ff0050")
 const RED_HIGHLIGHT = Color("ff000050")
 
 var destroyables: Array = []
-const destroyable_base = preload("res://Scenes/destroyable.tscn")
-const drop_base = preload("res://Scenes/drop.tscn")
+const destroyable_base = preload("res://Scenes/ground items/destroyable.tscn")
+const drop_base = preload("res://Scenes/ui & inventory/drop.tscn")
 
 @onready var canvas_modulate = %CanvasModulate
 @onready var time_money_ui = %TimeMoneyUI
@@ -66,6 +66,20 @@ func initialize_destroyables(names: Array, dest: Array, second_stage: String = "
 				second_object.scale = object.scale
 			index += 1
 
+func do_action_pressed(offsets: Array):
+	var action_tiles: Array = []
+	for i in offsets.size():
+		action_tiles.append(local_to_map(player.position) + offsets[i])
+	
+	for tile in action_tiles:
+		# if you're talking to an NPC
+		#for npc in NPCs: ...
+	
+		# if you're opening a chest
+		for destroyable in destroyables:
+			if local_to_map(destroyable.position) == tile:
+				destroyable.do_action()
+				return
 
 func _on_player_tool_used(tool: StringName, tool_offsets: Array, power: int):
 	var tool_tiles: Array = []
@@ -125,18 +139,25 @@ func play_whiff_sound():
 	sfx_player.play()
 
 
-func _on_player_place_attempted(placeable: Item, offsets):
-	var tile = local_to_map(player.position) + offsets[0]
-	if placeable.is_crop:
-		if is_tile_plantable(tile):
-	#		print("-----\nbefore: ", destroyables[-1].object_name, " ", destroyables[-1])
-			set_cell(LAYER_NAMES.GROUND_ITEMS, tile, GROUND_ITEMS_SOURCE_ID, Vector2i.ZERO, 1)
-			initialize_placeable.call_deferred(placeable.placeable_name)
-			Inventory.update_item_amount(Inventory.active_index, -1)
-	elif is_tile_empty(tile):
+func _on_player_place_attempted(placeable: Item, offset: Vector2i):
+	var place_success: bool = false
+	var tile = local_to_map(player.position) + offset
+	if placeable.is_crop and is_tile_plantable(tile):
+#		print("-----\nbefore: ", destroyables[-1].object_name, " ", destroyables[-1])
+		set_cell(LAYER_NAMES.GROUND_ITEMS, tile, GROUND_ITEMS_SOURCE_ID, Vector2i.ZERO, 1)
+		place_success = true
+	elif placeable.is_chest and is_tile_empty(tile):
 		set_cell(LAYER_NAMES.GROUND_ITEMS, tile, GROUND_ITEMS_SOURCE_ID, Vector2i.ZERO, 3)
+		place_success = true
+	elif placeable.is_machine and is_tile_empty(tile):
+		set_cell(LAYER_NAMES.GROUND_ITEMS, tile, GROUND_ITEMS_SOURCE_ID, Vector2i.ZERO, 4)
+		place_success = true
+	
+	if place_success:
 		initialize_placeable.call_deferred(placeable.placeable_name)
 		Inventory.update_item_amount(Inventory.active_index, -1)
+		_on_player_hold_changed()
+
 
 func initialize_placeable(placeable_name: StringName):
 #	var crops = Utils.get_children_of_type(self, Crop)
@@ -166,19 +187,22 @@ func _physics_process(_delta):
 	var map_space_posistion = local_to_map(player.position) + player.facing
 	var snapped_position = map_to_local(map_space_posistion)  + Vector2(-8, -8)
 	tile_aim_indicator.position = tile_aim_indicator.position.slerp(snapped_position, 0.5)
-	
+	tile_aim_indicator.modulate = tile_aim_indicator_colour(map_space_posistion)
+
+
+func tile_aim_indicator_colour(tile: Vector2i):
 	if is_instance_of(current_held_item, Item) and is_tile_empty(local_to_map(player.position)):
 		if current_held_item.is_crop:
-			if is_tile_plantable(map_space_posistion):
-				tile_aim_indicator.modulate = GREEN_HIGHLIGHT
+			if is_tile_plantable(tile):
+				return GREEN_HIGHLIGHT
 			else:
-				tile_aim_indicator.modulate = RED_HIGHLIGHT
-		elif current_held_item.is_placeable and is_tile_empty(map_space_posistion):
-			tile_aim_indicator.modulate = GREEN_HIGHLIGHT
+				return RED_HIGHLIGHT
+		elif current_held_item.is_placeable and is_tile_empty(tile):
+			return GREEN_HIGHLIGHT
 		else:
-			tile_aim_indicator.modulate = RED_HIGHLIGHT
+			return RED_HIGHLIGHT
 	else:
-		tile_aim_indicator.modulate = RED_HIGHLIGHT
+		return RED_HIGHLIGHT
 
 
 func is_tile_tillable(tile_coord: Vector2i):
@@ -215,7 +239,7 @@ func is_tile_empty(tile_coord: Vector2i):
 
 func _on_player_hold_changed():
 	current_held_item = Inventory.get_current_item()
-	if Inventory.get_current_item().is_placeable:
+	if is_instance_of(current_held_item, Item) and current_held_item.is_placeable:
 		tile_aim_indicator.visible = true
 	else:
 		tile_aim_indicator.visible = false

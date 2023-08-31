@@ -1,7 +1,7 @@
 extends CenterContainer
 class_name CursorItemDisplay
 
-var item_sprite
+var item_sprite: ShadowSprite
 @onready var item_amount_label = %ItemAmountLabel
 
 func _ready():

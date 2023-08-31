@@ -4,11 +4,17 @@ extends CharacterBody2D
 class_name Player
 
 signal tool_used(tool: String, offset: Array, power: int)
-signal place_attempted(placeable: Item, offsets: Array)
+signal place_attempted(placeable: Item, offset: Vector2i)
+signal do_action_pressed(offsets: Array)
+
 signal item_picked_up(item: Item, amount: int)
 signal hold_changed()
+
 signal current_energy_changed(new_current_energy: int)
 signal max_energy_changed(new_max_energy: int)
+
+signal hotbar_to_top()
+signal hotbar_to_bottom()
 
 var linear_movement_speed: int = 90
 var diagonal_movement_speed: int = 60
@@ -21,9 +27,13 @@ var sfx_index: int = 0
 var max_energy: int = 270
 var current_energy: int = max_energy
 
+@export var map: TileMap
+@export var camera: Camera2D
+
 @onready var animator = %SpriteAnimator
 @onready var tool_animator = %ToolAnimator
 @onready var hold_sprite: ShadowSprite = %HoldSprite
+
 
 func _ready():
 	#knock position verrry slightly off-grid to prevent flickering while moving
@@ -39,27 +49,36 @@ func _ready():
 	emit_signal("current_energy_changed", current_energy)
 
 
-func on_tool_used(tool: String, offset: Array, power: int):
+func _on_tool_used(tool: String, offset: Array, power: int):
 	emit_signal("tool_used", tool, offset, power)
 	current_energy -= 2
 	emit_signal("current_energy_changed", current_energy)
 
 
-func _on_place_attempted(placeable: Item, offsets):
-	emit_signal("place_attempted", placeable, offsets)
+func _on_place_attempted(placeable: Item, offset: Vector2i):
+	emit_signal("place_attempted", placeable, offset)
+
+
+func _on_do_action_pressed(offsets: Array):
+	emit_signal("do_action_pressed", offsets)
 
 
 func _physics_process(_delta):
+	if position.y - camera.get_screen_center_position().y > 30:
+		emit_signal("hotbar_to_top")
+	elif position.y - camera.get_screen_center_position().y < 2:
+		emit_signal("hotbar_to_bottom")
+	
 	var overlapping_areas: Array = $MagnetismArea.get_overlapping_areas()
 	for area in overlapping_areas:
 		if (is_instance_of(area, Drop) and area.pickupable
-		and Inventory.does_inventory_have_room(area.item)):
+		and Inventory.does_container_have_room(area.item)):
 			area.set_gravity_center(position)
 	
 	overlapping_areas = $PickupArea.get_overlapping_areas()
 	for area in overlapping_areas:
 		if (is_instance_of(area, Drop) and area.pickupable
-		and Inventory.does_inventory_have_room(area.item)):
+		and Inventory.does_container_have_room(area.item)):
 			drop_picked_up(area.item)
 			area.queue_free()
 
@@ -98,4 +117,3 @@ func start_hold(item: Item):
 func end_hold():
 	holding = ""
 	hold_sprite.visible = false
-
