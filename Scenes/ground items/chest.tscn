@@ -170,8 +170,9 @@ shape = SubResource("RectangleShape2D_qxhk0")
 script = ExtResource("4_pttq6")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 0
 
-[node name="ChestUI" type="TextureRect" parent="CanvasLayer"]
+[node name="ChestUI" type="TextureRect" parent="CanvasLayer" node_paths=PackedStringArray("item_container")]
 unique_name_in_owner = true
 anchors_preset = 5
 anchor_left = 0.5
@@ -183,6 +184,7 @@ grow_horizontal = 2
 mouse_filter = 0
 texture = SubResource("AtlasTexture_fgp61")
 script = ExtResource("5_dckvq")
+item_container = NodePath("../../ItemContainer")
 atlas = SubResource("AtlasTexture_fgp61")
 
 [node name="ItemContainerDisplay" type="VBoxContainer" parent="CanvasLayer/ChestUI" node_paths=PackedStringArray("parent")]

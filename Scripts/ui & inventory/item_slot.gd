@@ -37,13 +37,12 @@ func display_item(item: Item):
 
 func _on_clicked():
 	if locked:
-		print("locked: ", parent, ", ", slot_index)
 		return
 	
 	if MainUI.is_open:
 		move_items_with_cursor_behaviour()
-	elif ChestUI.is_open:
-		open_chest_behaviour()
+	elif Inventory.opened_chest != null:
+		open_chest_behaviour(Inventory.opened_chest)
 	elif not MainUI.is_open and not Inventory.does_cursor_have_item(): # change active slot behaviour
 		emit_signal("became_active_slot", slot_index)
 		Inventory.set_active_slot(slot_index)
@@ -62,6 +61,24 @@ func move_items_with_cursor_behaviour():
 		Inventory.swap_items(slot_index, Inventory.CURSOR_INDEX)
 
 
-func open_chest_behaviour():
+func open_chest_behaviour(open_chest: ItemContainer):
 	var my_item = parent.items[slot_index]
-	print("chest - parent: ", parent, ", ", slot_index, ", ", my_item)
+	if my_item == null:
+		return
+	if parent == open_chest:
+		parent.remove_item(slot_index)
+		Inventory.add_items_to_inventory(my_item, my_item.amount)
+	else:
+		Inventory.remove_item(slot_index)
+		open_chest.add_items_to_inventory(my_item, my_item.amount)
+	Inventory.emit_signal("close_tooltip", my_item)
+
+
+func _on_hover_trigger_mouse_shape_entered(_shape_idx):
+	if is_instance_of(parent.items[slot_index], Item):
+		Inventory.emit_signal("open_tooltip", parent.items[slot_index])
+
+
+func _on_hover_trigger_mouse_shape_exited(_shape_idx):
+	if is_instance_of(parent.items[slot_index], Item):
+		Inventory.emit_signal("close_tooltip", parent.items[slot_index])

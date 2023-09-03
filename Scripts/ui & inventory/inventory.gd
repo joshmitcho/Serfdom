@@ -6,6 +6,10 @@ signal active_slot_changed(index: int)
 signal toggle_menu(tab: int)
 signal chest_opened()
 signal chest_closed()
+signal open_tooltip(item: Item)
+signal close_tooltip(item: Item)
+
+var opened_chest: ItemContainer
 
 var money_supply: int = 0
 
@@ -28,8 +32,9 @@ func set_initial_items():
 	add_items_to_inventory(Compendium.all_items["rusty_hammer"])
 	add_items_to_inventory(Compendium.all_items["rusty_pail"])
 	add_items_to_inventory(Compendium.all_items["crude_chest"], 1)
-	add_items_to_inventory(Compendium.all_items["improved_chest"], 1)
-	add_items_to_inventory(Compendium.all_items["deluxe_chest"], 1)
+#	add_items_to_inventory(Compendium.all_items["improved_chest"], 1)
+#	add_items_to_inventory(Compendium.all_items["deluxe_chest"], 1)
+	add_items_to_inventory(Compendium.all_items["wheat_seed"], 15)
 
 
 func set_active_slot(index: int):
@@ -60,5 +65,5 @@ func shift_toolbar():
 
 
 func update_money_supply(delta_value: int):
-	money_supply += delta_value
+#	money_supply += delta_value
 	emit_signal("money_supply_changed", money_supply)

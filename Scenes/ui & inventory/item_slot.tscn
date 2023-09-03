@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dutjtyluty2rm"]
+[gd_scene load_steps=8 format=3 uid="uid://dutjtyluty2rm"]
 
 [ext_resource type="Script" path="res://Scripts/ui & inventory/item_slot.gd" id="1_kh5lp"]
 [ext_resource type="Texture2D" uid="uid://b5vdpkmm5tsna" path="res://Art/UI/hotbar highlight.png" id="2_7qvc8"]
@@ -9,6 +9,9 @@
 [sub_resource type="FontVariation" id="FontVariation_cmbv1"]
 base_font = ExtResource("5_4pmlf")
 spacing_glyph = -1
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_reoxj"]
+size = Vector2(24, 25)
 
 [node name="ItemSlot" type="CenterContainer"]
 custom_minimum_size = Vector2(18, 18)
@@ -21,6 +24,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 0
 mouse_default_cursor_shape = 2
 script = ExtResource("1_kh5lp")
 
@@ -63,4 +67,12 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("5_4pmlf")
 text = ";"
 
+[node name="HoverTrigger" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HoverTrigger"]
+position = Vector2(8, 7)
+shape = SubResource("RectangleShape2D_reoxj")
+
 [connection signal="pressed" from="Button" to="." method="_on_clicked"]
+[connection signal="mouse_shape_entered" from="HoverTrigger" to="." method="_on_hover_trigger_mouse_shape_entered"]
+[connection signal="mouse_shape_exited" from="HoverTrigger" to="." method="_on_hover_trigger_mouse_shape_exited"]

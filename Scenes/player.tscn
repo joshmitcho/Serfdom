@@ -2896,7 +2896,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"hold_move_down",
-"speed": 8.0
+"speed": 9.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -2919,7 +2919,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"hold_move_left",
-"speed": 8.0
+"speed": 9.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -2942,7 +2942,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"hold_move_right",
-"speed": 8.0
+"speed": 9.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -2965,7 +2965,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"hold_move_up",
-"speed": 8.0
+"speed": 9.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -2988,7 +2988,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"move_down",
-"speed": 8.0
+"speed": 9.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -3011,7 +3011,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"move_left",
-"speed": 8.0
+"speed": 9.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -3034,7 +3034,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"move_right",
-"speed": 8.0
+"speed": 9.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -3057,7 +3057,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"move_up",
-"speed": 8.0
+"speed": 9.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -3460,7 +3460,7 @@ animation = &"shovel_left"
 unique_name_in_owner = true
 position = Vector2(0, -6)
 sprite_frames = SubResource("SpriteFrames_au5cs")
-animation = &"shovel_up"
+animation = &"move_up"
 
 [node name="HoldSprite" parent="." instance=ExtResource("12_vllri")]
 unique_name_in_owner = true

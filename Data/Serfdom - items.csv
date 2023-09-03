@@ -1,89 +1,89 @@
-item_name,value,tag
-rusty_axe,200,tool
-rusty_hammer,200,tool
-rusty_sickle,200,tool
-rusty_shovel,200,tool
-bronze_axe,500,tool
-bronze_hammer,500,tool
-bronze_sickle,500,tool
-bronze_shovel,500,tool
-steel_axe,2000,tool
-steel_hammer,2000,tool
-steel_sickle,2000,tool
-steel_shovel,2000,tool
-adamant_axe,25000,tool
-adamant_hammer,25000,tool
-adamant_sickle,25000,tool
-adamant_shovel,25000,tool
-mithril_axe,10000,tool
-mithril_hammer,10000,tool
-mithril_sickle,10000,tool
-mithril_shovel,10000,tool
-rusty_pail,200,tool
-fibre,1,resource
-wood,1,resource
-stone,2,resource
-coal,50,resource
-copper_ore,15,resource
-bronze_ingot,200,resource
-iron_ore,50,resource
-steel_ingot,500,resource
-adamant_ore,500,resource
-adamant_ingot,2500,resource
-mithril_ore,200,resource
-mithril_ingot,1000,resource
-gold_ore,500,resource
-gold_ingot,2500,resource
-flour,50,food
-bread,100,food
-trout,50,food
-raw_meat,500,food
-pottage,50,food
-carrot,5,food
-turnip,5,food
-pumpkin,5,food
-potato,5,food
-onion,5,food
-strawberry,5,food
-cauliflower,5,food
-tomato,5,food
-parsnip,5,food
-green_bean,5,food
-garlic,5,food
-corn,5,food
-leek,5,food
-wheat,5,food
-sunflower,5,food
-beetroot,5,food
-cabbage,5,food
-red_cabbage,5,food
-broccoli,5,food
-brussels_sprout,5,food
-bell_pepper,5,food
-spinach,5,food
-carrot_seed,5,crop
-turnip_seed,5,crop
-pumpkin_seed,5,crop
-potato_seed,5,crop
-onion_seed,5,crop
-strawberry_seed,5,crop
-cauliflower_seed,5,crop
-tomato_seed,5,crop
-parsnip_seed,5,crop
-green_bean_seed,5,crop
-garlic_seed,5,crop
-corn_seed,5,crop
-leek_seed,5,crop
-wheat_seed,5,crop
-sunflower_seed,5,crop
-beetroot_seed,5,crop
-cabbage_seed,5,crop
-red_cabbage_seed,5,crop
-broccoli_seed,5,crop
-brussels_sprout_seed,5,crop
-bell_pepper_seed,5,crop
-spinach_seed,5,crop
-crude_chest,100,chest
-improved_chest,1000,chest
-deluxe_chest,10000,chest
-pickle_barrel,500,machine
+item_name,value,tag,description
+rusty_axe,200,tool,Used to water crops. It can be refilled at any water source.
+rusty_hammer,200,tool,Used to water crops. It can be refilled at any water source.
+rusty_sickle,200,tool,Used to water crops. It can be refilled at any water source.
+rusty_shovel,200,tool,Used to water crops. It can be refilled at any water source.
+bronze_axe,500,tool,Used to water crops. It can be refilled at any water source.
+bronze_hammer,500,tool,Used to water crops. It can be refilled at any water source.
+bronze_sickle,500,tool,Used to water crops. It can be refilled at any water source.
+bronze_shovel,500,tool,Used to water crops. It can be refilled at any water source.
+steel_axe,2000,tool,Used to water crops. It can be refilled at any water source.
+steel_hammer,2000,tool,Used to water crops. It can be refilled at any water source.
+steel_sickle,2000,tool,Used to water crops. It can be refilled at any water source.
+steel_shovel,2000,tool,Used to water crops. It can be refilled at any water source.
+adamant_axe,25000,tool,Used to water crops. It can be refilled at any water source.
+adamant_hammer,25000,tool,Used to water crops. It can be refilled at any water source.
+adamant_sickle,25000,tool,Used to water crops. It can be refilled at any water source.
+adamant_shovel,25000,tool,Used to water crops. It can be refilled at any water source.
+mithril_axe,10000,tool,Used to water crops. It can be refilled at any water source.
+mithril_hammer,10000,tool,Used to water crops. It can be refilled at any water source.
+mithril_sickle,10000,tool,Used to water crops. It can be refilled at any water source.
+mithril_shovel,10000,tool,Used to water crops. It can be refilled at any water source.
+rusty_pail,200,tool,Used to water crops. It can be refilled at any water source.
+fibre,1,resource,Used to water crops. It can be refilled at any water source.
+wood,1,resource,Used to water crops. It can be refilled at any water source.
+stone,2,resource,Used to water crops. It can be refilled at any water source.
+coal,50,resource,Used to water crops. It can be refilled at any water source.
+copper_ore,15,resource,Used to water crops. It can be refilled at any water source.
+bronze_ingot,200,resource,Used to water crops. It can be refilled at any water source.
+iron_ore,50,resource,Used to water crops. It can be refilled at any water source.
+steel_ingot,500,resource,Used to water crops. It can be refilled at any water source.
+adamant_ore,500,resource,Used to water crops. It can be refilled at any water source.
+adamant_ingot,2500,resource,Used to water crops. It can be refilled at any water source.
+mithril_ore,200,resource,Used to water crops. It can be refilled at any water source.
+mithril_ingot,1000,resource,Used to water crops. It can be refilled at any water source.
+gold_ore,500,resource,Used to water crops. It can be refilled at any water source.
+gold_ingot,2500,resource,Used to water crops. It can be refilled at any water source.
+flour,50,food,Used to water crops. It can be refilled at any water source.
+bread,100,food,Used to water crops. It can be refilled at any water source.
+trout,50,food,Used to water crops. It can be refilled at any water source.
+raw_meat,500,food,Used to water crops. It can be refilled at any water source.
+pottage,50,food,Used to water crops. It can be refilled at any water source.
+carrot,5,food,Used to water crops. It can be refilled at any water source.
+turnip,5,food,Used to water crops. It can be refilled at any water source.
+pumpkin,5,food,Used to water crops. It can be refilled at any water source.
+potato,5,food,Used to water crops. It can be refilled at any water source.
+onion,5,food,Used to water crops. It can be refilled at any water source.
+strawberry,5,food,Used to water crops. It can be refilled at any water source.
+cauliflower,5,food,Used to water crops. It can be refilled at any water source.
+tomato,5,food,Used to water crops. It can be refilled at any water source.
+parsnip,5,food,Used to water crops. It can be refilled at any water source.
+green_bean,5,food,Used to water crops. It can be refilled at any water source.
+garlic,5,food,Used to water crops. It can be refilled at any water source.
+corn,5,food,Used to water crops. It can be refilled at any water source.
+leek,5,food,Used to water crops. It can be refilled at any water source.
+wheat,5,food,Used to water crops. It can be refilled at any water source.
+sunflower,5,food,Used to water crops. It can be refilled at any water source.
+beetroot,5,food,Used to water crops. It can be refilled at any water source.
+cabbage,5,food,Used to water crops. It can be refilled at any water source.
+red_cabbage,5,food,Used to water crops. It can be refilled at any water source.
+broccoli,5,food,Used to water crops. It can be refilled at any water source.
+brussels_sprout,5,food,Used to water crops. It can be refilled at any water source.
+bell_pepper,5,food,Used to water crops. It can be refilled at any water source.
+spinach,5,food,Used to water crops. It can be refilled at any water source.
+carrot_seed,5,crop,Used to water crops. It can be refilled at any water source.
+turnip_seed,5,crop,Used to water crops. It can be refilled at any water source.
+pumpkin_seed,5,crop,Used to water crops. It can be refilled at any water source.
+potato_seed,5,crop,Used to water crops. It can be refilled at any water source.
+onion_seed,5,crop,Used to water crops. It can be refilled at any water source.
+strawberry_seed,5,crop,Used to water crops. It can be refilled at any water source.
+cauliflower_seed,5,crop,Used to water crops. It can be refilled at any water source.
+tomato_seed,5,crop,Used to water crops. It can be refilled at any water source.
+parsnip_seed,5,crop,Used to water crops. It can be refilled at any water source.
+green_bean_seed,5,crop,Used to water crops. It can be refilled at any water source.
+garlic_seed,5,crop,Used to water crops. It can be refilled at any water source.
+corn_seed,5,crop,Used to water crops. It can be refilled at any water source.
+leek_seed,5,crop,Used to water crops. It can be refilled at any water source.
+wheat_seed,5,crop,Used to water crops. It can be refilled at any water source.
+sunflower_seed,5,crop,Used to water crops. It can be refilled at any water source.
+beetroot_seed,5,crop,Used to water crops. It can be refilled at any water source.
+cabbage_seed,5,crop,Used to water crops. It can be refilled at any water source.
+red_cabbage_seed,5,crop,Used to water crops. It can be refilled at any water source.
+broccoli_seed,5,crop,Used to water crops. It can be refilled at any water source.
+brussels_sprout_seed,5,crop,Used to water crops. It can be refilled at any water source.
+bell_pepper_seed,5,crop,Used to water crops. It can be refilled at any water source.
+spinach_seed,5,crop,Used to water crops. It can be refilled at any water source.
+crude_chest,100,chest,Used to water crops. It can be refilled at any water source.
+improved_chest,1000,chest,Used to water crops. It can be refilled at any water source.
+deluxe_chest,10000,chest,Used to water crops. It can be refilled at any water source.
+pickle_barrel,500,machine,Used to water crops. It can be refilled at any water source.

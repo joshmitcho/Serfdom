@@ -16,9 +16,11 @@ func take_hit(_power: int):
 
 
 func do_action():
+	Inventory.opened_chest = item_container
 	Inventory.emit_signal("chest_opened")
 	chest_ui.open_chest_ui()
 	
 
 func close_chest():
+	Inventory.opened_chest = null
 	chest_ui.close_chest_ui()

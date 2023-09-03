@@ -3,6 +3,7 @@ extends TextureRect
 
 class_name ChestUI
 
+@export var item_container: ItemContainer
 @export var atlas: AtlasTexture
 
 @onready var item_container_display: ItemContainerDisplay = %ItemContainerDisplay

@@ -8,6 +8,7 @@ class_name Item
 @export var is_edible: bool
 @export var power: int = 0
 @export var tag: StringName
+@export var description: String
 @export var is_stackable: bool = true
 @export var is_tool: bool = false
 @export var is_crop: bool = false
@@ -24,6 +25,7 @@ func initialize(index: int, input_values: Array):
 	item_name = input_values[0]
 	value = int(input_values[1])
 	tag = StringName(input_values[2].strip_edges())
+	description = input_values[3]
 	
 	if tag == StringName("tool"):
 		power = Compendium.TOOL_TIERS[item_name.split("_")[0]]

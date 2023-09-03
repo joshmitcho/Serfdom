@@ -16,7 +16,6 @@ func _ready():
 
 func set_initial_items():
 	items.resize(Inventory.MAX_SIZE + 1)
-#	add_items_to_inventory(Compendium.all_items["wheat_seed"], 15)
 
 
 func set_bars_unlocked(num_bars: int):

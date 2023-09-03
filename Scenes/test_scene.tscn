@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://yb6ysburvtly"]
+[gd_scene load_steps=38 format=3 uid="uid://yb6ysburvtly"]
 
 [ext_resource type="Texture2D" uid="uid://cmwnh0i8jv60b" path="res://Art/jamiebrownhill/Rural Village/Tilesets/RVTerrain.png" id="1_gpxcs"]
 [ext_resource type="Texture2D" uid="uid://2iflerpuamft" path="res://Art/jamiebrownhill/Rural Village/Tilesets/RVNature.png" id="2_t6wfj"]
@@ -23,6 +23,7 @@
 [ext_resource type="Script" path="res://Scripts/ui & inventory/daynightcycle.gd" id="16_a2ymu"]
 [ext_resource type="Texture2D" uid="uid://c0fkb7mdroa01" path="res://Art/Light.png" id="16_cg4o2"]
 [ext_resource type="PackedScene" uid="uid://dykpg0g35y45r" path="res://Scenes/ui & inventory/energy_ui.tscn" id="20_8xfi4"]
+[ext_resource type="PackedScene" uid="uid://bisyd5rg4anu7" path="res://Scenes/ui & inventory/tooltip.tscn" id="23_p82h3"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_n164m"]
 polygon = PackedVector2Array(-4.5, -5, 0.5, -5, 1, 0.5, -5, -1)
@@ -6766,6 +6767,8 @@ offset_right = -16.0
 offset_bottom = -16.0
 grow_horizontal = 0
 grow_vertical = 0
+
+[node name="Tooltip" parent="CanvasLayer" instance=ExtResource("23_p82h3")]
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
