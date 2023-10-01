@@ -18,17 +18,16 @@ func get_children_of_type(node: Node, child_type):
 			list.append(child)
 	return list
 
-func delayed_call(callable: Callable, delay: float):
-	get_tree().create_timer(delay, false).timeout.connect(callable)
-	
+
 func toggle_zoom():
 	current_zoom = (current_zoom + 1) % ZOOM_LEVELS.size()
 	get_tree().root.content_scale_size = ZOOM_LEVELS[current_zoom]
 	emit_signal("zoom_changed")
-	
+
+
 func toggle_fullscreen():
 	if get_tree().root.mode == Window.MODE_FULLSCREEN:
-		get_tree().root.mode = Window.MODE_MAXIMIZED
+		get_tree().root.mode = Window.MODE_WINDOWED
 	else:
 		get_tree().root.mode = Window.MODE_FULLSCREEN
 

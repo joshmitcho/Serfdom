@@ -13,7 +13,6 @@ config_version=5
 config/name="Serfdom"
 run/main_scene="res://Scenes/test_scene.tscn"
 config/features=PackedStringArray("4.1")
-run/max_fps=60
 config/stretch/scale=4.0
 config/stretch/mode="canvas_items"
 
@@ -22,6 +21,7 @@ config/stretch/mode="canvas_items"
 Utils="*res://Scripts/utilities.gd"
 Compendium="*res://Scripts/ui & inventory/compendium.gd"
 Inventory="*res://Scripts/ui & inventory/inventory.gd"
+TimeManager="*res://Scripts/ui & inventory/time_manager.gd"
 
 [debug]
 
@@ -127,6 +127,11 @@ zoom={
 fullscreen={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194342,"key_label":0,"unicode":0,"echo":false,"script":null)
+]
+}
+next_day={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":78,"key_label":0,"unicode":110,"echo":false,"script":null)
 ]
 }
 

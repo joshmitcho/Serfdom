@@ -14,6 +14,12 @@ Using tools to gather resources from rocks, trees and greenery
 Planting, growing and harvesting crops
 ![alt text](./Gifs/farming.gif "Planting and Harvesting Crops")
 
+Dynamic day/night lighting and shadows
+![alt text](./Gifs/day_night_cycle.gif "Day and Night Cycle")
+
+Irrigation pipes
+![alt text](./Gifs/irrigation.gif "Irrigation Pipes")
+
 Managing inventory with chests
 ![alt text](./Gifs/inventory.gif "Managing Inventory")
 

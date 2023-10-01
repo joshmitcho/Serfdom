@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://dnnkb7wtqthx1" path="res://Art/UI/pickup notification.png" id="1_nk480"]
 [ext_resource type="Script" path="res://Scripts/ui & inventory/pickup_notification.gd" id="1_o7g8h"]
 [ext_resource type="PackedScene" uid="uid://dj4uo1mrdxxha" path="res://Scenes/shadow_sprite.tscn" id="3_f018d"]
-[ext_resource type="FontFile" uid="uid://crd6qgr13h034" path="res://Fonts/PixelRPG.ttf" id="3_x7y3d"]
+[ext_resource type="FontFile" uid="uid://dsnajbdx217pn" path="res://Fonts/04B03 (body text).TTF" id="3_qpu1s"]
 [ext_resource type="Texture2D" uid="uid://bpp02gt4ei5wv" path="res://Art/UI/shadow spill cover.png" id="4_gys05"]
 [ext_resource type="FontFile" uid="uid://c2it3k3fijg8r" path="res://Fonts/stardew numbers font.png" id="6_vv5an"]
 [ext_resource type="Script" path="res://Scripts/tweens/tween_bounce.gd" id="7_naelw"]
@@ -41,16 +41,16 @@ frame = 2
 
 [node name="PickupText" type="Label" parent="."]
 layout_mode = 0
-offset_left = 25.0
+offset_left = 24.0
 offset_top = 8.0
-offset_right = 65.0
+offset_right = 64.0
 offset_bottom = 31.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_shadow_color = Color(0.760784, 0.521569, 0.411765, 1)
+theme_override_colors/font_shadow_color = Color(0.811765, 0.501961, 0.407843, 1)
 theme_override_constants/shadow_offset_x = 0
 theme_override_constants/shadow_offset_y = 1
 theme_override_constants/outline_size = 0
-theme_override_fonts/font = ExtResource("3_x7y3d")
+theme_override_fonts/font = ExtResource("3_qpu1s")
 theme_override_font_sizes/font_size = 8
 text = "iron axe"
 

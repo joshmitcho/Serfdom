@@ -2,7 +2,7 @@
 extends Area2D
 class_name Destroyable
 
-signal destroyed(drops: Array[Drop], position: Vector2)
+signal items_dropped(drops: Array[Drop], position: Vector2)
 
 var object_name: StringName = "uninitialized_destroyable"
 var compatible_tool_type: StringName = "none"
@@ -14,28 +14,35 @@ var drop_types: Array
 var num_drops: int
 var drop_offsets: Array = [-4, 4, 0, -8, 8, 0, -12, 12, -16, 16, -20, 20]
 
+var is_dying: bool = false
 var die_sfx: Array = []
 var hit_sfx
 var sfx_pitches: Array = [0.8, 0.943874, 1.0, 1.059463, 1.122455]
 var sfx_index: int = 0
 
-var is_dying: bool = false
-var is_tree: bool = false
-
-@onready var animator = $AnimatedSprite2D
+var animator: AnimatedSprite2D
+var shadow_animator: AnimatedSprite2D
+var shake_tween
 @onready var hit_sfx_player = $HitSFXPlayer
 @onready var break_sfx_player = $BreakSFXPlayer
 
 func _ready():
-	get_parent().destroyables.append(self)
+	shake_tween = get_node_or_null("ShakeTween")
+	if get_node_or_null("ShadowAnimatedSprite"):
+		shadow_animator = $ShadowAnimatedSprite
+		animator = %MainAnimatedSprite
+	else:
+		shadow_animator = AnimatedSprite2D.new()
+		animator = $AnimatedSprite2D
+	var parent_map: TileMap = get_parent()
+	parent_map.destroyables[parent_map.local_to_map(self.position)] = self
 	scale = Vector2([1, -1].pick_random(), 1)
 
 func initialize(p_name: StringName = "name"):
 	sfx_pitches.shuffle()
 	object_name = p_name
 	animator.animation = object_name
-	if object_name.substr(0, 4) == "tree":
-		is_tree = true
+	shadow_animator.animation = object_name
 	
 	compatible_tool_type = Compendium.all_destroyables[object_name][0]
 	starting_health = Compendium.all_destroyables[object_name][1]
@@ -49,9 +56,13 @@ func initialize(p_name: StringName = "name"):
 		num_drops += 1
 	drop_types  = Compendium.all_destroyables[object_name][5]
 	
-	animator.offset.y = Compendium.all_destroyables[object_name][6]
 	animator.modulate = Color.WHITE
+	animator.offset.y = Compendium.all_destroyables[object_name][6]
+	shadow_animator.offset.y = Compendium.all_destroyables[object_name][6]
 
+
+func _physics_process(_delta):
+	shadow_animator.self_modulate = DayNightCycle.shadow_modulate
 
 func play_pitched_sfx(player, sfx):
 	player.set_stream(sfx)
@@ -65,7 +76,8 @@ func play_pitched_sfx(player, sfx):
 
 
 func take_hit(power: int):
-	$ShakeTween.start(animator)
+	shake_tween.start(shadow_animator)
+	shake_tween.start(animator)
 	play_pitched_sfx(hit_sfx_player, hit_sfx)
 	total_damage += power
 	if total_damage >= starting_health:
@@ -76,9 +88,10 @@ func take_hit(power: int):
 func die():
 	is_dying = true
 	if is_instance_of(self, Placeable):
-		$AnimatedSprite2D.visible = false
+		animator.visible = false
 	else:
 		animator.play()
+		shadow_animator.play()
 	if get_node_or_null("PhysicsCollider"):
 		$PhysicsCollider.set_collision_layer(0)
 	if get_node_or_null("LightOccluder2D"):
@@ -87,29 +100,21 @@ func die():
 	play_pitched_sfx(break_sfx_player, die_sfx.pick_random())
 	
 	get_parent().destroyables.erase(self)
+	drop_items()
 	
+	await break_sfx_player.finished
+	queue_free()
+
+
+func drop_items(remove: bool = true):
 	var drop_base = get_parent().drop_base
 	for i in num_drops:
 		var drop: Drop = drop_base.instantiate()
 		drop.initialize(Compendium.all_items[drop_types.pick_random()], position, drop_offsets[i % drop_offsets.size()])
 		drops.push_front(drop)
 	
-	emit_signal("destroyed", drops, position)
-	await break_sfx_player.finished
-	queue_free()
+	emit_signal("items_dropped", drops, position, remove)
 
 
 func do_action():
 	print("no interaction")
-
-
-func _on_invisibility_trigger_body_entered(body):
-	if is_instance_of(body, Player) and is_tree:
-		var tween = create_tween()
-		tween.tween_property(animator, "modulate", Color(1, 1, 1, 0.5), 0.1)
-
-
-func _on_invisibility_trigger_body_exited(body):
-	if is_instance_of(body, Player) and is_tree:
-		var tween = create_tween()
-		tween.tween_property(animator, "modulate", Color.WHITE, 0.1)

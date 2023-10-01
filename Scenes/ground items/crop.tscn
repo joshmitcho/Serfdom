@@ -1,8 +1,32 @@
-[gd_scene load_steps=13 format=3 uid="uid://bbfg54sxpqpb0"]
+[gd_scene load_steps=20 format=3 uid="uid://bbfg54sxpqpb0"]
 
 [ext_resource type="Script" path="res://Scripts/ground items/crop.gd" id="1_l7ak2"]
 [ext_resource type="Texture2D" uid="uid://s4sp2vr1bo6d" path="res://Art/jamiebrownhill/World of Solaria Crops/Crops.png" id="3_te2im"]
 [ext_resource type="Script" path="res://Scripts/tweens/tween_shake.gd" id="5_tbgrn"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qifmf"]
+atlas = ExtResource("3_te2im")
+region = Rect2(368, 256, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_242fb"]
+atlas = ExtResource("3_te2im")
+region = Rect2(400, 256, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_beua1"]
+atlas = ExtResource("3_te2im")
+region = Rect2(432, 256, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0qiwj"]
+atlas = ExtResource("3_te2im")
+region = Rect2(464, 256, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p362d"]
+atlas = ExtResource("3_te2im")
+region = Rect2(496, 256, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8eryb"]
+atlas = ExtResource("3_te2im")
+region = Rect2(560, 256, 16, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ioncu"]
 atlas = ExtResource("3_te2im")
@@ -28,8 +52,35 @@ region = Rect2(464, 64, 16, 32)
 atlas = ExtResource("3_te2im")
 region = Rect2(496, 64, 16, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_fd58k"]
+atlas = ExtResource("3_te2im")
+region = Rect2(560, 64, 16, 32)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_5j45q"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qifmf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_242fb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_beua1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0qiwj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p362d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8eryb")
+}],
+"loop": false,
+"name": &"brussels_sprout",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ioncu")
@@ -53,6 +104,9 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_td7sh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fd58k")
 }],
 "loop": false,
 "name": &"wheat",
@@ -71,6 +125,7 @@ script = ExtResource("1_l7ak2")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_5j45q")
+animation = &"wheat"
 offset = Vector2(0, -8)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

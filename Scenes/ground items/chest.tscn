@@ -12,6 +12,24 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qxhk0"]
 size = Vector2(14, 9)
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_dvwnx"]
+animations = [{
+"frames": [],
+"loop": false,
+"name": &"crude_chest",
+"speed": 10.0
+}, {
+"frames": [],
+"loop": false,
+"name": &"deluxe_chest",
+"speed": 10.0
+}, {
+"frames": [],
+"loop": false,
+"name": &"improved_chest",
+"speed": 10.0
+}]
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_wdamd"]
 atlas = ExtResource("2_anmoq")
 region = Rect2(0, 0, 16, 32)
@@ -77,7 +95,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"crude_chest",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -94,7 +112,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"deluxe_chest",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -111,18 +129,15 @@ animations = [{
 }],
 "loop": false,
 "name": &"improved_chest",
-"speed": 5.0
+"speed": 10.0
 }]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_r2gf4"]
 polygon = PackedVector2Array(0, 0, 3, 0, 6, 4, 6, 7, 4, 9, 0, 9, -3, 9, -5, 7, -5, 4, -3, 0)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_852ub"]
-radius = 12.0
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_fgp61"]
 atlas = ExtResource("4_5pntc")
-region = Rect2(0, 0, 254, 79)
+region = Rect2(0, 79, 254, 79)
 
 [node name="Chest" type="Area2D"]
 script = ExtResource("1_dwkwb")
@@ -131,11 +146,17 @@ script = ExtResource("1_dwkwb")
 position = Vector2(0, 2)
 shape = SubResource("RectangleShape2D_qxhk0")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-z_index = 10
+[node name="ShadowAnimatedSprite" type="AnimatedSprite2D" parent="."]
+z_index = 9
+position = Vector2(0, -8)
+sprite_frames = SubResource("SpriteFrames_dvwnx")
+animation = &"improved_chest"
+
+[node name="MainAnimatedSprite" type="AnimatedSprite2D" parent="ShadowAnimatedSprite"]
+unique_name_in_owner = true
+z_index = 1
 sprite_frames = SubResource("SpriteFrames_5j45q")
 animation = &"crude_chest"
-offset = Vector2(0, -8)
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
 visible = false
@@ -150,13 +171,6 @@ occluder = SubResource("OccluderPolygon2D_r2gf4")
 script = ExtResource("3_1ntn7")
 x_max = 1
 r_max = 5
-
-[node name="InvisibilityTrigger" type="Area2D" parent="."]
-visible = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="InvisibilityTrigger"]
-position = Vector2(0, -18)
-shape = SubResource("CircleShape2D_852ub")
 
 [node name="PhysicsCollider" type="StaticBody2D" parent="."]
 z_index = 10
@@ -174,26 +188,30 @@ layer = 0
 
 [node name="ChestUI" type="TextureRect" parent="CanvasLayer" node_paths=PackedStringArray("item_container")]
 unique_name_in_owner = true
-anchors_preset = 5
+anchors_preset = 8
 anchor_left = 0.5
+anchor_top = 0.5
 anchor_right = 0.5
+anchor_bottom = 0.5
 offset_left = -127.0
+offset_top = -84.0
 offset_right = 127.0
-offset_bottom = 79.0
+offset_bottom = -5.0
 grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 0
 texture = SubResource("AtlasTexture_fgp61")
 script = ExtResource("5_dckvq")
 item_container = NodePath("../../ItemContainer")
-atlas = SubResource("AtlasTexture_fgp61")
+chest_atlas = SubResource("AtlasTexture_fgp61")
 
 [node name="ItemContainerDisplay" type="VBoxContainer" parent="CanvasLayer/ChestUI" node_paths=PackedStringArray("parent")]
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 27.0
-offset_top = 32.0
+offset_top = 19.0
 offset_right = 229.0
-offset_bottom = 98.0
+offset_bottom = 85.0
 theme_override_constants/separation = 8
 script = ExtResource("6_vtwer")
 parent = NodePath("../../../ItemContainer")
@@ -289,6 +307,4 @@ layout_mode = 2
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="CanvasLayer/ChestUI"]
 unique_name_in_owner = true
 
-[connection signal="body_entered" from="InvisibilityTrigger" to="." method="_on_invisibility_trigger_body_entered"]
-[connection signal="body_exited" from="InvisibilityTrigger" to="." method="_on_invisibility_trigger_body_exited"]
 [connection signal="items_changed" from="ItemContainer" to="CanvasLayer/ChestUI/ItemContainerDisplay" method="on_items_changed"]

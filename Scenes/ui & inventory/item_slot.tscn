@@ -56,6 +56,24 @@ theme_override_fonts/font = SubResource("FontVariation_cmbv1")
 text = "999"
 horizontal_alignment = 2
 
+[node name="PailFillLevel" type="ColorRect" parent="ShadowSprite"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 2)
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -8.0
+offset_top = -3.0
+offset_right = -8.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset = Vector2(0, 31)
+mouse_filter = 2
+color = Color(0.301961, 0.607843, 0.901961, 1)
+
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
 theme_override_constants/margin_left = -12
@@ -70,6 +88,7 @@ text = ";"
 [node name="HoverTrigger" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HoverTrigger"]
+visible = false
 position = Vector2(8, 7)
 shape = SubResource("RectangleShape2D_reoxj")
 

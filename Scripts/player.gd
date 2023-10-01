@@ -30,6 +30,7 @@ var current_energy: int = max_energy
 @export var map: TileMap
 @export var camera: Camera2D
 
+@onready var player_shadow = $PlayerShadow
 @onready var animator = %SpriteAnimator
 @onready var tool_animator = %ToolAnimator
 @onready var hold_sprite: ShadowSprite = %HoldSprite
@@ -64,6 +65,8 @@ func _on_do_action_pressed(offsets: Array):
 
 
 func _physics_process(_delta):
+	player_shadow.self_modulate = DayNightCycle.shadow_modulate
+	
 	if position.y - camera.get_screen_center_position().y > 30:
 		emit_signal("hotbar_to_top")
 	elif position.y - camera.get_screen_center_position().y < 2:
@@ -93,7 +96,6 @@ func drop_picked_up(item: Item):
 		sfx_index = 0
 	Inventory.add_items_to_inventory(item, item.amount)
 	emit_signal("item_picked_up", item, item.amount)
-	Inventory.update_money_supply(item.value)
 
 
 func new_active_item(_index):

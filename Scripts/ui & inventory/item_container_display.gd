@@ -18,24 +18,23 @@ func load_slots(container: Array):
 	var i = 0
 	for slot in container:
 		slot.slot_index = i
+		if i != Inventory.CURSOR_INDEX and i >= Inventory.BAR_SIZE:
+			slot.is_hideable = true
 		slot.became_active_slot.connect(set_active_slot_display)
 		slots.push_back(slot)
 		i += 1
-#	print("slots in load_slots = ", slots.size())
 
 
 func initialize_inventory_display():
 	for slot in slots:
 		slot.parent = parent
 		slot.hotkey_label.text = ""
-	print("parent slots_unlocked: ", parent.slots_unlocked)
 	for i in parent.slots_unlocked:
 		update_inventory_slot_display(i)
 		slots[i].locked = false
 
 
 func on_items_changed(indexes: Array):
-#	print("slots in on_items_changed: ", slots.size())
 	for item_index in indexes:
 		update_inventory_slot_display(item_index)
 

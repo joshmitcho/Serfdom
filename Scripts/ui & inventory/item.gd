@@ -16,6 +16,7 @@ class_name Item
 @export var is_placeable: bool = false
 @export var is_chest: bool = false
 @export var is_machine: bool = false
+@export var is_pipe: bool = false
 
 @export var amount: int = 1
 
@@ -27,6 +28,8 @@ func initialize(index: int, input_values: Array):
 	tag = StringName(input_values[2].strip_edges())
 	description = input_values[3]
 	
+	placeable_name = item_name
+	
 	if tag == StringName("tool"):
 		power = Compendium.TOOL_TIERS[item_name.split("_")[0]]
 		is_stackable = false
@@ -35,14 +38,17 @@ func initialize(index: int, input_values: Array):
 	if tag == StringName("crop"):
 		is_crop = true
 		is_placeable = true
-		placeable_name = StringName(item_name.split("_")[0])
+		var split_name = item_name.split("_")
+		placeable_name = StringName("_".join(split_name.slice(0, -1)))
 	
 	if tag == StringName("chest"):
 		is_placeable = true
 		is_chest = true
-		placeable_name = item_name
-		
+	
 	if tag == StringName("machine"):
 		is_placeable = true
 		is_machine = true
-		placeable_name = item_name
+	
+	if tag == StringName("pipe"):
+		is_placeable = true
+		is_pipe = true

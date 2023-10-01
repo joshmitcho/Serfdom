@@ -4,6 +4,7 @@ extends PlayerState
 signal tool_used(tool: String, tool_offsets: Array, power: int)
 signal place_attempted(placeable: Item, offset: Vector2i)
 
+var facing_offsets: Array[Vector2i]
 
 func enter(_msg := {}) -> void:
 	var facing_string = player.animator.animation.split("_")[-1]
@@ -16,11 +17,12 @@ func enter(_msg := {}) -> void:
 		return
 	
 	var tool_type = Inventory.get_current_tool_type()
+	var animName = tool_type.to_lower() + "_" + facing_string
 	if tool_type == "":
 		state_machine.transition_to("IdleMove")
 		return
-	
-	var animName = tool_type.to_lower() + "_" + facing_string
+	elif tool_type == StringName("pail") and current_item.power <= 0:
+		animName = "empty_" + animName
 	
 	player.animator.stop()
 	player.animator.play(animName)
@@ -30,7 +32,12 @@ func enter(_msg := {}) -> void:
 	
 	await get_tree().create_timer(0.4).timeout
 	
-	emit_signal("tool_used", tool_type, [Vector2i.ZERO, player.facing], current_item.power)
+	facing_offsets = [player.facing, Vector2i.ZERO]
+	if abs(player.facing.x) + abs(player.facing.y) == 2:
+		facing_offsets.append(Vector2i(player.facing.x, 0))
+		facing_offsets.append(Vector2i(0, player.facing.y))
+	
+	emit_signal("tool_used", tool_type, facing_offsets, current_item.power)
 	
 	await player.animator.animation_finished
 	if Input.is_action_pressed("use_item"):

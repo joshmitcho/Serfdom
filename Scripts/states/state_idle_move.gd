@@ -5,7 +5,6 @@ signal do_action_pressed(offsets: Array)
 
 var scroll_time: int = 0
 const SCROLL_DELAY: int = 7
-const HOTBAR_SIZE: int = 9
 
 func _ready():
 	Inventory.chest_opened.connect(chest_opened)
@@ -14,6 +13,11 @@ func _ready():
 func enter(_msg := {}) -> void:
 	player.velocity = Vector2.ZERO
 	var facing = player.animator.animation.split("_")[-1]
+	if facing == "right":
+		player.facing = Vector2i(1,0)
+	elif facing == "left":
+		player.facing = Vector2i(-1,0)
+
 	player.animator.set_animation(player.holding + "move_" + facing)
 	if not Input.is_action_pressed("use_item"):
 		player.animator.stop()
@@ -56,16 +60,16 @@ func handle_input(_event):
 	
 	if Input.is_action_just_released("scroll_down"):
 		if scroll_time > SCROLL_DELAY:
-			Inventory.set_active_slot((Inventory.active_index + 1) % HOTBAR_SIZE)
+			Inventory.increment_active_slot(1)
 			scroll_time = 0
 		scroll_time += 1
 	elif Input.is_action_just_released("scroll_up"):
 		if scroll_time > SCROLL_DELAY:
-			Inventory.set_active_slot((Inventory.active_index - 1) % HOTBAR_SIZE)
+			Inventory.increment_active_slot(-1)
 			scroll_time = 0
 		scroll_time += 1
 		
-	for key in range(49, 49 + HOTBAR_SIZE):
+	for key in range(49, 49 + Inventory.BAR_SIZE):
 		if Input.is_physical_key_pressed(key):
 			Inventory.set_active_slot(key - 49)
 
@@ -79,16 +83,12 @@ func physics_update(_delta: float) -> void:
 	
 	if direction.x > 0:
 		player.animator.play(player.holding + "move_right")
-		player.facing = Vector2i(1,0)
 	elif direction.x < 0:
 		player.animator.play(player.holding + "move_left")
-		player.facing = Vector2i(-1,0)
 	elif direction.y > 0:
 		player.animator.play(player.holding + "move_down")
-		player.facing = Vector2i(0,1)
 	elif direction.y < 0:
 		player.animator.play(player.holding + "move_up")
-		player.facing = Vector2i(0,-1)
 	else:
 		enter()
 		return
@@ -97,6 +97,8 @@ func physics_update(_delta: float) -> void:
 		direction.x = direction.x / abs(direction.x)
 	if direction.y != 0:
 		direction.y = direction.y / abs(direction.y)
+	
+	player.facing = Vector2i(direction)
 	
 	if abs(direction.x) + abs(direction.y) > 1:
 		player.velocity = direction * player.diagonal_movement_speed

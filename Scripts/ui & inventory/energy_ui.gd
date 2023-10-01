@@ -2,13 +2,14 @@ extends Control
 
 const ENERGY_TO_PIXEL_RATIO: float = 15.0
 const EXTRA_PIXELS: int = 15
-var max_bar_size: float
-
 const GRADIENT: Image = preload("res://Art/UI/green red gradient.png")
-const GRADIENT_WIDTH = 144
+
+var max_bar_size: float
+var bar_size: float
+
 
 func update_bar_size(new_current_energy: int):
-	var bar_size: float = max(new_current_energy, 0) / ENERGY_TO_PIXEL_RATIO
+	bar_size = max(new_current_energy, 0) / ENERGY_TO_PIXEL_RATIO
 	bar_size += EXTRA_PIXELS * (bar_size / max_bar_size)
 	
 	var energy_bar: ColorRect = $EnergyBar

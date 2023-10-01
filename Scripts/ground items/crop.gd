@@ -41,6 +41,8 @@ func initialize(p_name: StringName = "name"):
 	regrow_time = Compendium.all_crops[object_name][5]
 	if regrow_time != -1:
 		does_regrow = true
+	
+	TimeManager.new_day.connect(grow_if_watered)
 
 
 func take_hit(_power: int):
@@ -59,7 +61,6 @@ func take_hit(_power: int):
 func _on_body_entered(_body):
 	if stage != Stage.SEED:
 		$ShakeTween.start(animator, 0.1, 0.02, 0.3)
-	grow_if_watered()
 
 
 func grow_if_watered():

@@ -10,7 +10,7 @@ var bars_unlocked: int
 var slots_unlocked: int
 
 func _ready():
-	set_bars_unlocked(1)
+	set_bars_unlocked(Inventory.MAX_BARS)
 	set_initial_items()
 
 
@@ -21,7 +21,6 @@ func set_initial_items():
 func set_bars_unlocked(num_bars: int):
 	bars_unlocked = num_bars
 	slots_unlocked = bars_unlocked * Inventory.BAR_SIZE
-	print(self, " slots_unlocked: ", slots_unlocked)
 
 
 func add_items_to_inventory(p_item: Item, num: int = 1):
@@ -30,15 +29,34 @@ func add_items_to_inventory(p_item: Item, num: int = 1):
 	
 	# first check to see if new item can be stacked into existing slot
 	for i in slots_unlocked:
-		if is_instance_of(items[i], Item) and items[i].item_name == item.item_name and item.is_stackable:
-			update_item_amount(i, item.amount)
-			return
+		if (is_instance_of(items[i], Item) and items[i].item_name == item.item_name and item.is_stackable):
+			if items[i].amount + item.amount <= Inventory.MAX_STACK_AMOUNT:
+				increment_item_amount(i, item.amount)
+				return
+			elif items[i].amount < Inventory.MAX_STACK_AMOUNT:
+				var leftover_amount = item.amount - (Inventory.MAX_STACK_AMOUNT - items[i].amount)
+				increment_item_amount(i, item.amount - leftover_amount)
+				add_items_to_inventory(item, leftover_amount)
+				return
+			else:
+				continue
 	
 	# then check to see if there are empty slots
 	for i in slots_unlocked:
 		if items[i] == null:
-			set_item(i, item)
-			return
+			if item.amount <= Inventory.MAX_STACK_AMOUNT:
+				set_item(i, item)
+				return
+			else:
+				var leftover_amount = item.amount - Inventory.MAX_STACK_AMOUNT
+				item.amount = Inventory.MAX_STACK_AMOUNT
+				set_item(i, item)
+				add_items_to_inventory(item, leftover_amount)
+				return
+	
+	# if it ever gets here, then the container overflowed. Drop excess on the ground
+	emit_signal("item_dropped", Inventory.CURSOR_INDEX, item)
+	print("dropped")
 
 func set_item(item_index, item) -> Item:
 	var previous_item = items[item_index]
@@ -58,7 +76,7 @@ func swap_items(item_index, target_item_index):
 	emit_signal("items_changed", [item_index, target_item_index])
 
 
-func update_item_amount(item_index, delta):
+func increment_item_amount(item_index, delta):
 	if items[item_index].amount + delta <= 0:
 		remove_item(item_index)
 	else:
@@ -75,7 +93,11 @@ func remove_item(item_index) -> Item:
 
 func does_container_have_room(new_item: Item) -> bool:
 	for i in slots_unlocked:
-		if items[i] == null or (items[i].item_name == new_item.item_name and new_item.is_stackable):
+		if items[i] == null or (
+			items[i].item_name == new_item.item_name
+			and new_item.is_stackable
+			and items[i].amount < Inventory.MAX_STACK_AMOUNT
+		):
 			return true
 	return false
 

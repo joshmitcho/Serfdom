@@ -1,9 +1,11 @@
 # map.gd
 extends TileMap
 
-enum LAYER_NAMES {BASE_LAYER, GRASS, WATERED_SOIL, GROUND_ITEMS, DECORATION_LOW, DECORATION_HIGH, WATER}
-const GROUND_ITEMS_SOURCE_ID: int = 2
-const GROUND_ITEMS_SPAWN_RATE: float = 1.0 / 5
+enum LAYER_NAMES {BASE, DUG_SOIL, WATERED_SOIL, GRASS, WATER, PIPES, GROUND_ITEMS, DECORATION_LOW, DECORATION_HIGH}
+const SCENE_TILES_SOURCE_ID: int = 2
+const WATER_SOURCE_ID: int = 10
+const GROUND_ITEMS_SPAWN_RATE: float = 1.0 / 50
+const TREES_PERCENT: float = 0.3
 
 @onready var player: Player = %Player
 
@@ -12,11 +14,11 @@ var current_held_item: Item
 const GREEN_HIGHLIGHT = Color("00ff0050")
 const RED_HIGHLIGHT = Color("ff000050")
 
-var destroyables: Array = []
+var destroyables: Dictionary = {}
 const destroyable_base = preload("res://Scenes/ground items/destroyable.tscn")
 const drop_base = preload("res://Scenes/ui & inventory/drop.tscn")
 
-@onready var canvas_modulate = %CanvasModulate
+@onready var day_night_cycle = %DayNightCycle
 @onready var time_money_ui = %TimeMoneyUI
 @onready var sound_machine = %SoundMachine
 
@@ -32,39 +34,28 @@ func _ready():
 	Inventory.money_supply_changed.connect(time_money_ui.set_money)
 	Inventory.item_dropped.connect(drop_item)
 	
-	var cells = get_used_cells(LAYER_NAMES.BASE_LAYER)
+	set_destroyable_cells()
+	time_money_ui.set_money.call_deferred(Inventory.money_supply)
+
+
+func set_destroyable_cells():
+	var cells = get_used_cells(LAYER_NAMES.BASE)
 	cells.erase(local_to_map(player.position))
+	
 	for i in cells.size() * GROUND_ITEMS_SPAWN_RATE:
 		var rand_cell_coords = cells.pick_random()
 		if is_tile_empty(rand_cell_coords):
-			set_cell(LAYER_NAMES.GROUND_ITEMS, rand_cell_coords, GROUND_ITEMS_SOURCE_ID, Vector2i.ZERO, 0)
-	
-	load_destroyables.call_deferred(Compendium.farm_destroyable_keys, 0.75)
+			set_cell(LAYER_NAMES.GROUND_ITEMS, rand_cell_coords, SCENE_TILES_SOURCE_ID, Vector2i.ZERO, int(randf() + TREES_PERCENT))
+	initialize_destroyables.call_deferred(Compendium.farm_destroyable_keys, Compendium.tree_keys)
 
 
-func load_destroyables(names: Array, trees_percent: float = 0.0):
-	var split_index = int(destroyables.size() * trees_percent)
-	initialize_destroyables(names, destroyables.slice(0, split_index))
-	initialize_destroyables(Compendium.tree_keys, destroyables.slice(split_index), "stump")
-
-
-func initialize_destroyables(names: Array, dest: Array, second_stage: String = ""): 
-	var index: int = 0
-	for i in names.size():
-		while index < dest.size() / (names.size() / (i+1.0)):
-			var object = dest[index]
-			object.initialize(names[i])
-			object.destroyed.connect(spawn_drops)
-			if second_stage != "": # Add stump destroyable if it's a tree
-				var growth_stage = names[i].right(2)
-				var second_object = destroyable_base.instantiate()
-				second_object.position = object.position
-				add_child(second_object)
-				move_child(second_object, index)
-				second_object.initialize(second_stage + growth_stage)
-				second_object.destroyed.connect(spawn_drops)
-				second_object.scale = object.scale
-			index += 1
+func initialize_destroyables(names: Array, tree_names: Array):
+	for destroyable in destroyables.values():
+		if destroyable is WoodTree:
+			destroyable.initialize(tree_names.pick_random())
+		else:
+			destroyable.initialize(names.pick_random())
+		destroyable.items_dropped.connect(spawn_drops)
 
 func do_action_pressed(offsets: Array):
 	var action_tiles: Array = []
@@ -75,11 +66,10 @@ func do_action_pressed(offsets: Array):
 		# if you're talking to an NPC
 		#for npc in NPCs: ...
 	
-		# if you're opening a chest
-		for destroyable in destroyables:
-			if local_to_map(destroyable.position) == tile:
-				destroyable.do_action()
-				return
+		# if you're interacting with a machine/chest
+		if tile in destroyables:
+			destroyables[tile].do_action()
+			return
 
 func _on_player_tool_used(tool: StringName, tool_offsets: Array, power: int):
 	var tool_tiles: Array = []
@@ -91,17 +81,13 @@ func _on_player_tool_used(tool: StringName, tool_offsets: Array, power: int):
 	elif tool == StringName("pail"):
 		use_pail(tool_tiles)
 	else:
-		use_other_tool(tool, tool_tiles, power)
+		use_breaking_tool(tool, tool_tiles, power)
 
 
 func use_shovel(tool_tiles: Array):
-	if not is_tile_empty(tool_tiles[0]):
-		play_whiff_sound()
-		return
-	tool_tiles.reverse()
 	for tile in tool_tiles:
 		if is_tile_tillable(tile):
-			set_cells_terrain_connect(LAYER_NAMES.GRASS, [tile], 1, 0)
+			set_cells_terrain_connect(LAYER_NAMES.DUG_SOIL, [tile], 1, 0)
 			sfx_player.set_stream(dig_sfx)
 			sfx_player.play()
 			return
@@ -109,75 +95,101 @@ func use_shovel(tool_tiles: Array):
 
 
 func use_pail(tool_tiles: Array):
-	sfx_player.set_stream(watering_sfx)
-	sfx_player.play()
-	tool_tiles.reverse()
+	var pail = Inventory.get_current_item()
+
 	for tile in tool_tiles:
-		if (get_cell_source_id(LAYER_NAMES.GRASS, tile) == 3
-		and get_cell_source_id(LAYER_NAMES.WATERED_SOIL, tile) != 3):
-			set_cells_terrain_connect(LAYER_NAMES.WATERED_SOIL, [tile], 1, 1)
-			return
+		if is_tile_over_water(tile):
+			pail.power = Compendium.TOOL_TIERS[pail.item_name.split("_")[0]] + 1
+			break
+	
+	if pail.power > 0:
+		pail.power -= 1
+		Inventory.emit_signal("items_changed", [Inventory.active_index])
+		sfx_player.set_stream(watering_sfx)
+		sfx_player.play()
+		for tile in tool_tiles:
+			if get_cell_source_id(LAYER_NAMES.DUG_SOIL, tile) >= 0:
+				set_cells_terrain_connect(LAYER_NAMES.WATERED_SOIL, [tile], 1, 1)
+				return
 
 
-func use_other_tool(tool: StringName, tool_tiles: Array, power: int):
+func use_breaking_tool(tool: StringName, tool_tiles: Array, power: int):
 	for tile in tool_tiles:
-		for destroyable in destroyables:
-			if local_to_map(destroyable.position) == tile:
-				if destroyable.is_dying:
-					continue
-				if tool == destroyable.compatible_tool_type:
-					destroyable.take_hit(power)
-					return
+		if tile in destroyables:
+			var destroyable = destroyables[tile]
+			if destroyable.is_dying:
+				continue
+			if tool == destroyable.compatible_tool_type:
+				destroyable.take_hit(power)
+				return
 	play_whiff_sound()
 
 
-func play_whiff_sound():
-	if Inventory.get_current_tool_type() == StringName("sickle"):
-		sfx_player.set_stream(swish_sfx)
-	else:
-		sfx_player.set_stream(thud_sfx)
-	sfx_player.play()
-
-
 func _on_player_place_attempted(placeable: Item, offset: Vector2i):
-	var place_success: bool = false
 	var tile = local_to_map(player.position) + offset
-	if placeable.is_crop and is_tile_plantable(tile):
-#		print("-----\nbefore: ", destroyables[-1].object_name, " ", destroyables[-1])
-		set_cell(LAYER_NAMES.GROUND_ITEMS, tile, GROUND_ITEMS_SOURCE_ID, Vector2i.ZERO, 1)
-		place_success = true
-	elif placeable.is_chest and is_tile_empty(tile):
-		set_cell(LAYER_NAMES.GROUND_ITEMS, tile, GROUND_ITEMS_SOURCE_ID, Vector2i.ZERO, 3)
-		place_success = true
-	elif placeable.is_machine and is_tile_empty(tile):
-		set_cell(LAYER_NAMES.GROUND_ITEMS, tile, GROUND_ITEMS_SOURCE_ID, Vector2i.ZERO, 4)
-		place_success = true
 	
-	if place_success:
-		initialize_placeable.call_deferred(placeable.placeable_name)
-		Inventory.update_item_amount(Inventory.active_index, -1)
+	if tile_aim_indicator.modulate == GREEN_HIGHLIGHT:
+		if placeable.is_crop:
+			set_cell(LAYER_NAMES.GROUND_ITEMS, tile, SCENE_TILES_SOURCE_ID, Vector2i.ZERO, 2)
+		elif placeable.is_chest:
+			set_cell(LAYER_NAMES.GROUND_ITEMS, tile, SCENE_TILES_SOURCE_ID, Vector2i.ZERO, 3)
+		elif placeable.is_machine:
+			set_cell(LAYER_NAMES.GROUND_ITEMS, tile, SCENE_TILES_SOURCE_ID, Vector2i.ZERO, 4)
+		elif placeable.is_pipe:
+			set_cell(LAYER_NAMES.GROUND_ITEMS, tile, SCENE_TILES_SOURCE_ID, Vector2i.ZERO, 5)
+			set_cells_terrain_connect(LAYER_NAMES.PIPES, [tile], 2, 0)
+		
+		initialize_placeable.call_deferred(tile, placeable.placeable_name)
+		Inventory.increment_item_amount(Inventory.active_index, -1)
 		_on_player_hold_changed()
 
 
-func initialize_placeable(placeable_name: StringName):
-#	var crops = Utils.get_children_of_type(self, Crop)
-	var object = destroyables[-1]
-#	print("after: ", object.object_name, " ", object)
-	object.initialize(placeable_name)
-	object.destroyed.connect(spawn_drops)
+func initialize_placeable(tile: Vector2i, placeable_name: StringName):
+	var placeable = destroyables[tile]
+	placeable.initialize(placeable_name)
+	placeable.items_dropped.connect(spawn_drops)
+	if is_tile_over_water(tile):
+		placeable.is_in_water = true
+
+
+func irrigate():
+	var all_pipe_tiles = get_used_cells(LAYER_NAMES.PIPES)
+#	first sever all pipe connections (except in-water pipes)	
+	for tile in all_pipe_tiles:
+		if not destroyables[tile].is_in_water:
+			destroyables[tile].irrigate(false)
+	
+#	then loop through again to find an in-water pipe to start from
+	for tile in all_pipe_tiles:
+		if destroyables[tile].is_in_water:
+			propagate_irrigation(tile, destroyables[tile])
+			
+
+
+func propagate_irrigation(tile: Vector2i, pipe: Pipe):
+	pipe.irrigate(true)
+	var neighbor_tiles = get_surrounding_cells(tile)
+	for neighbor_tile in neighbor_tiles:
+		if get_cell_source_id(LAYER_NAMES.DUG_SOIL, neighbor_tile) >= 0:
+			set_cells_terrain_connect(LAYER_NAMES.WATERED_SOIL, [neighbor_tile], 1, 1)
+		if neighbor_tile in destroyables:
+			var neighbor_pipe = destroyables[neighbor_tile]
+			if neighbor_pipe is Pipe and not neighbor_pipe.is_connected_to_water:
+				propagate_irrigation(neighbor_tile, neighbor_pipe)
 
 
 func drop_item(_i: int, item: Item):
 	var drop: Drop = drop_base.instantiate()
 	drop.initialize(item, get_local_mouse_position(), 0)
-	spawn_drops([drop])
+	spawn_drops([drop], null, false)
 
 
-func spawn_drops(drops: Array[Drop], destroyable_position: Vector2 = Vector2(999, 999)):
-	if destroyable_position != Vector2(999, 999):
-		set_cell(LAYER_NAMES.GROUND_ITEMS, local_to_map(destroyable_position), -1)
-		erase_cell(LAYER_NAMES.GROUND_ITEMS, local_to_map(destroyable_position))
-#		print("removed")
+func spawn_drops(drops: Array[Drop], destroyable_position, remove: bool = true):
+	if destroyable_position != null and remove:
+		var tile_position = local_to_map(destroyable_position)
+		erase_cell(LAYER_NAMES.PIPES, tile_position)
+		erase_cell(LAYER_NAMES.GROUND_ITEMS, tile_position)
+		destroyables.erase(tile_position)
 	for drop in drops:
 		add_child(drop)
 		drop.spawn()
@@ -188,10 +200,13 @@ func _physics_process(_delta):
 	var snapped_position = map_to_local(map_space_posistion)  + Vector2(-8, -8)
 	tile_aim_indicator.position = tile_aim_indicator.position.slerp(snapped_position, 0.5)
 	tile_aim_indicator.modulate = tile_aim_indicator_colour(map_space_posistion)
+	
+	if Input.is_action_just_pressed("shift_toolbar"):
+		irrigate()
 
 
 func tile_aim_indicator_colour(tile: Vector2i):
-	if is_instance_of(current_held_item, Item) and is_tile_empty(local_to_map(player.position)):
+	if is_instance_of(current_held_item, Item):
 		if current_held_item.is_crop:
 			if is_tile_plantable(tile):
 				return GREEN_HIGHLIGHT
@@ -199,18 +214,19 @@ func tile_aim_indicator_colour(tile: Vector2i):
 				return RED_HIGHLIGHT
 		elif current_held_item.is_placeable and is_tile_empty(tile):
 			return GREEN_HIGHLIGHT
-		else:
-			return RED_HIGHLIGHT
-	else:
-		return RED_HIGHLIGHT
+		elif current_held_item.is_pipe and is_tile_empty(tile, [LAYER_NAMES.WATER]):
+			return GREEN_HIGHLIGHT
+	return RED_HIGHLIGHT
 
 
 func is_tile_tillable(tile_coord: Vector2i):
 	if not is_tile_empty(tile_coord):
 		return false
-	if get_cell_source_id(LAYER_NAMES.BASE_LAYER, tile_coord) == -1:
+	if get_cell_source_id(LAYER_NAMES.BASE, tile_coord) == -1:
 		return false
 	if get_cell_source_id(LAYER_NAMES.GRASS, tile_coord) != -1:
+		return false
+	if get_cell_source_id(LAYER_NAMES.DUG_SOIL, tile_coord) != -1:
 		return false
 	return true
 
@@ -218,7 +234,7 @@ func is_tile_tillable(tile_coord: Vector2i):
 func is_tile_plantable(tile_coord: Vector2i):
 	if not is_tile_empty(tile_coord):
 		return false
-	if get_cell_source_id(LAYER_NAMES.GRASS, tile_coord) != 3:
+	if get_cell_source_id(LAYER_NAMES.DUG_SOIL, tile_coord) != 3:
 		return false
 	return true
 
@@ -227,12 +243,17 @@ func is_tile_watered(crop_position: Vector2):
 	return get_cell_source_id(LAYER_NAMES.WATERED_SOIL, local_to_map(crop_position)) == 3
 
 
-func is_tile_empty(tile_coord: Vector2i):
-	for dest in destroyables:
-		if local_to_map(dest.position) == tile_coord:
-			return false
-	for i in range(LAYER_NAMES.GROUND_ITEMS, LAYER_NAMES.keys().size()):
-		if get_cell_source_id(i, tile_coord) != -1:
+func is_tile_over_water(tile: Vector2i):
+	return get_cell_source_id(LAYER_NAMES.WATER, tile) == 10
+
+
+func is_tile_empty(tile_coord: Vector2i, ignored_layers: Array = []):
+	if tile_coord in destroyables:
+		return false
+	for layer in range(LAYER_NAMES.WATER, LAYER_NAMES.keys().size()):
+		if layer in ignored_layers:
+			continue
+		if get_cell_source_id(layer, tile_coord) != -1:
 			return false
 	return true
 
@@ -243,3 +264,11 @@ func _on_player_hold_changed():
 		tile_aim_indicator.visible = true
 	else:
 		tile_aim_indicator.visible = false
+
+
+func play_whiff_sound():
+	if Inventory.get_current_tool_type() == StringName("sickle"):
+		sfx_player.set_stream(swish_sfx)
+	else:
+		sfx_player.set_stream(thud_sfx)
+	sfx_player.play()

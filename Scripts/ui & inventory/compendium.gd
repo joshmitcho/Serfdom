@@ -34,6 +34,12 @@ const TOOL_TIERS: Dictionary = {
 	"mithril": 30
 }
 
+const CHEST_SIZES: Dictionary = {
+	"crude": 1,
+	"improved": 2,
+	"deluxe": 3
+}
+
 const all_destroyables: Dictionary = {
 	"stump_0": [
 		"axe", 20,
@@ -93,6 +99,7 @@ const all_destroyables: Dictionary = {
 
 var tree_keys = all_destroyables.keys().slice(TREES_INDICES.x, TREES_INDICES.y)
 var farm_destroyable_keys = all_destroyables.keys().slice(FARM_DESTROYABLES_INDICES.x, FARM_DESTROYABLES_INDICES.y)
+var forest_destroyable_keys = all_destroyables.keys().slice(FOREST_DESTROYABLES_INDICES.x, FOREST_DESTROYABLES_INDICES.y)
 var mine_destroyable_keys = all_destroyables.keys().slice(MINE_DESTROYABLES_INDICES.x, MINE_DESTROYABLES_INDICES.y)
 
 func _ready():
