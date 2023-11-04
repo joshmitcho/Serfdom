@@ -1,0 +1,25 @@
+~ test
+
+daru: monarchy
+swain: serf
+=> test
+
+=> END!
+
+
+~ start
+
+daru: [[Hi|Hello|Howdy]], I'm Daru and this is Swain.
+swain: Meow.
+daru: [#angry]Here are some response options.
+- First one
+	daru: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+- Start Again
+	daru: You want to start again? ok.
+	=> start
+- End the conversation => END
+daru: [#cry]I hope this example is helpful.
+swain: Meow.
+
+
+=> END

@@ -4,13 +4,13 @@ extends Control
 class_name PickupNotification
 
 @onready var pickup_name_display: Label = $PickupText
-@onready var item_sprite: ShadowSprite = %ShadowSprite
+@onready var item_sprite: ShadowedSprite = %ShadowSprite
 @onready var item_amount_label = %PickupQuantity
 
 var item: Item
 
 var alive_time: float
-const LIFETIME: float = 2.7
+const LIFETIME: float = 3.0
 const FADE_TIME: float = 0.8
 
 func initialize(p_item: Item, amount: int):

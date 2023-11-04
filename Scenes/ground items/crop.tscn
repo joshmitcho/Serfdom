@@ -32,6 +32,10 @@ region = Rect2(560, 256, 16, 32)
 atlas = ExtResource("3_te2im")
 region = Rect2(176, 64, 16, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_fd58k"]
+atlas = ExtResource("3_te2im")
+region = Rect2(560, 64, 16, 32)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_tu2wf"]
 atlas = ExtResource("3_te2im")
 region = Rect2(368, 64, 16, 32)
@@ -51,10 +55,6 @@ region = Rect2(464, 64, 16, 32)
 [sub_resource type="AtlasTexture" id="AtlasTexture_td7sh"]
 atlas = ExtResource("3_te2im")
 region = Rect2(496, 64, 16, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_fd58k"]
-atlas = ExtResource("3_te2im")
-region = Rect2(560, 64, 16, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_5j45q"]
 animations = [{
@@ -91,6 +91,9 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_fd58k")
+}, {
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_tu2wf")
 }, {
 "duration": 1.0,
@@ -104,9 +107,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_td7sh")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_fd58k")
 }],
 "loop": false,
 "name": &"wheat",
@@ -136,10 +136,6 @@ shape = SubResource("RectangleShape2D_qxhk0")
 visible = false
 position = Vector2(0, -4)
 occluder = SubResource("OccluderPolygon2D_r2gf4")
-
-[node name="HitSFXPlayer" type="AudioStreamPlayer" parent="."]
-
-[node name="BreakSFXPlayer" type="AudioStreamPlayer" parent="."]
 
 [node name="ShakeTween" type="Node2D" parent="."]
 script = ExtResource("5_tbgrn")

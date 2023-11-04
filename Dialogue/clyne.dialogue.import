@@ -1,0 +1,15 @@
+[remap]
+
+importer="dialogue_manager_compiler_10"
+type="Resource"
+uid="uid://boy5bn3jn0kgf"
+path="res://.godot/imported/clyne.dialogue-28505f4936d77f11dfab19beed6d6153.tres"
+
+[deps]
+
+source_file="res://Dialogue/clyne.dialogue"
+dest_files=["res://.godot/imported/clyne.dialogue-28505f4936d77f11dfab19beed6d6153.tres"]
+
+[params]
+
+defaults=true

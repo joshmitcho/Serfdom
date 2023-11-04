@@ -47,7 +47,7 @@ func start(sprite, threshold = 0.1, duration = 0.02, recovery = 0.3):
 		_recenter()
 	
 	# Complete
-	emit_signal("tween_completed")
+	tween_completed.emit()
 
 
 func _tilt_left(x, r) -> Tween:

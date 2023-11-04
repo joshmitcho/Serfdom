@@ -1,17 +1,17 @@
 extends CenterContainer
 class_name CursorItemDisplay
 
-var item_sprite: ShadowSprite
+var item_sprite: ShadowedSprite
 @onready var item_amount_label = %ItemAmountLabel
 
 func _ready():
 	item_sprite = $ShadowSprite
 	item_sprite.initialize(Compendium.items_spritesheet, Compendium.num_sprites, Vector2i(-3, 5))
-	item_sprite.visible = false
+	item_sprite.hide()
 
 func display_item(item: Item):
-	if is_instance_of(item, Item):
-		item_sprite.visible = true
+	if item is Item:
+		item_sprite.show()
 		item_sprite.change_frame(item.compendium_index)
 
 		if item.amount > 1:
@@ -20,7 +20,7 @@ func display_item(item: Item):
 			item_amount_label.text = ""
 			
 	else:
-		item_sprite.visible = false
+		item_sprite.hide()
 		item_amount_label.text = ""
 
 func _on_clicked():
@@ -28,7 +28,7 @@ func _on_clicked():
 	var my_item = Inventory.items[my_item_index]
 	var cursor_item = Inventory.items[Inventory.CURSOR_INDEX]
 	
-	if (is_instance_of(my_item, Item) and is_instance_of(cursor_item, Item)
+	if (my_item is Item and cursor_item is Item
 	and my_item.item_name == cursor_item.item_name and my_item.stackable):
 		Inventory.increment_item_amount(my_item_index, cursor_item.amount)
 		Inventory.remove_item(Inventory.CURSOR_INDEX)

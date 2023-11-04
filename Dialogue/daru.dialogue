@@ -1,0 +1,13 @@
+#daru.dialogue
+#_year_season_dayOfWeek
+
+~ _0_0_0
+daru: [#dead][wait=0.3][speed=0.3]I hate Mondays...
+	
+=> END
+
+~ _0_0_1
+daru: [#teeth][[Hi|Hello|Howdy]], lovely Tuesday isn't it?
+
+=> END
+

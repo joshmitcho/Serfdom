@@ -23,8 +23,7 @@ var sfx_index: int = 0
 var animator: AnimatedSprite2D
 var shadow_animator: AnimatedSprite2D
 var shake_tween
-@onready var hit_sfx_player = $HitSFXPlayer
-@onready var break_sfx_player = $BreakSFXPlayer
+
 
 func _ready():
 	shake_tween = get_node_or_null("ShakeTween")
@@ -62,23 +61,22 @@ func initialize(p_name: StringName = "name"):
 
 
 func _physics_process(_delta):
-	shadow_animator.self_modulate = DayNightCycle.shadow_modulate
+	shadow_animator.self_modulate = DayNightModulate.shadow_modulate
 
-func play_pitched_sfx(player, sfx):
-	player.set_stream(sfx)
-	player.set_pitch_scale(sfx_pitches[sfx_index])
+
+func play_pitched_sfx(sfx):
+	SoundManager.play_pitched_sfx(sfx, sfx_pitches[sfx_index])
 	if sfx_index < sfx_pitches.size() - 1:
 		sfx_index += 1
 	else:
 		sfx_pitches.shuffle()
 		sfx_index = 0
-	player.play()
 
 
 func take_hit(power: int):
 	shake_tween.start(shadow_animator)
 	shake_tween.start(animator)
-	play_pitched_sfx(hit_sfx_player, hit_sfx)
+	play_pitched_sfx(hit_sfx)
 	total_damage += power
 	if total_damage >= starting_health:
 		die()
@@ -87,8 +85,8 @@ func take_hit(power: int):
 
 func die():
 	is_dying = true
-	if is_instance_of(self, Placeable):
-		animator.visible = false
+	if self is Placeable:
+		animator.hide()
 	else:
 		animator.play()
 		shadow_animator.play()
@@ -97,12 +95,9 @@ func die():
 	if get_node_or_null("LightOccluder2D"):
 		$LightOccluder2D.occluder = null
 	
-	play_pitched_sfx(break_sfx_player, die_sfx.pick_random())
-	
-	get_parent().destroyables.erase(self)
+	play_pitched_sfx(die_sfx.pick_random())
 	drop_items()
-	
-	await break_sfx_player.finished
+	await animator.animation_finished
 	queue_free()
 
 
@@ -113,7 +108,7 @@ func drop_items(remove: bool = true):
 		drop.initialize(Compendium.all_items[drop_types.pick_random()], position, drop_offsets[i % drop_offsets.size()])
 		drops.push_front(drop)
 	
-	emit_signal("items_dropped", drops, position, remove)
+	items_dropped.emit(drops, position, remove)
 
 
 func do_action():

@@ -1,0 +1,15 @@
+[remap]
+
+importer="dialogue_manager_compiler_10"
+type="Resource"
+uid="uid://dxxjhfd2wn8hx"
+path="res://.godot/imported/bloom.dialogue-af08465e277424af05fe85fc2a8caa50.tres"
+
+[deps]
+
+source_file="res://Dialogue/bloom.dialogue"
+dest_files=["res://.godot/imported/bloom.dialogue-af08465e277424af05fe85fc2a8caa50.tres"]
+
+[params]
+
+defaults=true

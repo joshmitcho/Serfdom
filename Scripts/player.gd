@@ -18,7 +18,7 @@ signal hotbar_to_bottom()
 
 var linear_movement_speed: int = 90
 var diagonal_movement_speed: int = 60
-var facing: Vector2i
+var facing: Vector2i = Vector2i(0, 1)
 var holding: String = ""
 
 var sfx_pitches: Array = [0.943874, 1.0, 1.059463, 1.122455, 1.33484]
@@ -33,7 +33,11 @@ var current_energy: int = max_energy
 @onready var player_shadow = $PlayerShadow
 @onready var animator = %SpriteAnimator
 @onready var tool_animator = %ToolAnimator
-@onready var hold_sprite: ShadowSprite = %HoldSprite
+@onready var hold_sprite: ShadowedSprite = %HoldSprite
+@onready var magnetism_area: Area2D = $MagnetismArea
+@onready var pickup_area: Area2D = $PickupArea
+
+const sfx_pop = preload("res://SFX/pop.wav")
 
 
 func _ready():
@@ -46,76 +50,75 @@ func _ready():
 	hold_sprite.initialize(Compendium.items_spritesheet, Compendium.num_sprites, Vector2i(0, 2))
 	end_hold()
 	
-	emit_signal("max_energy_changed", max_energy)
-	emit_signal("current_energy_changed", current_energy)
+	max_energy_changed.emit(max_energy)
+	current_energy_changed.emit(current_energy)
 
 
 func _on_tool_used(tool: String, offset: Array, power: int):
-	emit_signal("tool_used", tool, offset, power)
+	tool_used.emit(tool, offset, power)
 	current_energy -= 2
-	emit_signal("current_energy_changed", current_energy)
+	current_energy_changed.emit(current_energy)
 
 
 func _on_place_attempted(placeable: Item, offset: Vector2i):
-	emit_signal("place_attempted", placeable, offset)
+	place_attempted.emit(placeable, offset)
 
 
 func _on_do_action_pressed(offsets: Array):
-	emit_signal("do_action_pressed", offsets)
+	do_action_pressed.emit(offsets)
 
 
 func _physics_process(_delta):
-	player_shadow.self_modulate = DayNightCycle.shadow_modulate
+	player_shadow.self_modulate = DayNightModulate.shadow_modulate
 	
 	if position.y - camera.get_screen_center_position().y > 30:
-		emit_signal("hotbar_to_top")
+		hotbar_to_top.emit()
 	elif position.y - camera.get_screen_center_position().y < 2:
-		emit_signal("hotbar_to_bottom")
+		hotbar_to_bottom.emit()
 	
-	var overlapping_areas: Array = $MagnetismArea.get_overlapping_areas()
+	var overlapping_areas: Array = magnetism_area.get_overlapping_areas()
 	for area in overlapping_areas:
-		if (is_instance_of(area, Drop) and area.pickupable
+		if (area is Drop and area.pickupable
 		and Inventory.does_container_have_room(area.item)):
 			area.set_gravity_center(position)
 	
-	overlapping_areas = $PickupArea.get_overlapping_areas()
+	overlapping_areas = pickup_area.get_overlapping_areas()
 	for area in overlapping_areas:
-		if (is_instance_of(area, Drop) and area.pickupable
+		if (area is Drop and area.pickupable
 		and Inventory.does_container_have_room(area.item)):
 			drop_picked_up(area.item)
 			area.queue_free()
 
 
 func drop_picked_up(item: Item):
-	$PopSFXPlayer.set_pitch_scale(sfx_pitches[sfx_index])
-	$PopSFXPlayer.play()
+	SoundManager.play_pitched_sfx(sfx_pop, sfx_pitches[sfx_index])
 	if sfx_index < sfx_pitches.size() - 1:
 		sfx_index += 1
 	else:
 		sfx_pitches.shuffle()
 		sfx_index = 0
 	Inventory.add_items_to_inventory(item, item.amount)
-	emit_signal("item_picked_up", item, item.amount)
+	item_picked_up.emit(item, item.amount)
 
 
 func new_active_item(_index):
 	var active_item: Item = Inventory.get_current_item()
-	if not is_instance_of(active_item, Item):
+	if not active_item is Item:
 		end_hold()
 		return
 	if active_item.is_placeable:
 		start_hold(active_item)
 	else:
 		end_hold()
-	emit_signal("hold_changed")
+	hold_changed.emit()
 
 
 func start_hold(item: Item):
 	holding = "hold_"
-	hold_sprite.visible = true
+	hold_sprite.show()
 	hold_sprite.change_frame(item.compendium_index)
 
 
 func end_hold():
 	holding = ""
-	hold_sprite.visible = false
+	hold_sprite.hide()

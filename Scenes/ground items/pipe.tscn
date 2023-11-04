@@ -43,17 +43,12 @@ z_index = 1
 sprite_frames = SubResource("SpriteFrames_pkc24")
 animation = &"irrigation_pipe"
 
-[node name="HitSFXPlayer" type="AudioStreamPlayer" parent="."]
-
-[node name="BreakSFXPlayer" type="AudioStreamPlayer" parent="."]
-
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
 z_index = 11
 position = Vector2(0, -4)
 emitting = false
 amount = 150
 lifetime = 0.5
-one_shot = true
 lifetime_randomness = 0.3
 fixed_fps = 24
 draw_order = 1

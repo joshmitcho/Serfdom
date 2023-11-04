@@ -15,7 +15,7 @@ func handle_input(_event):
 		return
 	
 	if Input.is_action_just_pressed("menu"):
-		Inventory.emit_signal("chest_closed")
+		Inventory.chest_closed.emit()
 		state_machine.transition_to("IdleMove")
 
 func exit(_msg := {}) -> void:

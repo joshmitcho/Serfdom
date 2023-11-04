@@ -1,0 +1,15 @@
+[remap]
+
+importer="dialogue_manager_compiler_10"
+type="Resource"
+uid="uid://cdcn88yd8wqcy"
+path="res://.godot/imported/daru.dialogue-0821527798d0dff577752f43fe7710aa.tres"
+
+[deps]
+
+source_file="res://Dialogue/daru.dialogue"
+dest_files=["res://.godot/imported/daru.dialogue-0821527798d0dff577752f43fe7710aa.tres"]
+
+[params]
+
+defaults=true

@@ -5,7 +5,7 @@ class_name Placeable
 
 func initialize(p_name: StringName = "name"):
 	sfx_pitches.shuffle()
-	play_pitched_sfx(hit_sfx_player, Compendium.sfx_axe)
+	play_pitched_sfx(Compendium.sfx_axe)
 	object_name = p_name
 	
 	animator.animation = object_name

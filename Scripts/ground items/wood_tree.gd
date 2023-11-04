@@ -38,10 +38,10 @@ func take_hit(power: int):
 	shake_tween.start(shadow_animator, stop_threshold, subtween_duration, recovery_factor)
 	if is_stump:
 		shake_tween.start(stump_animator, stop_threshold, subtween_duration, recovery_factor)
-		play_pitched_sfx(hit_sfx_player, stump_hit_sfx)
+		play_pitched_sfx(stump_hit_sfx)
 	else:
 		shake_tween.start(animator, stop_threshold, subtween_duration, recovery_factor)
-		play_pitched_sfx(hit_sfx_player, hit_sfx)
+		play_pitched_sfx(hit_sfx)
 	total_damage += power
 	if total_damage >= starting_health:
 		die()
@@ -63,12 +63,11 @@ func fell():
 	total_damage = 0
 	starting_health = stump_health
 	
-	play_pitched_sfx(break_sfx_player, die_sfx.pick_random())
+	play_pitched_sfx(die_sfx.pick_random())
 	drop_items(false)
 	drops = []
-	
-	await break_sfx_player.finished
-	animator.visible = false
+	await animator.animation_finished
+	animator.hide()
 
 
 func stump_die():
@@ -78,13 +77,8 @@ func stump_die():
 	$PhysicsCollider.set_collision_layer(0)
 	$LightOccluder2D.occluder = null
 	
-	play_pitched_sfx(break_sfx_player, stump_die_sfx.pick_random())
+	play_pitched_sfx(stump_die_sfx.pick_random())
 	drop_items()
-	
-	get_parent().destroyables.erase(self)
-	
-	await break_sfx_player.finished
-	queue_free()
 
 
 func do_action():
@@ -92,11 +86,11 @@ func do_action():
 	shake_tween.start(animator, stop_threshold, subtween_duration, recovery_factor)
 
 func _on_invisibility_trigger_body_entered(body):
-	if is_instance_of(body, Player):
+	if body is Player:
 		var tween = create_tween()
 		tween.tween_property(animator, "modulate", Color(1, 1, 1, 0.4), 0.15)
 
 func _on_invisibility_trigger_body_exited(body):
-	if is_instance_of(body, Player):
+	if body is Player:
 		var tween = create_tween()
 		tween.tween_property(animator, "modulate", Color.WHITE, 0.15)

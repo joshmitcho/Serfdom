@@ -23,7 +23,7 @@ func _ready():
 	Inventory.toggle_menu.connect(toggle_menu)
 	Inventory.chest_opened.connect(open_chest)
 	Inventory.chest_closed.connect(close_chest)
-	Utils.zoom_changed.connect(_on_zoom_changed)
+	SettingsManager.zoom_changed.connect(_on_zoom_changed)
 	
 	inventory_atlas.atlas = inventory_texture
 	
@@ -37,7 +37,7 @@ func _ready():
 
 func open_menu(tab: int = 0):
 	tab_bar.current_tab = tab
-	tab_bar.visible = true
+	tab_bar.show()
 	inventory_atlas.region = inventory_atlas_rects[Inventory.bars_unlocked - 1]
 	inventory_texture_rect.texture = inventory_atlas
 	inventory_texture_rect.reset_size()
@@ -47,7 +47,7 @@ func open_menu(tab: int = 0):
 	
 	for slot in inventory_display.slots:
 		if slot.is_hideable:
-			slot.visible = true
+			slot.show()
 
 
 func open_chest():
@@ -61,7 +61,7 @@ func open_chest():
 	
 	for slot in inventory_display.slots:
 		if slot.is_hideable:
-			slot.visible = true
+			slot.show()
 
 
 func close_chest():
@@ -76,12 +76,12 @@ func close_chest():
 	
 	for slot in inventory_display.slots:
 		if slot.is_hideable:
-			slot.visible = false
+			slot.hide()
 
 
 func close_menu():
 	tab_bar.current_tab = 0
-	tab_bar.visible = false
+	tab_bar.hide()
 	inventory_texture_rect.texture = hotbar_texture
 	inventory_texture_rect.reset_size()
 	if is_hotbar_at_top:
@@ -92,7 +92,7 @@ func close_menu():
 	
 	for slot in inventory_display.slots:
 		if slot.is_hideable:
-			slot.visible = false
+			slot.hide()
 
 
 func toggle_menu(tab: int):
@@ -109,9 +109,9 @@ func _on_tab_changed(tab):
 	
 	for i in menu_pages.size():
 		if i == tab:
-			menu_pages[i].visible = true
+			menu_pages[i].show()
 		else:
-			menu_pages[i].visible = false
+			menu_pages[i].hide()
 
 
 func _on_zoom_changed():

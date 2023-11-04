@@ -137,7 +137,7 @@ polygon = PackedVector2Array(0, 0, 3, 0, 6, 4, 6, 7, 4, 9, 0, 9, -3, 9, -5, 7, -
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fgp61"]
 atlas = ExtResource("4_5pntc")
-region = Rect2(0, 79, 254, 79)
+region = Rect2(0, 158, 254, 79)
 
 [node name="Chest" type="Area2D"]
 script = ExtResource("1_dwkwb")
@@ -162,10 +162,6 @@ animation = &"crude_chest"
 visible = false
 position = Vector2(0, -4)
 occluder = SubResource("OccluderPolygon2D_r2gf4")
-
-[node name="HitSFXPlayer" type="AudioStreamPlayer" parent="."]
-
-[node name="BreakSFXPlayer" type="AudioStreamPlayer" parent="."]
 
 [node name="ShakeTween" type="Node2D" parent="."]
 script = ExtResource("3_1ntn7")
@@ -205,25 +201,28 @@ script = ExtResource("5_dckvq")
 item_container = NodePath("../../ItemContainer")
 chest_atlas = SubResource("AtlasTexture_fgp61")
 
-[node name="ItemContainerDisplay" type="VBoxContainer" parent="CanvasLayer/ChestUI" node_paths=PackedStringArray("parent")]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = 27.0
-offset_top = 19.0
-offset_right = 229.0
-offset_bottom = 85.0
-theme_override_constants/separation = 8
+[node name="ItemContainerDisplay" type="Control" parent="CanvasLayer/ChestUI" node_paths=PackedStringArray("parent")]
+anchors_preset = 0
+offset_left = 24.0
+offset_top = 4.0
+offset_right = 24.0
+offset_bottom = 4.0
 script = ExtResource("6_vtwer")
 parent = NodePath("../../../ItemContainer")
 
 [node name="Slots" type="GridContainer" parent="CanvasLayer/ChestUI/ItemContainerDisplay"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/h_separation = 5
-theme_override_constants/v_separation = 6
+offset_right = 206.0
+offset_bottom = 71.0
+theme_override_constants/h_separation = 1
+theme_override_constants/v_separation = 1
 columns = 9
 
-[node name="ItemSlot" parent="CanvasLayer/ChestUI/ItemContainerDisplay/Slots" instance=ExtResource("8_k337s")]
+[node name="ItemSlot0" parent="CanvasLayer/ChestUI/ItemContainerDisplay/Slots" instance=ExtResource("8_k337s")]
+layout_mode = 2
+
+[node name="ItemSlot1" parent="CanvasLayer/ChestUI/ItemContainerDisplay/Slots" instance=ExtResource("8_k337s")]
 layout_mode = 2
 
 [node name="ItemSlot2" parent="CanvasLayer/ChestUI/ItemContainerDisplay/Slots" instance=ExtResource("8_k337s")]
@@ -301,10 +300,5 @@ layout_mode = 2
 [node name="ItemSlot26" parent="CanvasLayer/ChestUI/ItemContainerDisplay/Slots" instance=ExtResource("8_k337s")]
 layout_mode = 2
 
-[node name="ItemSlot27" parent="CanvasLayer/ChestUI/ItemContainerDisplay/Slots" instance=ExtResource("8_k337s")]
-layout_mode = 2
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="CanvasLayer/ChestUI"]
-unique_name_in_owner = true
-
+[connection signal="chest_placed" from="." to="CanvasLayer/ChestUI/ItemContainerDisplay" method="_on_chest_placed"]
 [connection signal="items_changed" from="ItemContainer" to="CanvasLayer/ChestUI/ItemContainerDisplay" method="on_items_changed"]

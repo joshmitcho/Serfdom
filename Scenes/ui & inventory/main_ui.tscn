@@ -115,111 +115,104 @@ texture = SubResource("AtlasTexture_rq32r")
 [node name="InventoryDisplay" type="VBoxContainer" parent="InventoryTexture"]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 11.0
-offset_top = 8.0
-offset_right = 213.0
-offset_bottom = 26.0
-theme_override_constants/separation = 8
+offset_left = 8.0
+offset_top = 4.0
+offset_right = 210.0
+offset_bottom = 74.0
+theme_override_constants/separation = 5
 script = ExtResource("10_0lx4k")
 
 [node name="HotbarSlots" type="HBoxContainer" parent="InventoryTexture/InventoryDisplay"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 5
+theme_override_constants/separation = 1
 
-[node name="InventorySlotDisplay" parent="InventoryTexture/InventoryDisplay/HotbarSlots" instance=ExtResource("4_3q8l1")]
+[node name="ItemSlot0" parent="InventoryTexture/InventoryDisplay/HotbarSlots" instance=ExtResource("4_3q8l1")]
 layout_mode = 2
 
-[node name="InventorySlotDisplay2" parent="InventoryTexture/InventoryDisplay/HotbarSlots" instance=ExtResource("4_3q8l1")]
+[node name="ItemSlot1" parent="InventoryTexture/InventoryDisplay/HotbarSlots" instance=ExtResource("4_3q8l1")]
 layout_mode = 2
 
-[node name="InventorySlotDisplay3" parent="InventoryTexture/InventoryDisplay/HotbarSlots" instance=ExtResource("4_3q8l1")]
+[node name="ItemSlot2" parent="InventoryTexture/InventoryDisplay/HotbarSlots" instance=ExtResource("4_3q8l1")]
 layout_mode = 2
 
-[node name="InventorySlotDisplay4" parent="InventoryTexture/InventoryDisplay/HotbarSlots" instance=ExtResource("4_3q8l1")]
+[node name="ItemSlot3" parent="InventoryTexture/InventoryDisplay/HotbarSlots" instance=ExtResource("4_3q8l1")]
 layout_mode = 2
 
-[node name="InventorySlotDisplay5" parent="InventoryTexture/InventoryDisplay/HotbarSlots" instance=ExtResource("4_3q8l1")]
+[node name="ItemSlot4" parent="InventoryTexture/InventoryDisplay/HotbarSlots" instance=ExtResource("4_3q8l1")]
 layout_mode = 2
 
-[node name="InventorySlotDisplay6" parent="InventoryTexture/InventoryDisplay/HotbarSlots" instance=ExtResource("4_3q8l1")]
+[node name="ItemSlot5" parent="InventoryTexture/InventoryDisplay/HotbarSlots" instance=ExtResource("4_3q8l1")]
 layout_mode = 2
 
-[node name="InventorySlotDisplay7" parent="InventoryTexture/InventoryDisplay/HotbarSlots" instance=ExtResource("4_3q8l1")]
+[node name="ItemSlot6" parent="InventoryTexture/InventoryDisplay/HotbarSlots" instance=ExtResource("4_3q8l1")]
 layout_mode = 2
 
-[node name="InventorySlotDisplay8" parent="InventoryTexture/InventoryDisplay/HotbarSlots" instance=ExtResource("4_3q8l1")]
+[node name="ItemSlot7" parent="InventoryTexture/InventoryDisplay/HotbarSlots" instance=ExtResource("4_3q8l1")]
 layout_mode = 2
 
-[node name="InventorySlotDisplay9" parent="InventoryTexture/InventoryDisplay/HotbarSlots" instance=ExtResource("4_3q8l1")]
+[node name="ItemSlot8" parent="InventoryTexture/InventoryDisplay/HotbarSlots" instance=ExtResource("4_3q8l1")]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="InventoryTexture/InventoryDisplay"]
-layout_mode = 2
-theme_override_constants/margin_top = 2
-
-[node name="OtherSlots" type="GridContainer" parent="InventoryTexture/InventoryDisplay/MarginContainer"]
+[node name="OtherSlots" type="GridContainer" parent="InventoryTexture/InventoryDisplay"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/h_separation = 5
-theme_override_constants/v_separation = 6
+theme_override_constants/h_separation = 1
+theme_override_constants/v_separation = 1
 columns = 9
 
-[node name="InventorySlotDisplay" parent="InventoryTexture/InventoryDisplay/MarginContainer/OtherSlots" instance=ExtResource("4_3q8l1")]
+[node name="ItemSlot0" parent="InventoryTexture/InventoryDisplay/OtherSlots" instance=ExtResource("4_3q8l1")]
 layout_mode = 2
 
-[node name="InventorySlotDisplay2" parent="InventoryTexture/InventoryDisplay/MarginContainer/OtherSlots" instance=ExtResource("4_3q8l1")]
+[node name="ItemSlot1" parent="InventoryTexture/InventoryDisplay/OtherSlots" instance=ExtResource("4_3q8l1")]
 layout_mode = 2
 
-[node name="InventorySlotDisplay3" parent="InventoryTexture/InventoryDisplay/MarginContainer/OtherSlots" instance=ExtResource("4_3q8l1")]
+[node name="ItemSlot2" parent="InventoryTexture/InventoryDisplay/OtherSlots" instance=ExtResource("4_3q8l1")]
 layout_mode = 2
 
-[node name="InventorySlotDisplay4" parent="InventoryTexture/InventoryDisplay/MarginContainer/OtherSlots" instance=ExtResource("4_3q8l1")]
+[node name="ItemSlot3" parent="InventoryTexture/InventoryDisplay/OtherSlots" instance=ExtResource("4_3q8l1")]
 layout_mode = 2
 
-[node name="InventorySlotDisplay5" parent="InventoryTexture/InventoryDisplay/MarginContainer/OtherSlots" instance=ExtResource("4_3q8l1")]
+[node name="ItemSlot4" parent="InventoryTexture/InventoryDisplay/OtherSlots" instance=ExtResource("4_3q8l1")]
 layout_mode = 2
 
-[node name="InventorySlotDisplay6" parent="InventoryTexture/InventoryDisplay/MarginContainer/OtherSlots" instance=ExtResource("4_3q8l1")]
+[node name="ItemSlot5" parent="InventoryTexture/InventoryDisplay/OtherSlots" instance=ExtResource("4_3q8l1")]
 layout_mode = 2
 
-[node name="InventorySlotDisplay7" parent="InventoryTexture/InventoryDisplay/MarginContainer/OtherSlots" instance=ExtResource("4_3q8l1")]
+[node name="ItemSlot6" parent="InventoryTexture/InventoryDisplay/OtherSlots" instance=ExtResource("4_3q8l1")]
 layout_mode = 2
 
-[node name="InventorySlotDisplay8" parent="InventoryTexture/InventoryDisplay/MarginContainer/OtherSlots" instance=ExtResource("4_3q8l1")]
+[node name="ItemSlot7" parent="InventoryTexture/InventoryDisplay/OtherSlots" instance=ExtResource("4_3q8l1")]
 layout_mode = 2
 
-[node name="InventorySlotDisplay9" parent="InventoryTexture/InventoryDisplay/MarginContainer/OtherSlots" instance=ExtResource("4_3q8l1")]
+[node name="ItemSlot8" parent="InventoryTexture/InventoryDisplay/OtherSlots" instance=ExtResource("4_3q8l1")]
 layout_mode = 2
 
-[node name="InventorySlotDisplay10" parent="InventoryTexture/InventoryDisplay/MarginContainer/OtherSlots" instance=ExtResource("4_3q8l1")]
+[node name="ItemSlot9" parent="InventoryTexture/InventoryDisplay/OtherSlots" instance=ExtResource("4_3q8l1")]
 layout_mode = 2
 
-[node name="InventorySlotDisplay11" parent="InventoryTexture/InventoryDisplay/MarginContainer/OtherSlots" instance=ExtResource("4_3q8l1")]
+[node name="ItemSlot10" parent="InventoryTexture/InventoryDisplay/OtherSlots" instance=ExtResource("4_3q8l1")]
 layout_mode = 2
 
-[node name="InventorySlotDisplay12" parent="InventoryTexture/InventoryDisplay/MarginContainer/OtherSlots" instance=ExtResource("4_3q8l1")]
+[node name="ItemSlot11" parent="InventoryTexture/InventoryDisplay/OtherSlots" instance=ExtResource("4_3q8l1")]
 layout_mode = 2
 
-[node name="InventorySlotDisplay13" parent="InventoryTexture/InventoryDisplay/MarginContainer/OtherSlots" instance=ExtResource("4_3q8l1")]
+[node name="ItemSlot12" parent="InventoryTexture/InventoryDisplay/OtherSlots" instance=ExtResource("4_3q8l1")]
 layout_mode = 2
 
-[node name="InventorySlotDisplay14" parent="InventoryTexture/InventoryDisplay/MarginContainer/OtherSlots" instance=ExtResource("4_3q8l1")]
+[node name="ItemSlot13" parent="InventoryTexture/InventoryDisplay/OtherSlots" instance=ExtResource("4_3q8l1")]
 layout_mode = 2
 
-[node name="InventorySlotDisplay15" parent="InventoryTexture/InventoryDisplay/MarginContainer/OtherSlots" instance=ExtResource("4_3q8l1")]
+[node name="ItemSlot14" parent="InventoryTexture/InventoryDisplay/OtherSlots" instance=ExtResource("4_3q8l1")]
 layout_mode = 2
 
-[node name="InventorySlotDisplay16" parent="InventoryTexture/InventoryDisplay/MarginContainer/OtherSlots" instance=ExtResource("4_3q8l1")]
+[node name="ItemSlot15" parent="InventoryTexture/InventoryDisplay/OtherSlots" instance=ExtResource("4_3q8l1")]
 layout_mode = 2
 
-[node name="InventorySlotDisplay17" parent="InventoryTexture/InventoryDisplay/MarginContainer/OtherSlots" instance=ExtResource("4_3q8l1")]
+[node name="ItemSlot16" parent="InventoryTexture/InventoryDisplay/OtherSlots" instance=ExtResource("4_3q8l1")]
 layout_mode = 2
 
-[node name="InventorySlotDisplay18" parent="InventoryTexture/InventoryDisplay/MarginContainer/OtherSlots" instance=ExtResource("4_3q8l1")]
+[node name="ItemSlot17" parent="InventoryTexture/InventoryDisplay/OtherSlots" instance=ExtResource("4_3q8l1")]
 layout_mode = 2
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="InventoryTexture"]
-unique_name_in_owner = true
 
 [connection signal="tab_changed" from="TabBar" to="." method="_on_tab_changed"]

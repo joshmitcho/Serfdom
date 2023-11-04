@@ -1,25 +1,24 @@
-[gd_scene load_steps=520 format=3 uid="uid://ct67tvs8mb3fe"]
+[gd_scene load_steps=519 format=3 uid="uid://ct67tvs8mb3fe"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_eq0v4"]
-[ext_resource type="Texture2D" uid="uid://be0wbsk31870k" path="res://Art/jamiebrownhill/Sprite Pack/16x16/Base/Axe-Sheet.png" id="2_14omj"]
+[ext_resource type="Texture2D" uid="uid://be0wbsk31870k" path="res://Art/jamiebrownhill/Sprite Pack/base/Axe-Sheet.png" id="2_14omj"]
 [ext_resource type="Texture2D" uid="uid://bdjguay48wbax" path="res://Art/player shadow.png" id="2_612g0"]
-[ext_resource type="Texture2D" uid="uid://5yp2a0ok7mks" path="res://Art/jamiebrownhill/Sprite Pack/16x16/Base/Hammer-Sheet.png" id="3_7qa2w"]
-[ext_resource type="Texture2D" uid="uid://bqvcsv3f435p1" path="res://Art/jamiebrownhill/Sprite Pack/16x16/Base/Walk-Sheet.png" id="3_b2hfn"]
-[ext_resource type="Texture2D" uid="uid://b3bo18t65vxv6" path="res://Art/jamiebrownhill/Sprite Pack/16x16/Base/Carry Walk-Sheet.png" id="4_1ikbh"]
-[ext_resource type="Texture2D" uid="uid://c7rjawq8ef0wo" path="res://Art/jamiebrownhill/Sprite Pack/16x16/Base/Shovel-Sheet.png" id="4_iapnc"]
-[ext_resource type="Texture2D" uid="uid://xsqngyfyg8av" path="res://Art/jamiebrownhill/Sprite Pack/16x16/Base/Tools/Axe-Sheet.png" id="4_ro86s"]
-[ext_resource type="Texture2D" uid="uid://bnqaq2gugd626" path="res://Art/jamiebrownhill/Sprite Pack/16x16/Base/Tools/pail.png" id="5_0q7ao"]
+[ext_resource type="Texture2D" uid="uid://5yp2a0ok7mks" path="res://Art/jamiebrownhill/Sprite Pack/base/Hammer-Sheet.png" id="3_7qa2w"]
+[ext_resource type="Texture2D" uid="uid://bqvcsv3f435p1" path="res://Art/jamiebrownhill/Sprite Pack/base/Walk-Sheet.png" id="3_b2hfn"]
+[ext_resource type="Texture2D" uid="uid://b3bo18t65vxv6" path="res://Art/jamiebrownhill/Sprite Pack/base/Carry Walk-Sheet.png" id="4_1ikbh"]
+[ext_resource type="Texture2D" uid="uid://c7rjawq8ef0wo" path="res://Art/jamiebrownhill/Sprite Pack/base/Shovel-Sheet.png" id="4_iapnc"]
+[ext_resource type="Texture2D" uid="uid://xsqngyfyg8av" path="res://Art/jamiebrownhill/Sprite Pack/base/Tools/Axe-Sheet.png" id="4_ro86s"]
+[ext_resource type="Texture2D" uid="uid://bnqaq2gugd626" path="res://Art/jamiebrownhill/Sprite Pack/base/Tools/pail.png" id="5_0q7ao"]
 [ext_resource type="Script" path="res://Scripts/states/state_machine.gd" id="5_5266l"]
-[ext_resource type="Texture2D" uid="uid://cm67n1o1ffih2" path="res://Art/jamiebrownhill/Sprite Pack/16x16/Base/Watering Can-Sheet.png" id="6_7aohf"]
-[ext_resource type="Texture2D" uid="uid://qdr8m650ckc3" path="res://Art/jamiebrownhill/Sprite Pack/16x16/Base/Tools/Shovel-Sheet.png" id="6_powc6"]
-[ext_resource type="Texture2D" uid="uid://s76k483g0app" path="res://Art/jamiebrownhill/Sprite Pack/16x16/Base/Attack-Sheet.png" id="6_w6jvk"]
-[ext_resource type="Texture2D" uid="uid://did7w1mpvsn7a" path="res://Art/jamiebrownhill/Sprite Pack/16x16/Base/Tools/Hammer-Sheet.png" id="7_38y8m"]
+[ext_resource type="Texture2D" uid="uid://cm67n1o1ffih2" path="res://Art/jamiebrownhill/Sprite Pack/base/Watering Can-Sheet.png" id="6_7aohf"]
+[ext_resource type="Texture2D" uid="uid://qdr8m650ckc3" path="res://Art/jamiebrownhill/Sprite Pack/base/Tools/Shovel-Sheet.png" id="6_powc6"]
+[ext_resource type="Texture2D" uid="uid://s76k483g0app" path="res://Art/jamiebrownhill/Sprite Pack/base/Attack-Sheet.png" id="6_w6jvk"]
+[ext_resource type="Texture2D" uid="uid://did7w1mpvsn7a" path="res://Art/jamiebrownhill/Sprite Pack/base/Tools/Hammer-Sheet.png" id="7_38y8m"]
 [ext_resource type="Script" path="res://Scripts/states/state_idle_move.gd" id="7_v1pvp"]
-[ext_resource type="AudioStream" uid="uid://b5qa0ps0esolj" path="res://SFX/pop.wav" id="9_3eion"]
 [ext_resource type="PackedScene" uid="uid://dj4uo1mrdxxha" path="res://Scenes/shadow_sprite.tscn" id="12_vllri"]
-[ext_resource type="Texture2D" uid="uid://b278n77xu6381" path="res://Art/jamiebrownhill/Sprite Pack/16x16/Base/Tools/pail_empty.png" id="13_p3gga"]
+[ext_resource type="Texture2D" uid="uid://b278n77xu6381" path="res://Art/jamiebrownhill/Sprite Pack/base/Tools/pail_empty.png" id="13_p3gga"]
 [ext_resource type="Script" path="res://Scripts/states/state_menu_open.gd" id="13_wi7tr"]
-[ext_resource type="Texture2D" uid="uid://byuskfy3a8376" path="res://Art/jamiebrownhill/Sprite Pack/16x16/Base/Tools/Sickle-Sheet.png" id="14_l757c"]
+[ext_resource type="Texture2D" uid="uid://byuskfy3a8376" path="res://Art/jamiebrownhill/Sprite Pack/base/Tools/Sickle-Sheet.png" id="14_l757c"]
 [ext_resource type="Script" path="res://Scripts/states/state_chest_open.gd" id="19_blshq"]
 [ext_resource type="Script" path="res://Scripts/states/state_use_item.gd" id="19_yrg7j"]
 
@@ -3775,18 +3774,17 @@ texture = ExtResource("2_612g0")
 unique_name_in_owner = true
 position = Vector2(0, -5)
 sprite_frames = SubResource("SpriteFrames_au5cs")
-animation = &"empty_pail_up"
+animation = &"axe_down"
 
 [node name="ToolAnimator" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
 position = Vector2(0, -5)
 sprite_frames = SubResource("SpriteFrames_jfa6l")
-animation = &"empty_pail_down"
+animation = &"axe_down"
 
 [node name="HoldSprite" parent="." instance=ExtResource("12_vllri")]
 unique_name_in_owner = true
 position = Vector2(-8, -22)
-vframes = 6
 
 [node name="ColliderShape" type="CollisionShape2D" parent="."]
 position = Vector2(0, 2)
@@ -3831,9 +3829,6 @@ collision_mask = 128
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PickupArea"]
 visible = false
 shape = SubResource("CircleShape2D_gtx0d")
-
-[node name="PopSFXPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("9_3eion")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false

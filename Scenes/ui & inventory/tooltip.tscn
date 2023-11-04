@@ -131,7 +131,7 @@ theme_override_constants/margin_bottom = 3
 [node name="ContentContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 mouse_filter = 2
-theme_override_constants/separation = 3
+theme_override_constants/separation = 7
 alignment = 2
 
 [node name="TopContainer" type="VBoxContainer" parent="MarginContainer/ContentContainer"]

@@ -907,10 +907,6 @@ animation = &"tree_1"
 position = Vector2(0, -4)
 occluder = SubResource("OccluderPolygon2D_r2gf4")
 
-[node name="HitSFXPlayer" type="AudioStreamPlayer" parent="."]
-
-[node name="BreakSFXPlayer" type="AudioStreamPlayer" parent="."]
-
 [node name="ShakeTween" type="Node2D" parent="."]
 script = ExtResource("8_hx8ta")
 x_max = 1
@@ -933,7 +929,6 @@ grow_vertical = 2
 color = Color(1, 1, 1, 0.462745)
 
 [node name="InvisibilityTrigger" type="Area2D" parent="."]
-visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InvisibilityTrigger"]
 position = Vector2(0, -18)

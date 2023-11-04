@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dutjtyluty2rm"]
+[gd_scene load_steps=7 format=3 uid="uid://dutjtyluty2rm"]
 
 [ext_resource type="Script" path="res://Scripts/ui & inventory/item_slot.gd" id="1_kh5lp"]
 [ext_resource type="Texture2D" uid="uid://b5vdpkmm5tsna" path="res://Art/UI/hotbar highlight.png" id="2_7qvc8"]
@@ -10,88 +10,85 @@
 base_font = ExtResource("5_4pmlf")
 spacing_glyph = -1
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_reoxj"]
-size = Vector2(24, 25)
-
-[node name="ItemSlot" type="CenterContainer"]
-custom_minimum_size = Vector2(18, 18)
+[node name="ItemSlot" type="Control"]
+custom_minimum_size = Vector2(22, 23)
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -302.0
-offset_bottom = -162.0
+offset_right = -298.0
+offset_bottom = -157.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-mouse_filter = 0
-mouse_default_cursor_shape = 2
+mouse_filter = 2
 script = ExtResource("1_kh5lp")
 
-[node name="Button" type="Button" parent="."]
-modulate = Color(1, 1, 1, 0)
-custom_minimum_size = Vector2(18, 18)
-layout_mode = 2
-action_mode = 0
-
-[node name="Highlight" type="Sprite2D" parent="."]
+[node name="Highlight" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(22, 23)
+layout_mode = 0
 texture = ExtResource("2_7qvc8")
-centered = false
-offset = Vector2(-3, -4)
 
-[node name="ShadowSprite" parent="." instance=ExtResource("3_1cv6b")]
+[node name="Control" type="Control" parent="."]
+custom_minimum_size = Vector2(19, 19)
+layout_mode = 3
+anchors_preset = 0
+offset_left = 3.0
+offset_top = 4.0
+offset_right = 22.0
+offset_bottom = 23.0
 
-[node name="ShadowSpillCover" type="Sprite2D" parent="ShadowSprite"]
+[node name="ShadowedSprite" parent="Control" instance=ExtResource("3_1cv6b")]
+position = Vector2(0, 0)
+
+[node name="ShadowSpillCover" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(22, 23)
+layout_mode = 0
+offset_right = 22.0
+offset_bottom = 23.0
 texture = ExtResource("4_78sy6")
-centered = false
-offset = Vector2(-3, -4)
+stretch_mode = 3
 
-[node name="ItemAmountLabel" type="Label" parent="ShadowSprite"]
-unique_name_in_owner = true
-offset_left = 6.0
-offset_top = 12.0
-offset_right = 19.0
-offset_bottom = 22.0
-theme_override_fonts/font = SubResource("FontVariation_cmbv1")
-text = "999"
-horizontal_alignment = 2
-
-[node name="PailFillLevel" type="ColorRect" parent="ShadowSprite"]
-unique_name_in_owner = true
+[node name="PailFillLevel" type="ColorRect" parent="."]
 custom_minimum_size = Vector2(0, 2)
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -8.0
-offset_top = -3.0
-offset_right = -8.0
-offset_bottom = -1.0
+layout_mode = 2
+offset_left = 3.0
+offset_top = 17.0
+offset_right = 19.0
+offset_bottom = 19.0
 grow_horizontal = 2
 grow_vertical = 0
 pivot_offset = Vector2(0, 31)
 mouse_filter = 2
 color = Color(0.301961, 0.607843, 0.901961, 1)
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="HotkeyLabel" type="Label" parent="."]
 layout_mode = 2
-theme_override_constants/margin_left = -12
-theme_override_constants/margin_top = -17
-
-[node name="HotkeyLabel" type="Label" parent="MarginContainer"]
-unique_name_in_owner = true
-layout_mode = 2
+offset_right = 5.0
+offset_bottom = 7.0
 theme_override_fonts/font = ExtResource("5_4pmlf")
+theme_override_font_sizes/font_size = 7
 text = ";"
 
-[node name="HoverTrigger" type="Area2D" parent="."]
+[node name="ItemAmountLabel" type="Label" parent="."]
+custom_minimum_size = Vector2(22, 23)
+layout_mode = 0
+offset_right = 13.0
+offset_bottom = 7.0
+theme_override_fonts/font = SubResource("FontVariation_cmbv1")
+theme_override_font_sizes/font_size = 7
+text = "999"
+horizontal_alignment = 2
+vertical_alignment = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HoverTrigger"]
-visible = false
-position = Vector2(8, 7)
-shape = SubResource("RectangleShape2D_reoxj")
+[node name="Button" type="Button" parent="."]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+offset_right = 23.0
+offset_bottom = 23.0
+action_mode = 0
 
+[connection signal="mouse_entered" from="Button" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Button" to="." method="_on_button_mouse_exited"]
 [connection signal="pressed" from="Button" to="." method="_on_clicked"]
-[connection signal="mouse_shape_entered" from="HoverTrigger" to="." method="_on_hover_trigger_mouse_shape_entered"]
-[connection signal="mouse_shape_exited" from="HoverTrigger" to="." method="_on_hover_trigger_mouse_shape_exited"]

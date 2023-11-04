@@ -11,21 +11,31 @@ config_version=5
 [application]
 
 config/name="Serfdom"
-run/main_scene="res://Scenes/test_scene.tscn"
-config/features=PackedStringArray("4.1")
+run/main_scene="res://Scenes/screens/play_screen.tscn"
+config/features=PackedStringArray("4.2")
 config/stretch/scale=4.0
 config/stretch/mode="canvas_items"
 
 [autoload]
 
-Utils="*res://Scripts/utilities.gd"
-Compendium="*res://Scripts/ui & inventory/compendium.gd"
+Compendium="*res://Scripts/compendium.gd"
 Inventory="*res://Scripts/ui & inventory/inventory.gd"
-TimeManager="*res://Scripts/ui & inventory/time_manager.gd"
+TimeManager="*res://Scripts/managers/time_manager.gd"
+NpcManager="*res://Scripts/managers/npc_manager.gd"
+DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
+SettingsManager="*res://Scripts/managers/settings_manager.gd"
+SoundManager="*res://Scripts/managers/sound_manager.gd"
 
 [debug]
 
 gdscript/warnings/integer_division=0
+
+[dialogue_manager]
+
+general/wrap_lines=true
+general/include_all_responses=true
+general/states=["Inventory", "NpcState", "NpcManager"]
+general/custom_test_scene_path="res://Scenes/dialogue/dialogue_test.tscn"
 
 [display]
 
@@ -35,6 +45,10 @@ window/size/initial_position_type=0
 window/size/window_width_override=1280
 window/size/window_height_override=720
 window/stretch/mode="viewport"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg")
 
 [filesystem]
 
@@ -54,6 +68,14 @@ font_data_image={
 
 [input]
 
+ui_accept={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":4194309,"physical_keycode":0,"key_label":0,"unicode":0,"echo":false,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":4194310,"physical_keycode":0,"key_label":0,"unicode":0,"echo":false,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":32,"physical_keycode":0,"key_label":0,"unicode":32,"echo":false,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":88,"key_label":0,"unicode":120,"echo":false,"script":null)
+]
+}
 move_up={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":87,"key_label":0,"unicode":0,"echo":false,"script":null)
@@ -129,11 +151,15 @@ fullscreen={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194342,"key_label":0,"unicode":0,"echo":false,"script":null)
 ]
 }
-next_day={
+skip_time={
 "deadzone": 0.5,
-"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":78,"key_label":0,"unicode":110,"echo":false,"script":null)
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":75,"key_label":0,"unicode":107,"echo":false,"script":null)
 ]
 }
+
+[internationalization]
+
+locale/translations_pot_files=PackedStringArray("res://Dialogue/test.dialogue", "res://Dialogue/swain.dialogue", "res://Dialogue/bloom.dialogue", "res://Dialogue/clyne.dialogue", "res://Dialogue/daru.dialogue", "res://Dialogue/wilfred.dialogue")
 
 [rendering]
 

@@ -1,17 +1,17 @@
 #item_container_display.gd
-extends BoxContainer
+extends Control
 class_name ItemContainerDisplay
 
-@onready var sfx_player: AudioStreamPlayer = %AudioStreamPlayer
 var swap_tool_sfx = preload("res://SFX/toolSwap.wav")
 
 var slots: Array[ItemSlot]
 var slots_containers: Array
 @export var parent: ItemContainer
 
-func _ready():
+
+func _on_chest_placed():
 	load_slots(%Slots.get_children())
-	initialize_inventory_display()
+	initialize_item_container_display()
 
 
 func load_slots(container: Array):
@@ -25,12 +25,15 @@ func load_slots(container: Array):
 		i += 1
 
 
-func initialize_inventory_display():
-	for slot in slots:
-		slot.parent = parent
-		slot.hotkey_label.text = ""
+func initialize_item_container_display():
+	for i in Inventory.MAX_BARS * Inventory.BAR_SIZE:
+		slots[i].parent = parent
+		slots[i].hotkey_label.text = ""
+		slots[i].item_amount_label.text = ""
+		slots[i].shadow_spill_cover.hide()
 	for i in parent.slots_unlocked:
 		update_inventory_slot_display(i)
+		slots[i].shadow_spill_cover.show()
 		slots[i].locked = false
 
 
@@ -46,7 +49,7 @@ func update_inventory_slot_display(item_index: int):
 
 func set_active_slot_display(index: int):
 	for slot in slots:
-		slot.highlight.visible = false
-	slots[index].highlight.visible = true
-	sfx_player.set_stream(swap_tool_sfx)
-	sfx_player.play()
+		slot.highlight.hide()
+	slots[index].highlight.show()
+	SoundManager.play_pitched_sfx(swap_tool_sfx)
+

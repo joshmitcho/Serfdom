@@ -34,6 +34,6 @@ func _ready():
 		child._initialize()
 
 func play():
-	emit_signal("completed")
+	completed.emit()
 	if single_use:
 		queue_free()

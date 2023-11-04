@@ -1,0 +1,14 @@
+#bloom.dialogue
+#_year_season_dayOfWeek
+
+~ _0_0_0
+wilfred: [#teeth][wait=0.3][speed=0.3]I hate Mondays...
+
+=> END
+
+~ _0_0_1
+
+wilfred: [[Hi|Hello|Howdy]], lovely Tuesday isn't it?
+
+=> END
+

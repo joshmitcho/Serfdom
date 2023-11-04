@@ -11,8 +11,8 @@ func enter(_msg := {}) -> void:
 	var current_item = Inventory.get_current_item()
 	
 	# if you're placing an object / planting a crop
-	if is_instance_of(current_item, Item) and current_item.is_placeable:
-		emit_signal("place_attempted", current_item, player.facing)
+	if current_item is Item and current_item.is_placeable:
+		place_attempted.emit(current_item, player.facing)
 		state_machine.transition_to("IdleMove")
 		return
 	
@@ -26,7 +26,7 @@ func enter(_msg := {}) -> void:
 	
 	player.animator.stop()
 	player.animator.play(animName)
-	player.tool_animator.visible = true
+	player.tool_animator.show()
 	player.tool_animator.stop()
 	player.tool_animator.play(animName)
 	
@@ -37,7 +37,7 @@ func enter(_msg := {}) -> void:
 		facing_offsets.append(Vector2i(player.facing.x, 0))
 		facing_offsets.append(Vector2i(0, player.facing.y))
 	
-	emit_signal("tool_used", tool_type, facing_offsets, current_item.power)
+	tool_used.emit(tool_type, facing_offsets, current_item.power)
 	
 	await player.animator.animation_finished
 	if Input.is_action_pressed("use_item"):

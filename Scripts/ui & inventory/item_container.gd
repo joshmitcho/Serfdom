@@ -4,6 +4,7 @@ extends Node
 class_name ItemContainer
 
 signal items_changed(indexes: Array)
+signal item_dropped(index: int, item: Item)
 
 var items: Array[Item]
 var bars_unlocked: int
@@ -29,7 +30,7 @@ func add_items_to_inventory(p_item: Item, num: int = 1):
 	
 	# first check to see if new item can be stacked into existing slot
 	for i in slots_unlocked:
-		if (is_instance_of(items[i], Item) and items[i].item_name == item.item_name and item.is_stackable):
+		if items[i] is Item and items[i].item_name == item.item_name and item.is_stackable:
 			if items[i].amount + item.amount <= Inventory.MAX_STACK_AMOUNT:
 				increment_item_amount(i, item.amount)
 				return
@@ -38,8 +39,8 @@ func add_items_to_inventory(p_item: Item, num: int = 1):
 				increment_item_amount(i, item.amount - leftover_amount)
 				add_items_to_inventory(item, leftover_amount)
 				return
-			else:
-				continue
+#			else:
+#				continue
 	
 	# then check to see if there are empty slots
 	for i in slots_unlocked:
@@ -55,14 +56,14 @@ func add_items_to_inventory(p_item: Item, num: int = 1):
 				return
 	
 	# if it ever gets here, then the container overflowed. Drop excess on the ground
-	emit_signal("item_dropped", Inventory.CURSOR_INDEX, item)
-	print("dropped")
+	item_dropped.emit(Inventory.CURSOR_INDEX, item)
+
 
 func set_item(item_index, item) -> Item:
 	var previous_item = items[item_index]
 	items[item_index] = item
 	
-	emit_signal("items_changed", [item_index])
+	items_changed.emit([item_index])
 	return previous_item
 
 
@@ -73,7 +74,7 @@ func swap_items(item_index, target_item_index):
 	items[target_item_index] = item
 	items[item_index] = target_item
 	
-	emit_signal("items_changed", [item_index, target_item_index])
+	items_changed.emit([item_index, target_item_index])
 
 
 func increment_item_amount(item_index, delta):
@@ -81,13 +82,13 @@ func increment_item_amount(item_index, delta):
 		remove_item(item_index)
 	else:
 		items[item_index].amount += delta
-		emit_signal("items_changed", [item_index])
+		items_changed.emit([item_index])
 
 
 func remove_item(item_index) -> Item:
 	var previous_item = items[item_index]
 	items[item_index] = null
-	emit_signal("items_changed", [item_index])
+	items_changed.emit([item_index])
 	return previous_item
 
 
@@ -104,11 +105,19 @@ func does_container_have_room(new_item: Item) -> bool:
 
 func drop_item():
 	var dropped_item = remove_item(Inventory.CURSOR_INDEX)
-	emit_signal("item_dropped", Inventory.CURSOR_INDEX, dropped_item)
-	emit_signal("items_changed", [Inventory.CURSOR_INDEX])
+	item_dropped.emit(Inventory.CURSOR_INDEX, dropped_item)
+	items_changed.emit([Inventory.CURSOR_INDEX])
+
 
 func is_empty() -> bool:
 	for item in items:
-		if is_instance_of(item, Item):
+		if item is Item:
 			return false
 	return true
+
+
+func has_item(item_name: StringName, amount: int = 1) -> bool:
+	for i in items:
+		if i != null and i.item_name == item_name and i.amount >= amount:
+			return true
+	return false

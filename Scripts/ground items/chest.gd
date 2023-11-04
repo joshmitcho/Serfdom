@@ -2,6 +2,8 @@
 extends Placeable
 class_name Chest
 
+signal chest_placed()
+
 @onready var item_container: ItemContainer = $ItemContainer
 @onready var chest_ui: ChestUI = %ChestUI
 
@@ -13,6 +15,7 @@ func _ready():
 func initialize(p_name: StringName = "name"):
 	super.initialize(p_name)
 	item_container.set_bars_unlocked(Compendium.CHEST_SIZES[object_name.split("_")[0]])
+	chest_placed.emit()
 
 
 func take_hit(_power: int):
@@ -22,7 +25,7 @@ func take_hit(_power: int):
 
 func do_action():
 	animator.play()
-	Inventory.emit_signal("chest_opened")
+	Inventory.chest_opened.emit()
 #	await animator.animation_finished
 	Inventory.opened_chest = item_container
 

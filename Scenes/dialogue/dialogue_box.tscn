@@ -1,0 +1,192 @@
+[gd_scene load_steps=14 format=3 uid="uid://bn20f7mq60o72"]
+
+[ext_resource type="Script" path="res://Scripts/dialogue/dialogue_box.gd" id="1_07hev"]
+[ext_resource type="Texture2D" uid="uid://bd1qo8ne87v6g" path="res://Art/UI/dialogue_monarchy.png" id="2_lr0i1"]
+[ext_resource type="Texture2D" uid="uid://daawkvtrp6h0c" path="res://Art/UI/dialogue_serf.png" id="3_3vxnv"]
+[ext_resource type="AudioStream" uid="uid://cng7ex3hvatxl" path="res://SFX/talk.wav" id="4_w82hi"]
+[ext_resource type="FontFile" uid="uid://dsnajbdx217pn" path="res://Fonts/04B03 (body text).TTF" id="5_vati6"]
+[ext_resource type="Script" path="res://addons/dialogue_manager/dialogue_label.gd" id="6_4yh4j"]
+[ext_resource type="Texture2D" uid="uid://uisa845km3ih" path="res://Art/npcs/portraits.png" id="7_pb272"]
+[ext_resource type="FontFile" uid="uid://b50v1v38wn46r" path="res://Fonts/HeinzHeinrich (monarchy).ttf" id="8_fs37v"]
+[ext_resource type="FontFile" uid="uid://doy7m1th38j8j" path="res://Fonts/pixel_arial_bold (titles).TTF" id="9_ylls5"]
+
+[sub_resource type="Theme" id="Theme_owda0"]
+default_font_size = 9
+
+[sub_resource type="Theme" id="Theme_fakos"]
+default_font = ExtResource("5_vati6")
+default_font_size = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5d24i"]
+content_margin_left = 20.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(1, 1, 1, 0.25098)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oj3c8"]
+content_margin_left = 20.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+draw_center = false
+
+[node name="DialogueBox" type="CanvasLayer"]
+process_mode = 3
+layer = 100
+script = ExtResource("1_07hev")
+monarchy_balloon = ExtResource("2_lr0i1")
+serf_balloon = ExtResource("3_3vxnv")
+
+[node name="TalkSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_w82hi")
+volume_db = -3.0
+
+[node name="Balloon" type="TextureRect" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -160.0
+offset_top = -90.0
+offset_right = 160.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("3_3vxnv")
+
+[node name="Margin" type="MarginContainer" parent="Balloon"]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -320.0
+offset_top = -80.0
+offset_bottom = -8.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/margin_left = 17
+theme_override_constants/margin_bottom = 0
+metadata/_edit_layout_mode = 1
+
+[node name="HBox" type="HBoxContainer" parent="Balloon/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 1
+alignment = 2
+
+[node name="VBox" type="VBoxContainer" parent="Balloon/Margin/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="Spacer" type="Control" parent="Balloon/Margin/HBox/VBox"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+
+[node name="DialogueLabel" type="RichTextLabel" parent="Balloon/Margin/HBox/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 1
+theme = SubResource("Theme_owda0")
+theme_override_colors/font_shadow_color = Color(0.803922, 0.407843, 0.239216, 1)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/line_separation = 2
+theme_override_fonts/normal_font = ExtResource("5_vati6")
+theme_override_font_sizes/normal_font_size = 8
+bbcode_enabled = true
+text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type"
+fit_content = true
+scroll_active = false
+shortcut_keys_enabled = false
+meta_underlined = false
+hint_underlined = false
+deselect_on_focus_loss_enabled = false
+visible_characters_behavior = 1
+script = ExtResource("6_4yh4j")
+seconds_per_step = 0.01
+
+[node name="Responses" type="VBoxContainer" parent="Balloon/Margin/HBox/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="ResponseTemplate" type="RichTextLabel" parent="Balloon/Margin/HBox/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 2
+theme = SubResource("Theme_fakos")
+theme_override_colors/font_shadow_color = Color(0.803922, 0.407843, 0.239216, 1)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 1
+theme_override_styles/focus = SubResource("StyleBoxFlat_5d24i")
+theme_override_styles/normal = SubResource("StyleBoxFlat_oj3c8")
+bbcode_enabled = true
+text = "Response"
+fit_content = true
+scroll_active = false
+shortcut_keys_enabled = false
+meta_underlined = false
+hint_underlined = false
+
+[node name="MarginContainer" type="MarginContainer" parent="Balloon/Margin/HBox"]
+layout_mode = 2
+theme_override_constants/margin_top = -3
+
+[node name="PortraitContainer" type="VBoxContainer" parent="Balloon/Margin/HBox/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="CenterContainer" type="CenterContainer" parent="Balloon/Margin/HBox/MarginContainer/PortraitContainer"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Balloon/Margin/HBox/MarginContainer/PortraitContainer/CenterContainer"]
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="Balloon/Margin/HBox/MarginContainer/PortraitContainer/CenterContainer/Control"]
+unique_name_in_owner = true
+texture_filter = 1
+texture = ExtResource("7_pb272")
+hframes = 8
+vframes = 7
+frame = 1
+
+[node name="MonarchyLabel" type="RichTextLabel" parent="Balloon/Margin/HBox/MarginContainer/PortraitContainer"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(112, 16)
+layout_mode = 2
+mouse_filter = 1
+theme_override_colors/font_shadow_color = Color(0.478431, 0.188235, 0.270588, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_fonts/normal_font = ExtResource("8_fs37v")
+theme_override_font_sizes/normal_font_size = 15
+bbcode_enabled = true
+text = "[center]King Leodhata"
+fit_content = true
+scroll_active = false
+
+[node name="SerfLabel" type="RichTextLabel" parent="Balloon/Margin/HBox/MarginContainer/PortraitContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(112, 16)
+layout_mode = 2
+mouse_filter = 1
+theme_override_colors/font_shadow_color = Color(0.478431, 0.188235, 0.270588, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_fonts/normal_font = ExtResource("9_ylls5")
+theme_override_font_sizes/normal_font_size = 11
+bbcode_enabled = true
+text = "[center]King Leodhata"
+fit_content = true
+scroll_active = false
+
+[connection signal="gui_input" from="Balloon" to="." method="_on_balloon_gui_input"]
+[connection signal="resized" from="Balloon/Margin" to="." method="_on_margin_resized"]
+[connection signal="spoke" from="Balloon/Margin/HBox/VBox/DialogueLabel" to="." method="_on_dialogue_label_spoke"]

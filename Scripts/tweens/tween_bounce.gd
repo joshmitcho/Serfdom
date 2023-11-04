@@ -44,7 +44,7 @@ func play(sprite, height_variance: int = 0):
 		
 		bounce_height = bounce_height * RECOVERY_FACTOR
 	
-	emit_signal("completed")
+	completed.emit()
 
 
 func _bounce_up(height) -> Tween:

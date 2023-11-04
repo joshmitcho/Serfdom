@@ -12,6 +12,8 @@ func irrigate(connected: bool):
 	is_connected_to_water = connected
 	if is_connected_to_water:
 		particle_emitter.emitting = true
+		await get_tree().create_timer(8).timeout
+		particle_emitter.emitting = false
 	else:
 		particle_emitter.emitting = false
 

@@ -24,9 +24,9 @@ texture = ExtResource("3_so0y8")
 
 [node name="CenterContainerDay" type="CenterContainer" parent="."]
 layout_mode = 0
-offset_top = 5.0
+offset_top = 4.0
 offset_right = 44.0
-offset_bottom = 16.0
+offset_bottom = 14.0
 
 [node name="DayLabel" type="Label" parent="CenterContainerDay"]
 unique_name_in_owner = true
@@ -42,9 +42,9 @@ text = "Wed. 88"
 
 [node name="CenterContainerTime" type="CenterContainer" parent="."]
 layout_mode = 0
-offset_top = 16.0
+offset_top = 15.0
 offset_right = 44.0
-offset_bottom = 27.0
+offset_bottom = 26.0
 
 [node name="TimeLabel" type="Label" parent="CenterContainerTime"]
 unique_name_in_owner = true

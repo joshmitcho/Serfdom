@@ -1,21 +1,22 @@
 [gd_scene load_steps=3 format=3 uid="uid://dj4uo1mrdxxha"]
 
 [ext_resource type="Texture2D" uid="uid://dt743dbybsyff" path="res://Art/items.png" id="1_2g5rv"]
-[ext_resource type="Script" path="res://Scripts/ui & inventory/shadow_sprite.gd" id="2_0cpmt"]
+[ext_resource type="Script" path="res://Scripts/ui & inventory/shadowed_sprite.gd" id="1_nj1yf"]
 
-[node name="ShadowSprite" type="Sprite2D"]
+[node name="ShadowedSprite" type="Sprite2D"]
 self_modulate = Color(0, 0, 0, 0.117647)
+position = Vector2(3, 2)
 texture = ExtResource("1_2g5rv")
 centered = false
 offset = Vector2(-1, 1)
 hframes = 16
-vframes = 5
-frame = 77
-script = ExtResource("2_0cpmt")
+vframes = 6
+frame = 1
+script = ExtResource("1_nj1yf")
 
 [node name="MainSprite" type="Sprite2D" parent="."]
 texture = ExtResource("1_2g5rv")
 centered = false
 hframes = 16
 vframes = 6
-frame = 77
+frame = 1

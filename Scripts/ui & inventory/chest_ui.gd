@@ -6,8 +6,7 @@ class_name ChestUI
 @export var item_container: ItemContainer
 @export var chest_atlas: AtlasTexture
 
-@onready var item_container_display: ItemContainerDisplay = %ItemContainerDisplay
-@onready var sfx_player: AudioStreamPlayer = %AudioStreamPlayer
+@onready var item_container_display: ItemContainerDisplay = $ItemContainerDisplay
 
 var open_sfx = preload("res://SFX/chest_open.wav")
 var close_sfx = preload("res://SFX/chest_close.wav")
@@ -15,21 +14,20 @@ var close_sfx = preload("res://SFX/chest_close.wav")
 var chest_atlas_rects = [
 	Rect2(0, 0, 254, 79), Rect2(0, 79, 254, 79), Rect2(0, 158, 254, 79)
 ]
-var item_container_display_offsets = [32, 19, 8]
+var item_container_display_offsets = [28, 15, 4]
 
 static var is_open: bool = false
 
 
 func _ready():
-	Utils.zoom_changed.connect(_on_zoom_changed)
+	SettingsManager.zoom_changed.connect(_on_zoom_changed)
 	texture = chest_atlas
 	visible = false
 
 
 func open_chest_ui():
 	set_modulate(UIModulate.current_color)
-	sfx_player.set_stream(open_sfx)
-	sfx_player.play()
+	SoundManager.play_pitched_sfx(open_sfx)	
 	chest_atlas.region = chest_atlas_rects[item_container.bars_unlocked - 1]
 	reset_size()
 	item_container_display.position.y = item_container_display_offsets[item_container.bars_unlocked - 1]
@@ -38,8 +36,7 @@ func open_chest_ui():
 
 
 func close_chest_ui():
-	sfx_player.set_stream(close_sfx)
-	sfx_player.play()
+	SoundManager.play_pitched_sfx(close_sfx)
 	visible = false
 	is_open = false
 

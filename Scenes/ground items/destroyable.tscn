@@ -111,10 +111,6 @@ animation = &"stick"
 position = Vector2(0, -4)
 occluder = SubResource("OccluderPolygon2D_r2gf4")
 
-[node name="HitSFXPlayer" type="AudioStreamPlayer" parent="."]
-
-[node name="BreakSFXPlayer" type="AudioStreamPlayer" parent="."]
-
 [node name="ShakeTween" type="Node2D" parent="."]
 script = ExtResource("3_sv522")
 x_max = 1

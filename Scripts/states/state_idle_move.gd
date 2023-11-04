@@ -3,6 +3,7 @@ extends PlayerState
 
 signal do_action_pressed(offsets: Array)
 
+var direction: Vector2
 var scroll_time: int = 0
 const SCROLL_DELAY: int = 7
 
@@ -21,36 +22,37 @@ func enter(_msg := {}) -> void:
 	player.animator.set_animation(player.holding + "move_" + facing)
 	if not Input.is_action_pressed("use_item"):
 		player.animator.stop()
-	player.tool_animator.visible = false
+	player.tool_animator.hide()
 
 
 func handle_input(_event):
 	if Input.is_action_just_pressed("zoom"):
-		Utils.toggle_zoom()
+		SettingsManager.toggle_zoom()
 		return
 	
 	if Input.is_action_just_pressed("fullscreen"):
-		Utils.toggle_fullscreen()
+		SettingsManager.toggle_fullscreen()
 		return
 	
 	if Input.is_action_just_pressed("use_item"):
 		if Inventory.does_cursor_have_item():
 			Inventory.drop_item()
-			return
 		else:
 			state_machine.transition_to("UseItem")
-	
+		return
+
 	if Input.is_action_just_pressed("do_action") and not Inventory.does_cursor_have_item():
-		emit_signal("do_action_pressed", [Vector2i.ZERO, player.facing])
+		do_action_pressed.emit([Vector2i.ZERO, player.facing])
+		direction = Vector2.ZERO
 		return
 	
 	if not ChestUI.is_open:
 		if Input.is_action_just_pressed("menu"):
-			Inventory.emit_signal("toggle_menu", 0)
+			Inventory.toggle_menu.emit(0)
 			state_machine.transition_to("MenuOpen")
 			return
-		if Input.is_action_just_pressed("crafting_menu") and not Inventory.does_cursor_have_item():
-			Inventory.emit_signal("toggle_menu", 1)
+		elif Input.is_action_just_pressed("crafting_menu") and not Inventory.does_cursor_have_item():
+			Inventory.toggle_menu.emit(1)
 			state_machine.transition_to("MenuOpen")
 			return
 	
@@ -72,15 +74,11 @@ func handle_input(_event):
 	for key in range(49, 49 + Inventory.BAR_SIZE):
 		if Input.is_physical_key_pressed(key):
 			Inventory.set_active_slot(key - 49)
-
-
-func chest_opened():
-	state_machine.transition_to("ChestOpen")
+	
+	direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 
 
 func physics_update(_delta: float) -> void:
-	var direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
-	
 	if direction.x > 0:
 		player.animator.play(player.holding + "move_right")
 	elif direction.x < 0:
@@ -106,3 +104,11 @@ func physics_update(_delta: float) -> void:
 		player.velocity = direction * player.linear_movement_speed
 		
 	player.move_and_slide()
+
+
+func chest_opened():
+	state_machine.transition_to("ChestOpen")
+
+
+func exit():
+	direction = Vector2.ZERO

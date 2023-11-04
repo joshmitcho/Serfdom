@@ -1,0 +1,15 @@
+[remap]
+
+importer="dialogue_manager_compiler_10"
+type="Resource"
+uid="uid://b64btak66rat"
+path="res://.godot/imported/swain.dialogue-64badaae10924d1981e263239b5520e3.tres"
+
+[deps]
+
+source_file="res://Dialogue/swain.dialogue"
+dest_files=["res://.godot/imported/swain.dialogue-64badaae10924d1981e263239b5520e3.tres"]
+
+[params]
+
+defaults=true
