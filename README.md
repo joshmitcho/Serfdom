@@ -23,9 +23,10 @@ Irrigation pipes
 Managing inventory with chests
 ![alt text](./Images/inventory.gif "Managing Inventory")
 
+NPCs & Dialogue
+![alt text](./Images/dialogue.gif "NPCs & Dialogue")
+
 ## To Be Developed:
-- Almost everything (NPCs and dialogue, quests, story, economy, etc.)
+- Almost everything (crafting, quests, story, economy, etc.)
 
-**note:** this repo is for education/archival purposes. It won't run without the art and sound assets, and I don't have the rights to distribute them outside of the game itself.
-
-Itch page: https://joshmitcho.itch.io/serfdom
+**note:** this repo is for education/archival purposes. It won't run without the art and sound assets, and I don't have the rights to distribute them outside of the game itself. You can download a playable version from the Itch page: https://joshmitcho.itch.io/serfdom
