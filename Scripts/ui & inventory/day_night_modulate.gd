@@ -22,7 +22,7 @@ func _ready() -> void:
 	lantern_with_shadows.enabled = Inventory.has_lantern
 
 
-func _process(_delta) -> void:
+func _physics_process(_delta) -> void:
 	var degree = TimeManager.canvas_modulate_degree
 	color = gradient_texture.gradient.sample(degree)
 	shadow_modulate = lerp(MIN_SHADOW_MODULATE, color, degree / 2)

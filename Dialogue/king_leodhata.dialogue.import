@@ -1,0 +1,15 @@
+[remap]
+
+importer="dialogue_manager_compiler_11"
+type="Resource"
+uid="uid://cdcn88yd8wqcy"
+path="res://.godot/imported/king_leodhata.dialogue-96239faec5ebd20782c627fc14ae1768.tres"
+
+[deps]
+
+source_file="res://Dialogue/king_leodhata.dialogue"
+dest_files=["res://.godot/imported/king_leodhata.dialogue-96239faec5ebd20782c627fc14ae1768.tres"]
+
+[params]
+
+defaults=true

@@ -1,5 +1,5 @@
 # destroyable.gd
-extends Area2D
+extends Node2D
 class_name Destroyable
 
 signal items_dropped(drops: Array[Drop], position: Vector2)
@@ -16,32 +16,24 @@ var drop_offsets: Array = [-4, 4, 0, -8, 8, 0, -12, 12, -16, 16, -20, 20]
 
 var is_dying: bool = false
 var die_sfx: Array = []
-var hit_sfx
+var hit_sfx: AudioStream
 var sfx_pitches: Array = [0.8, 0.943874, 1.0, 1.059463, 1.122455]
 var sfx_index: int = 0
 
-var animator: AnimatedSprite2D
-var shadow_animator: AnimatedSprite2D
-var shake_tween
+@onready var animator: ShadowedAnimatedSprite = $MainAnimator
+@onready var shake_tween: ShakeTween = get_node_or_null("ShakeTween")
 
 
 func _ready():
-	shake_tween = get_node_or_null("ShakeTween")
-	if get_node_or_null("ShadowAnimatedSprite"):
-		shadow_animator = $ShadowAnimatedSprite
-		animator = %MainAnimatedSprite
-	else:
-		shadow_animator = AnimatedSprite2D.new()
-		animator = $AnimatedSprite2D
 	var parent_map: TileMap = get_parent()
 	parent_map.destroyables[parent_map.local_to_map(self.position)] = self
 	scale = Vector2([1, -1].pick_random(), 1)
 
+
 func initialize(p_name: StringName = "name"):
 	sfx_pitches.shuffle()
 	object_name = p_name
-	animator.animation = object_name
-	shadow_animator.animation = object_name
+	animator.load_animation(object_name)
 	
 	compatible_tool_type = Compendium.all_destroyables[object_name][0]
 	starting_health = Compendium.all_destroyables[object_name][1]
@@ -55,13 +47,7 @@ func initialize(p_name: StringName = "name"):
 		num_drops += 1
 	drop_types  = Compendium.all_destroyables[object_name][5]
 	
-	animator.modulate = Color.WHITE
-	animator.offset.y = Compendium.all_destroyables[object_name][6]
-	shadow_animator.offset.y = Compendium.all_destroyables[object_name][6]
-
-
-func _physics_process(_delta):
-	shadow_animator.self_modulate = DayNightModulate.shadow_modulate
+	animator.load_offset(Compendium.all_destroyables[object_name][6])
 
 
 func play_pitched_sfx(sfx):
@@ -74,7 +60,6 @@ func play_pitched_sfx(sfx):
 
 
 func take_hit(power: int):
-	shake_tween.start(shadow_animator)
 	shake_tween.start(animator)
 	play_pitched_sfx(hit_sfx)
 	total_damage += power
@@ -89,7 +74,6 @@ func die():
 		animator.hide()
 	else:
 		animator.play()
-		shadow_animator.play()
 	if get_node_or_null("PhysicsCollider"):
 		$PhysicsCollider.set_collision_layer(0)
 	if get_node_or_null("LightOccluder2D"):

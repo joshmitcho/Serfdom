@@ -3,6 +3,8 @@
 extends CharacterBody2D
 class_name NPC
 
+const NUDGE: Vector2 = Vector2(0.003, 0.003)
+var standing_offset: Vector2 = Vector2(8, 8)
 var linear_movement_speed: int = 60
 var facing: Vector2i
 var holding: String = ""
@@ -29,8 +31,8 @@ var state: STATE = STATE.MIGRATING
 
 func _ready():
 	#knock position verrry slightly off-grid to prevent flickering while moving
-	position -= Vector2(0.003, 0.003)
-	
+	position -= NUDGE
+	standing_offset += Vector2(randi_range(-4, 4), randi_range(-4, 4))
 	
 	set_current_animation("walk", "down")
 	hold_sprite.initialize(Compendium.items_spritesheet, Compendium.num_sprites, Vector2i(0, 2))
@@ -77,7 +79,7 @@ func _physics_process(delta):
 
 func new_target_position():
 	if current_move_path.size() > 0:
-		current_target_position = current_move_path[0] + Vector2(8, 8)
+		current_target_position = current_move_path[0] + standing_offset + NUDGE
 
 
 func set_current_animation(anim_name: String, p_direction: String):

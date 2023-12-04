@@ -1,11 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://drgptv3pxrnyk"]
+[gd_scene load_steps=8 format=3 uid="uid://drgptv3pxrnyk"]
 
 [ext_resource type="Texture2D" uid="uid://dnnkb7wtqthx1" path="res://Art/UI/pickup notification.png" id="1_nk480"]
 [ext_resource type="Script" path="res://Scripts/ui & inventory/pickup_notification.gd" id="1_o7g8h"]
 [ext_resource type="PackedScene" uid="uid://dj4uo1mrdxxha" path="res://Scenes/shadow_sprite.tscn" id="3_f018d"]
-[ext_resource type="FontFile" uid="uid://dsnajbdx217pn" path="res://Fonts/04B03 (body text).TTF" id="3_qpu1s"]
-[ext_resource type="Texture2D" uid="uid://bpp02gt4ei5wv" path="res://Art/UI/shadow spill cover.png" id="4_gys05"]
-[ext_resource type="FontFile" uid="uid://c2it3k3fijg8r" path="res://Fonts/stardew numbers font.png" id="6_vv5an"]
+[ext_resource type="FontFile" uid="uid://dsnajbdx217pn" path="res://Fonts/text 04B03.TTF" id="3_qpu1s"]
+[ext_resource type="FontFile" uid="uid://c2it3k3fijg8r" path="res://Fonts/numbers PixelRPG outlined.png" id="6_vv5an"]
 [ext_resource type="Script" path="res://Scripts/tweens/tween_bounce.gd" id="7_naelw"]
 
 [sub_resource type="FontVariation" id="FontVariation_rh8oi"]
@@ -20,26 +19,16 @@ offset_right = 96.0
 offset_bottom = 25.0
 script = ExtResource("1_o7g8h")
 
-[node name="BoxSprite" type="Sprite2D" parent="."]
+[node name="NotificationContainer" type="NinePatchRect" parent="."]
+custom_minimum_size = Vector2(25, 25)
+layout_mode = 0
+offset_right = 66.0
+offset_bottom = 25.0
 texture = ExtResource("1_nk480")
-centered = false
-hframes = 3
+patch_margin_left = 22
+patch_margin_right = 20
 
-[node name="StretchSprite" type="Sprite2D" parent="."]
-position = Vector2(22, 0)
-texture = ExtResource("1_nk480")
-centered = false
-hframes = 3
-frame = 1
-
-[node name="EndCapSprite" type="Sprite2D" parent="."]
-position = Vector2(44, 0)
-texture = ExtResource("1_nk480")
-centered = false
-hframes = 3
-frame = 2
-
-[node name="PickupText" type="Label" parent="."]
+[node name="PickupNameDisplay" type="Label" parent="."]
 layout_mode = 0
 offset_left = 24.0
 offset_top = 8.0
@@ -54,21 +43,13 @@ theme_override_fonts/font = ExtResource("3_qpu1s")
 theme_override_font_sizes/font_size = 8
 text = "iron axe"
 
-[node name="Node2D" type="Node2D" parent="."]
+[node name="OffsetContainer" type="Node2D" parent="."]
 position = Vector2(3, 4)
 
-[node name="ShadowSprite" parent="Node2D" instance=ExtResource("3_f018d")]
+[node name="ShadowSprite" parent="OffsetContainer" instance=ExtResource("3_f018d")]
 unique_name_in_owner = true
-position = Vector2(0, 0)
-
-[node name="ShadowSpillCover" type="Sprite2D" parent="."]
-position = Vector2(3, 5)
-texture = ExtResource("4_gys05")
-centered = false
-offset = Vector2(-3, -4)
 
 [node name="PickupQuantity" type="Label" parent="."]
-unique_name_in_owner = true
 layout_mode = 0
 offset_left = 8.0
 offset_top = 17.0

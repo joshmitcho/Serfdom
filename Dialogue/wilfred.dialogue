@@ -2,13 +2,34 @@
 #_year_season_dayOfWeek
 
 ~ _0_0_0
-wilfred: [#teeth][wait=0.3][speed=0.3]I hate Mondays...
+wilfred: Hello. My name is Wilfred, and this is Swain.
+swain: [#smile] Howdy!
+wilfred: Very nice to meet you.
+- It's nice to meet you too!
+	wilfred: I'm sure we'll be fast friends.
+	swain: [#teeth] Me too!
+- I'm not really in the mood for small talk...
+	wilfred: Oh that's quite alright. I'm not one for chit chat either.
+	swain: [#teeth] That's my job!
+- Are you a talking raccoon?
+	swain: [#angry] Hey! What's the supposed to mean?
+	wilfred: That's quite alright, Swain.
+	wilfred: No, I'm not a raccoon; I'm a Tanuki. My people have lived on these lands for thousands of years.
+	wilfred: If you're ever interested in learning more about our history, please find me in the library.
+	- I'd like that
+		wilfred: I hope to see you again soon.
+		swain: [#angry] Yeah, real soon...
+	- I don't think I will
+		wilfred: Well, if you change your mind, my door is open.
+		wilfred: We should be going now, Swain.
+		swain: [#angry] nose breather...
+	=> END
 
+wilfred: Have a nice day.
+swain: See ya!
 => END
 
 ~ _0_0_1
-
-wilfred: [[Hi|Hello|Howdy]], lovely Tuesday isn't it?
-
+wilfred: Lovely Tuesday, innit?
 => END
 

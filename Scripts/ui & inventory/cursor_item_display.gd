@@ -31,7 +31,7 @@ func _on_clicked():
 	if (my_item is Item and cursor_item is Item
 	and my_item.item_name == cursor_item.item_name and my_item.stackable):
 		Inventory.increment_item_amount(my_item_index, cursor_item.amount)
-		Inventory.remove_item(Inventory.CURSOR_INDEX)
+		Inventory.remove_item_by_index(Inventory.CURSOR_INDEX)
 	else:
 		Inventory.swap_items(get_index(), Inventory.CURSOR_INDEX)
 

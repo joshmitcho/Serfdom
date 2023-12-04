@@ -1,139 +1,24 @@
-[gd_scene load_steps=20 format=3 uid="uid://bbfg54sxpqpb0"]
+[gd_scene load_steps=7 format=3 uid="uid://bbfg54sxpqpb0"]
 
 [ext_resource type="Script" path="res://Scripts/ground items/crop.gd" id="1_l7ak2"]
-[ext_resource type="Texture2D" uid="uid://s4sp2vr1bo6d" path="res://Art/jamiebrownhill/World of Solaria Crops/Crops.png" id="3_te2im"]
+[ext_resource type="SpriteFrames" uid="uid://dt2wdibgbgmpt" path="res://Scenes/ground items/spriteframes_crops.tres" id="2_6k6qg"]
+[ext_resource type="PackedScene" uid="uid://cx2fyb2kru7a8" path="res://Scenes/ground items/shadowed_animated_sprite.tscn" id="3_mqrk0"]
 [ext_resource type="Script" path="res://Scripts/tweens/tween_shake.gd" id="5_tbgrn"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_qifmf"]
-atlas = ExtResource("3_te2im")
-region = Rect2(368, 256, 16, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_242fb"]
-atlas = ExtResource("3_te2im")
-region = Rect2(400, 256, 16, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_beua1"]
-atlas = ExtResource("3_te2im")
-region = Rect2(432, 256, 16, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_0qiwj"]
-atlas = ExtResource("3_te2im")
-region = Rect2(464, 256, 16, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_p362d"]
-atlas = ExtResource("3_te2im")
-region = Rect2(496, 256, 16, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_8eryb"]
-atlas = ExtResource("3_te2im")
-region = Rect2(560, 256, 16, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ioncu"]
-atlas = ExtResource("3_te2im")
-region = Rect2(176, 64, 16, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_fd58k"]
-atlas = ExtResource("3_te2im")
-region = Rect2(560, 64, 16, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_tu2wf"]
-atlas = ExtResource("3_te2im")
-region = Rect2(368, 64, 16, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_jay04"]
-atlas = ExtResource("3_te2im")
-region = Rect2(400, 64, 16, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_7quea"]
-atlas = ExtResource("3_te2im")
-region = Rect2(432, 64, 16, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_2xce6"]
-atlas = ExtResource("3_te2im")
-region = Rect2(464, 64, 16, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_td7sh"]
-atlas = ExtResource("3_te2im")
-region = Rect2(496, 64, 16, 32)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_5j45q"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_qifmf")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_242fb")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_beua1")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_0qiwj")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_p362d")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_8eryb")
-}],
-"loop": false,
-"name": &"brussels_sprout",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ioncu")
-}],
-"loop": false,
-"name": &"default",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_fd58k")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_tu2wf")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_jay04")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_7quea")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_2xce6")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_td7sh")
-}],
-"loop": false,
-"name": &"wheat",
-"speed": 5.0
-}]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_qxhk0"]
-size = Vector2(14, 9)
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_r2gf4"]
 polygon = PackedVector2Array(0, 0, 3, 0, 6, 4, 6, 7, 4, 9, 0, 9, -3, 9, -5, 7, -5, 4, -3, 0)
 
-[node name="Crop" type="Area2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qxhk0"]
+size = Vector2(14, 9)
+
+[node name="Crop" type="Node2D"]
 z_index = 10
 script = ExtResource("1_l7ak2")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_5j45q")
-animation = &"wheat"
-offset = Vector2(0, -8)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 2)
-shape = SubResource("RectangleShape2D_qxhk0")
+[node name="MainAnimator" parent="." instance=ExtResource("3_mqrk0")]
+sprite_frames = ExtResource("2_6k6qg")
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
-visible = false
 position = Vector2(0, -4)
 occluder = SubResource("OccluderPolygon2D_r2gf4")
 
@@ -158,4 +43,10 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(1, 1, 1, 0.462745)
 
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_qxhk0")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_body_entered"]

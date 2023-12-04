@@ -1,0 +1,103 @@
+[gd_resource type="SpriteFrames" load_steps=11 format=3 uid="uid://bx4ibhcco8n21"]
+
+[ext_resource type="Texture2D" uid="uid://dlepuljnup566" path="res://Art/jamiebrownhill/Cave/Cave Tiles 1.0.png" id="1_2my4q"]
+[ext_resource type="Texture2D" uid="uid://2iflerpuamft" path="res://Art/jamiebrownhill/Rural Village/Tilesets/RVNature.png" id="2_an0kj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ljm4l"]
+atlas = ExtResource("1_2my4q")
+region = Rect2(144, 176, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j8dnv"]
+atlas = ExtResource("1_2my4q")
+region = Rect2(160, 160, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_giicw"]
+atlas = ExtResource("2_an0kj")
+region = Rect2(192, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n4x7d"]
+atlas = ExtResource("1_2my4q")
+region = Rect2(176, 160, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_krpbd"]
+atlas = ExtResource("1_2my4q")
+region = Rect2(144, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3dqke"]
+atlas = ExtResource("1_2my4q")
+region = Rect2(160, 96, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s8ho5"]
+atlas = ExtResource("2_an0kj")
+region = Rect2(224, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4yg7r"]
+atlas = ExtResource("2_an0kj")
+region = Rect2(112, 48, 16, 16)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ljm4l")
+}],
+"loop": false,
+"name": &"coal_node",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j8dnv")
+}],
+"loop": false,
+"name": &"copper_node",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_giicw")
+}],
+"loop": false,
+"name": &"grass",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n4x7d")
+}],
+"loop": false,
+"name": &"iron_node",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_krpbd")
+}],
+"loop": false,
+"name": &"mushroom",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3dqke")
+}],
+"loop": false,
+"name": &"rock_cave",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s8ho5")
+}],
+"loop": false,
+"name": &"rock_small",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4yg7r")
+}],
+"loop": false,
+"name": &"stick",
+"speed": 5.0
+}]

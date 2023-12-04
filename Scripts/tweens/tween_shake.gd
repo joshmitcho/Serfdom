@@ -1,5 +1,6 @@
+#tween_shake.gd
 extends Node
-# Create a sequence of tweens to make a host sprite shake left and right
+class_name ShakeTween
 
 var host_sprite
 var stop_threshold

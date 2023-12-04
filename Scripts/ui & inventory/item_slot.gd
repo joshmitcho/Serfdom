@@ -17,7 +17,6 @@ var is_full: bool = false
 @onready var highlight: TextureRect = $Highlight
 @onready var pail_fill_level: ColorRect = $PailFillLevel
 @onready var item_sprite: ShadowedSprite = $Control/ShadowedSprite
-@onready var shadow_spill_cover = $ShadowSpillCover
 
 
 func _ready():
@@ -80,6 +79,7 @@ func move_items_with_cursor_behaviour():
 				Inventory.increment_item_amount(Inventory.CURSOR_INDEX, -amount_addable)
 	else:
 		Inventory.swap_items(slot_index, Inventory.CURSOR_INDEX)
+		Inventory.close_tooltip.emit(my_item)
 
 
 func open_chest_behaviour(open_chest: ItemContainer):
@@ -88,21 +88,19 @@ func open_chest_behaviour(open_chest: ItemContainer):
 		return
 	if parent == open_chest:
 		if Inventory.does_container_have_room(my_item):
-			parent.remove_item(slot_index)
-			Inventory.add_items_to_inventory(my_item, my_item.amount)
+			parent.remove_item_by_index(slot_index)
+			Inventory.add_item(my_item, my_item.amount)
 			Inventory.close_tooltip.emit(my_item)
 	else:
 		if open_chest.does_container_have_room(my_item):
-			parent.remove_item(slot_index)
-			open_chest.add_items_to_inventory(my_item, my_item.amount)
+			parent.remove_item_by_index(slot_index)
+			open_chest.add_item(my_item, my_item.amount)
 			Inventory.close_tooltip.emit(my_item)
 
 
 func _on_button_mouse_entered():
-	if parent.items[slot_index] is Item:
-		Inventory.open_tooltip.emit(parent.items[slot_index])
+	Inventory.open_tooltip.emit(parent.items[slot_index], false)
 
 
 func _on_button_mouse_exited():
-	if parent.items[slot_index] is Item:
-		Inventory.close_tooltip.emit(parent.items[slot_index])
+	Inventory.close_tooltip.emit(parent.items[slot_index])

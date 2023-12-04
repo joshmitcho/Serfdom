@@ -4,17 +4,17 @@
 [ext_resource type="Texture2D" uid="uid://bd1qo8ne87v6g" path="res://Art/UI/dialogue_monarchy.png" id="2_lr0i1"]
 [ext_resource type="Texture2D" uid="uid://daawkvtrp6h0c" path="res://Art/UI/dialogue_serf.png" id="3_3vxnv"]
 [ext_resource type="AudioStream" uid="uid://cng7ex3hvatxl" path="res://SFX/talk.wav" id="4_w82hi"]
-[ext_resource type="FontFile" uid="uid://dsnajbdx217pn" path="res://Fonts/04B03 (body text).TTF" id="5_vati6"]
+[ext_resource type="FontFile" uid="uid://dsnajbdx217pn" path="res://Fonts/text 04B03.TTF" id="5_ku3k4"]
 [ext_resource type="Script" path="res://addons/dialogue_manager/dialogue_label.gd" id="6_4yh4j"]
 [ext_resource type="Texture2D" uid="uid://uisa845km3ih" path="res://Art/npcs/portraits.png" id="7_pb272"]
-[ext_resource type="FontFile" uid="uid://b50v1v38wn46r" path="res://Fonts/HeinzHeinrich (monarchy).ttf" id="8_fs37v"]
-[ext_resource type="FontFile" uid="uid://doy7m1th38j8j" path="res://Fonts/pixel_arial_bold (titles).TTF" id="9_ylls5"]
+[ext_resource type="FontFile" uid="uid://cr5k170uwixk3" path="res://Fonts/monarchy alagard + HeinzHeinrich.ttf" id="8_0vlfx"]
+[ext_resource type="FontFile" uid="uid://doy7m1th38j8j" path="res://Fonts/titles pixel arial bold.TTF" id="9_r4lpp"]
 
 [sub_resource type="Theme" id="Theme_owda0"]
 default_font_size = 9
 
 [sub_resource type="Theme" id="Theme_fakos"]
-default_font = ExtResource("5_vati6")
+default_font = ExtResource("5_ku3k4")
 default_font_size = 8
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5d24i"]
@@ -53,7 +53,7 @@ offset_top = -90.0
 offset_right = 160.0
 grow_horizontal = 2
 grow_vertical = 0
-texture = ExtResource("3_3vxnv")
+texture = ExtResource("2_lr0i1")
 
 [node name="Margin" type="MarginContainer" parent="Balloon"]
 custom_minimum_size = Vector2(320, 0)
@@ -95,7 +95,7 @@ theme_override_colors/font_shadow_color = Color(0.803922, 0.407843, 0.239216, 1)
 theme_override_constants/shadow_offset_x = 0
 theme_override_constants/shadow_offset_y = 1
 theme_override_constants/line_separation = 2
-theme_override_fonts/normal_font = ExtResource("5_vati6")
+theme_override_fonts/normal_font = ExtResource("5_ku3k4")
 theme_override_font_sizes/normal_font_size = 8
 bbcode_enabled = true
 text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type"
@@ -139,7 +139,7 @@ theme_override_constants/margin_top = -3
 [node name="PortraitContainer" type="VBoxContainer" parent="Balloon/Margin/HBox/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 6
+theme_override_constants/separation = 7
 
 [node name="CenterContainer" type="CenterContainer" parent="Balloon/Margin/HBox/MarginContainer/PortraitContainer"]
 custom_minimum_size = Vector2(0, 48)
@@ -148,7 +148,7 @@ layout_mode = 2
 [node name="Control" type="Control" parent="Balloon/Margin/HBox/MarginContainer/PortraitContainer/CenterContainer"]
 layout_mode = 2
 
-[node name="Sprite2D" type="Sprite2D" parent="Balloon/Margin/HBox/MarginContainer/PortraitContainer/CenterContainer/Control"]
+[node name="CharacterPortrait" type="Sprite2D" parent="Balloon/Margin/HBox/MarginContainer/PortraitContainer/CenterContainer/Control"]
 unique_name_in_owner = true
 texture_filter = 1
 texture = ExtResource("7_pb272")
@@ -165,7 +165,7 @@ mouse_filter = 1
 theme_override_colors/font_shadow_color = Color(0.478431, 0.188235, 0.270588, 1)
 theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
-theme_override_fonts/normal_font = ExtResource("8_fs37v")
+theme_override_fonts/normal_font = ExtResource("8_0vlfx")
 theme_override_font_sizes/normal_font_size = 15
 bbcode_enabled = true
 text = "[center]King Leodhata"
@@ -180,7 +180,7 @@ mouse_filter = 1
 theme_override_colors/font_shadow_color = Color(0.478431, 0.188235, 0.270588, 1)
 theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
-theme_override_fonts/normal_font = ExtResource("9_ylls5")
+theme_override_fonts/normal_font = ExtResource("9_r4lpp")
 theme_override_font_sizes/normal_font_size = 11
 bbcode_enabled = true
 text = "[center]King Leodhata"

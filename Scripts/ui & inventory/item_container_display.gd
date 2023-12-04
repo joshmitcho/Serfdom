@@ -2,8 +2,6 @@
 extends Control
 class_name ItemContainerDisplay
 
-var swap_tool_sfx = preload("res://SFX/toolSwap.wav")
-
 var slots: Array[ItemSlot]
 var slots_containers: Array
 @export var parent: ItemContainer
@@ -30,10 +28,8 @@ func initialize_item_container_display():
 		slots[i].parent = parent
 		slots[i].hotkey_label.text = ""
 		slots[i].item_amount_label.text = ""
-		slots[i].shadow_spill_cover.hide()
 	for i in parent.slots_unlocked:
 		update_inventory_slot_display(i)
-		slots[i].shadow_spill_cover.show()
 		slots[i].locked = false
 
 
@@ -51,5 +47,5 @@ func set_active_slot_display(index: int):
 	for slot in slots:
 		slot.highlight.hide()
 	slots[index].highlight.show()
-	SoundManager.play_pitched_sfx(swap_tool_sfx)
+	SoundManager.play_pitched_sfx(Compendium.swap_tool_sfx)
 

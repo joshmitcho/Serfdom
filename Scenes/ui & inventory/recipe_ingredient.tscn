@@ -1,0 +1,61 @@
+[gd_scene load_steps=6 format=3 uid="uid://c20kudlogprbf"]
+
+[ext_resource type="Script" path="res://Scripts/ui & inventory/recipe_ingredient.gd" id="1_neqe2"]
+[ext_resource type="PackedScene" uid="uid://dj4uo1mrdxxha" path="res://Scenes/shadow_sprite.tscn" id="1_snxmb"]
+[ext_resource type="FontFile" uid="uid://c2it3k3fijg8r" path="res://Fonts/numbers PixelRPG outlined.png" id="2_6i64v"]
+[ext_resource type="FontFile" uid="uid://dsnajbdx217pn" path="res://Fonts/text 04B03.TTF" id="3_hr5cu"]
+
+[sub_resource type="FontVariation" id="FontVariation_6pk5v"]
+base_font = ExtResource("2_6i64v")
+spacing_glyph = -1
+
+[node name="RecipeIngredient" type="Control"]
+custom_minimum_size = Vector2(88, 16)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 88.0
+offset_bottom = 16.0
+script = ExtResource("1_neqe2")
+
+[node name="Control" type="Control" parent="."]
+custom_minimum_size = Vector2(19, 19)
+layout_mode = 2
+anchors_preset = 0
+offset_right = 19.0
+offset_bottom = 19.0
+
+[node name="ShadowedSprite" parent="Control" instance=ExtResource("1_snxmb")]
+position = Vector2(0, 0)
+
+[node name="ItemAmountLabel" type="Label" parent="."]
+layout_mode = 2
+offset_top = -4.0
+offset_right = 16.0
+offset_bottom = 14.0
+theme_override_fonts/font = SubResource("FontVariation_6pk5v")
+theme_override_font_sizes/font_size = 7
+text = "999"
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(88, 16)
+layout_mode = 0
+offset_right = 20.0
+offset_bottom = 8.0
+theme_override_constants/margin_left = 19
+
+[node name="IngredientName" type="Label" parent="MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0.811765, 0.501961, 0.407843, 1)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/outline_size = 0
+theme_override_constants/line_spacing = 1
+theme_override_fonts/font = ExtResource("3_hr5cu")
+theme_override_font_sizes/font_size = 8
+text = "Wood"
+vertical_alignment = 1
+autowrap_mode = 3

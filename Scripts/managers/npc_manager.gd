@@ -25,16 +25,13 @@ func _ready():
 	DialogueManager.dialogue_ended.connect(_on_dialogue_ended)
 
 
-func time_tick(day: int, hour: int, minute: int):
-	if map == null: return
+func time_tick(_day: int, _hour: int, _minute: int):
+	if map == null:
+		return
 	
-	if minute % 20 == 0:
-		for npc_name in all_npcs:
-			set_npc_move_path(npc_name, Vector2i(randi_range(20, 23), randi_range(-9, -8)))
-	else:
-		for npc_name in all_npcs:
-			set_npc_move_path(npc_name, Vector2i(randi_range(10, 13), randi_range(-3, -1)))
-
+	#if minute % 10 == 0:
+		#for npc_name in all_npcs:
+			#set_npc_move_path(npc_name, Vector2i(randi_range(-3, 3), randi_range(-3, 3)))
 
 func set_npc_move_path(npc_name: String, destination_tile: Vector2i, _target_time: float = 1):
 	var npc: NPC = all_npcs[npc_name]
@@ -68,7 +65,7 @@ func talk_to(npc_name: String, player_postiion: Vector2, p_map: TileMap):
 
 func load_npcs(p_map: TileMap):
 	var i = 0
-	for npc_name in Compendium.ALL_NPCS:
+	for npc_name in ["swain", "wilfred"]:
 		var new_npc: NPC = npc_base.instantiate()
 		new_npc.npc_name = npc_name
 		new_npc.position = p_map.map_to_local(Vector2i(10, -7) + Vector2i(i, 0))

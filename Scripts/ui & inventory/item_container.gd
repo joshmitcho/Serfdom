@@ -24,7 +24,7 @@ func set_bars_unlocked(num_bars: int):
 	slots_unlocked = bars_unlocked * Inventory.BAR_SIZE
 
 
-func add_items_to_inventory(p_item: Item, num: int = 1):
+func add_item(p_item: Item, num: int = 1):
 	var item: Item = p_item.duplicate()
 	item.amount = num
 	
@@ -37,10 +37,8 @@ func add_items_to_inventory(p_item: Item, num: int = 1):
 			elif items[i].amount < Inventory.MAX_STACK_AMOUNT:
 				var leftover_amount = item.amount - (Inventory.MAX_STACK_AMOUNT - items[i].amount)
 				increment_item_amount(i, item.amount - leftover_amount)
-				add_items_to_inventory(item, leftover_amount)
+				add_item(item, leftover_amount)
 				return
-#			else:
-#				continue
 	
 	# then check to see if there are empty slots
 	for i in slots_unlocked:
@@ -52,7 +50,7 @@ func add_items_to_inventory(p_item: Item, num: int = 1):
 				var leftover_amount = item.amount - Inventory.MAX_STACK_AMOUNT
 				item.amount = Inventory.MAX_STACK_AMOUNT
 				set_item(i, item)
-				add_items_to_inventory(item, leftover_amount)
+				add_item(item, leftover_amount)
 				return
 	
 	# if it ever gets here, then the container overflowed. Drop excess on the ground
@@ -77,19 +75,35 @@ func swap_items(item_index, target_item_index):
 	items_changed.emit([item_index, target_item_index])
 
 
-func increment_item_amount(item_index, delta):
+func increment_item_amount(item_index: int, delta: int) -> void:
 	if items[item_index].amount + delta <= 0:
-		remove_item(item_index)
+		remove_item_by_index(item_index)
 	else:
 		items[item_index].amount += delta
 		items_changed.emit([item_index])
 
 
-func remove_item(item_index) -> Item:
-	var previous_item = items[item_index]
+func remove_item_by_index(item_index) -> Item:
+	var previous_item: Item = items[item_index]
 	items[item_index] = null
 	items_changed.emit([item_index])
 	return previous_item
+
+
+func remove_item_by_name():
+	pass
+
+
+func find_item_index(needle_item_name: StringName) -> int:
+	var returned_index := -1
+	var smallest_amount := 99999
+	for i in items.size():
+		if items[i] == null:
+			continue
+		if items[i].item_name == needle_item_name and items[i].amount < smallest_amount:
+			returned_index = i
+			smallest_amount = items[i].amount
+	return returned_index
 
 
 func does_container_have_room(new_item: Item) -> bool:
@@ -104,7 +118,7 @@ func does_container_have_room(new_item: Item) -> bool:
 
 
 func drop_item():
-	var dropped_item = remove_item(Inventory.CURSOR_INDEX)
+	var dropped_item = remove_item_by_index(Inventory.CURSOR_INDEX)
 	item_dropped.emit(Inventory.CURSOR_INDEX, dropped_item)
 	items_changed.emit([Inventory.CURSOR_INDEX])
 
@@ -117,7 +131,8 @@ func is_empty() -> bool:
 
 
 func has_item(item_name: StringName, amount: int = 1) -> bool:
+	var total_amount := 0
 	for i in items:
-		if i != null and i.item_name == item_name and i.amount >= amount:
-			return true
-	return false
+		if i is Item and i.item_name == item_name:
+			total_amount += i.amount
+	return total_amount >= amount

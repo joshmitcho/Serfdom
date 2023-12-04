@@ -3,18 +3,25 @@
 [ext_resource type="Texture2D" uid="uid://dt743dbybsyff" path="res://Art/items.png" id="1_2g5rv"]
 [ext_resource type="Script" path="res://Scripts/ui & inventory/shadowed_sprite.gd" id="1_nj1yf"]
 
-[node name="ShadowedSprite" type="Sprite2D"]
+[node name="ShadowedSprite" type="Control"]
+clip_contents = true
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 16.0
+offset_bottom = 16.0
+script = ExtResource("1_nj1yf")
+
+[node name="ShadowSprite" type="Sprite2D" parent="."]
 self_modulate = Color(0, 0, 0, 0.117647)
-position = Vector2(3, 2)
 texture = ExtResource("1_2g5rv")
 centered = false
 offset = Vector2(-1, 1)
 hframes = 16
 vframes = 6
 frame = 1
-script = ExtResource("1_nj1yf")
 
-[node name="MainSprite" type="Sprite2D" parent="."]
+[node name="MainSprite" type="Sprite2D" parent="ShadowSprite"]
 texture = ExtResource("1_2g5rv")
 centered = false
 hframes = 16

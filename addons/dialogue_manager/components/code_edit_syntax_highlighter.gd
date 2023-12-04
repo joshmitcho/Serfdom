@@ -12,7 +12,7 @@ var regex_comments: RegEx = RegEx.create_from_string("(?:(?>\"(?:\\\\\"|[^\"\\n]
 var regex_mutation: RegEx = RegEx.create_from_string("^\\s*(do|set) (?<mutation>.*)")
 var regex_condition: RegEx = RegEx.create_from_string("^\\s*(if|elif|while|else if) (?<condition>.*)")
 var regex_wcondition: RegEx = RegEx.create_from_string("\\[if (?<condition>((?:[^\\[\\]]*)|(?:\\[(?1)\\]))*?)\\]")
-var regex_wendif: RegEx = RegEx.create_from_string("\\[\\/(if)\\]")
+var regex_wendif: RegEx = RegEx.create_from_string("\\[(\\/if|else)\\]")
 var regex_rgroup: RegEx = RegEx.create_from_string("\\[\\[(?<options>.*?)\\]\\]")
 var regex_endconditions: RegEx = RegEx.create_from_string("^\\s*(endif|else):?\\s*$")
 var regex_tags: RegEx = RegEx.create_from_string("\\[(?<tag>(?!(?:ID:.*)|if)[a-zA-Z_][a-zA-Z0-9_]*)(?:[= ](?<val>[^\\[\\]]+))?\\](?:(?<text>(?!\\[\\/\\k<tag>\\]).*?)?(?<end>\\[\\/\\k<tag>\\]))?")
@@ -99,6 +99,12 @@ func _get_line_syntax_highlighting(line: int) -> Dictionary:
 		colors[import_match.get_end("path") + 1] = {"color": text_edit.theme_overrides.conditions_color}
 		colors[import_match.get_start("prefix")] = {"color": text_edit.theme_overrides.members_color}
 		colors[import_match.get_end("prefix")] = {"color": text_edit.theme_overrides.conditions_color}
+
+	# Using clauses
+	var using_matches: Array[RegExMatch] = dialogue_manager_parser.USING_REGEX.search_all(text)
+	for using_match in using_matches:
+		colors[using_match.get_start(0)] = {"color": text_edit.theme_overrides.conditions_color}
+		colors[using_match.get_start("state") - 1] = {"color": text_edit.theme_overrides.text_color}
 
 	# Condition keywords and expressions.
 	var condition_matches: Array[RegExMatch] = regex_condition.search_all(text)

@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://cx2fyb2kru7a8"]
+
+[ext_resource type="Script" path="res://Scripts/ground items/shadowed_animated_sprite.gd" id="1_28ice"]
+[ext_resource type="SpriteFrames" uid="uid://bx4ibhcco8n21" path="res://Scenes/ground items/spriteframes_destroyables.tres" id="2_p38dv"]
+
+[node name="ShadowedAnimatedSprite" type="Node2D"]
+script = ExtResource("1_28ice")
+sprite_frames = ExtResource("2_p38dv")
+
+[node name="ShadowSprite" type="AnimatedSprite2D" parent="."]
+self_modulate = Color(0.180392, 0.133333, 0.184314, 0.215686)
+position = Vector2(0, 1)
+sprite_frames = ExtResource("2_p38dv")
+animation = &"coal_node"
+
+[node name="MainSprite" type="AnimatedSprite2D" parent="ShadowSprite"]
+position = Vector2(0, -1)
+sprite_frames = ExtResource("2_p38dv")
+animation = &"rock_cave"

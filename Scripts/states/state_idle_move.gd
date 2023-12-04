@@ -58,6 +58,7 @@ func handle_input(_event):
 	
 	if Input.is_action_just_pressed("shift_toolbar"):
 		Inventory.shift_toolbar()
+		Inventory.learn_new_recipe("deluxe_chest")
 		return
 	
 	if Input.is_action_just_released("scroll_down"):

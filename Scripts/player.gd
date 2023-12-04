@@ -37,13 +37,8 @@ var current_energy: int = max_energy
 @onready var magnetism_area: Area2D = $MagnetismArea
 @onready var pickup_area: Area2D = $PickupArea
 
-const sfx_pop = preload("res://SFX/pop.wav")
-
 
 func _ready():
-	#knock position verrry slightly off-grid to prevent flickering while moving
-	position += Vector2(0.003, 0.003)
-	
 	Inventory.items_changed.connect(new_active_item)
 	Inventory.active_slot_changed.connect(new_active_item)
 	
@@ -91,13 +86,13 @@ func _physics_process(_delta):
 
 
 func drop_picked_up(item: Item):
-	SoundManager.play_pitched_sfx(sfx_pop, sfx_pitches[sfx_index])
+	SoundManager.play_pitched_sfx(Compendium.sfx_pop, sfx_pitches[sfx_index])
 	if sfx_index < sfx_pitches.size() - 1:
 		sfx_index += 1
 	else:
 		sfx_pitches.shuffle()
 		sfx_index = 0
-	Inventory.add_items_to_inventory(item, item.amount)
+	Inventory.add_item(item, item.amount)
 	item_picked_up.emit(item, item.amount)
 
 

@@ -2,49 +2,39 @@
 
 [ext_resource type="Script" path="res://Scripts/ground items/machine.gd" id="1_ur8qk"]
 [ext_resource type="Texture2D" uid="uid://dftmtilioeacy" path="res://Art/placeables.png" id="2_bquuh"]
+[ext_resource type="PackedScene" uid="uid://cx2fyb2kru7a8" path="res://Scenes/ground items/shadowed_animated_sprite.tscn" id="3_b8vg7"]
 [ext_resource type="Script" path="res://Scripts/tweens/tween_shake.gd" id="3_c23id"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_qxhk0"]
-size = Vector2(14, 9)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_8jgkt"]
-animations = [{
-"frames": [],
-"loop": false,
-"name": &"pickle_barrel",
-"speed": 5.0
-}]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_uao8l"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_3npcq"]
 atlas = ExtResource("2_bquuh")
 region = Rect2(0, 96, 16, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_3fo5y"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_20jbg"]
 atlas = ExtResource("2_bquuh")
 region = Rect2(16, 96, 16, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_058xu"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_5eq3g"]
 atlas = ExtResource("2_bquuh")
 region = Rect2(32, 96, 16, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ae5h8"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_xsdu8"]
 atlas = ExtResource("2_bquuh")
 region = Rect2(48, 96, 16, 32)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_5j45q"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_84h41"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_uao8l")
+"texture": SubResource("AtlasTexture_3npcq")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_3fo5y")
+"texture": SubResource("AtlasTexture_20jbg")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_058xu")
+"texture": SubResource("AtlasTexture_5eq3g")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ae5h8")
+"texture": SubResource("AtlasTexture_xsdu8")
 }],
 "loop": false,
 "name": &"pickle_barrel",
@@ -54,27 +44,18 @@ animations = [{
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_r2gf4"]
 polygon = PackedVector2Array(0, 0, 3, 0, 6, 4, 6, 7, 4, 9, 0, 9, -3, 9, -5, 7, -5, 4, -3, 0)
 
-[node name="Machine" type="Area2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qxhk0"]
+size = Vector2(14, 9)
+
+[node name="Machine" type="Node2D"]
+z_index = 10
+z_as_relative = false
 script = ExtResource("1_ur8qk")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 2)
-shape = SubResource("RectangleShape2D_qxhk0")
-
-[node name="ShadowAnimatedSprite" type="AnimatedSprite2D" parent="."]
-z_index = 9
-position = Vector2(0, -8)
-sprite_frames = SubResource("SpriteFrames_8jgkt")
-animation = &"pickle_barrel"
-
-[node name="MainAnimatedSprite" type="AnimatedSprite2D" parent="ShadowAnimatedSprite"]
-unique_name_in_owner = true
-z_index = 1
-sprite_frames = SubResource("SpriteFrames_5j45q")
-animation = &"pickle_barrel"
+[node name="MainAnimator" parent="." instance=ExtResource("3_b8vg7")]
+sprite_frames = SubResource("SpriteFrames_84h41")
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
-visible = false
 position = Vector2(0, -4)
 occluder = SubResource("OccluderPolygon2D_r2gf4")
 

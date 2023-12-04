@@ -4,15 +4,15 @@ extends Node
 signal new_day(year: int, season: int)
 signal time_tick(day: int, hour: int, minute: int)
 
+const INGAME_SPEED = 1.2
+const INITIAL_HOUR = 6.1
+const DAY_THRESHOLD_HOUR = 6
+const NIGHT_THRESHOLD_HOUR = 20
 const SEASONS_PER_YEAR = 4
 const DAYS_PER_SEASON = 14
 const MINUTES_PER_DAY = 1440
 const MINUTES_PER_HOUR = 60
 const INGAME_TO_REAL_MINUTE_DURATION = (2 * PI) / MINUTES_PER_DAY
-const INGAME_SPEED = 1.2
-const INITIAL_HOUR = 6.1
-const DAY_THRESHOLD_HOUR = 6
-const NIGHT_THRESHOLD_HOUR = 20
 
 var time: float = 0.0
 var year: int
@@ -29,7 +29,10 @@ func _ready():
 
 func _physics_process(delta):
 	time += delta * INGAME_TO_REAL_MINUTE_DURATION * INGAME_SPEED
-	canvas_modulate_degree = (sin(time - PI / 2.0) + 1.0) / 2.0
+	if PlayScreen.current_map_type == Compendium.MAP_TYPE.CAVE:
+		canvas_modulate_degree = 0.4
+	else:
+		canvas_modulate_degree = (sin(time - PI / 2.0) + 1.0) / 2.0
 	
 	if Input.is_action_just_pressed("skip_time"):
 		time += MINUTES_PER_DAY / 3 * INGAME_TO_REAL_MINUTE_DURATION
@@ -51,14 +54,15 @@ func _physics_process(delta):
 	if total_minutes >= last_displayed_time + 10:
 		last_displayed_time = total_minutes
 		time_tick.emit(day, hour, (minute / 10) * 10)
-		play_day_night_sounds()
+		if PlayScreen.current_map_type != Compendium.MAP_TYPE.CAVE:
+			play_soundscapes()
 	
 	if day != yesterday:
 		yesterday = day
 		new_day.emit(year, season)
 
 
-func play_day_night_sounds() -> void:
+func play_soundscapes() -> void:
 	if hour < DAY_THRESHOLD_HOUR or hour > NIGHT_THRESHOLD_HOUR:
 		if not SoundManager.is_soundscape_playing(Compendium.NIGHT_SOUNDSCAPE):
 			SoundManager.play_soundscape(Compendium.NIGHT_SOUNDSCAPE, 0)

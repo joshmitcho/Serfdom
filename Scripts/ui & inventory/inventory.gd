@@ -6,8 +6,12 @@ signal active_slot_changed(index: int)
 signal toggle_menu(tab: int)
 signal chest_opened()
 signal chest_closed()
-signal open_tooltip(item: Item)
+signal open_tooltip(item: Item, show_recipe: bool)
 signal close_tooltip(item: Item)
+signal new_recipe_learned(recipe_name: String)
+signal item_crafted(item: Item)
+
+var known_recipe_names: Array[String]
 
 var active_index = 0
 var opened_chest: ItemContainer
@@ -19,24 +23,35 @@ const MAX_BARS = 3
 const MAX_SIZE = BAR_SIZE * MAX_BARS
 const CURSOR_INDEX = MAX_SIZE
 
-const MAX_STACK_AMOUNT = 99
+const MAX_STACK_AMOUNT = 999
 
 
 func _ready() -> void:
 	set_bars_unlocked(1)
 	set_initial_items()
+	set_initial_recipes()
 
 
 func set_initial_items() -> void:
 	items.resize(MAX_SIZE + 1)
-	add_items_to_inventory(Compendium.all_items["rusty_axe"])
-	add_items_to_inventory(Compendium.all_items["rusty_hammer"])
-	add_items_to_inventory(Compendium.all_items["rusty_sickle"])
-	add_items_to_inventory(Compendium.all_items["rusty_shovel"])
-	add_items_to_inventory(Compendium.all_items["rusty_pail"])
-	add_items_to_inventory(Compendium.all_items["crude_chest"])
-	add_items_to_inventory(Compendium.all_items["wheat_seeds"], 15)
-	add_items_to_inventory(Compendium.all_items["irrigation_pipe"], 15)
+	add_item(Compendium.all_items["rusty_axe"])
+	add_item(Compendium.all_items["rusty_hammer"])
+	add_item(Compendium.all_items["rusty_sickle"])
+	add_item(Compendium.all_items["rusty_shovel"])
+	add_item(Compendium.all_items["rusty_pail"])
+	add_item(Compendium.all_items["wheat_seeds"], 15)
+
+
+func set_initial_recipes():
+	learn_new_recipe("crude_chest")
+	learn_new_recipe("improved_chest")
+	learn_new_recipe("pickle_barrel")
+	learn_new_recipe("irrigation_pipe")
+
+
+func learn_new_recipe(recipe_name: String):
+	known_recipe_names.append(recipe_name)
+	new_recipe_learned.emit(recipe_name)
 
 
 func increment_active_slot(delta: int) -> void:

@@ -45,7 +45,7 @@ var responses: Array[DialogueResponse] = []
 var extra_game_states: Array = []
 
 ## How long to show this line before advancing to the next. Either a float (of seconds), [code]"auto"[/code], or [code]null[/code].
-var time = null
+var time: String = ""
 
 ## Any #tags that were included in the line
 var tags: PackedStringArray = []
@@ -74,7 +74,6 @@ func _init(data: Dictionary = {}) -> void:
 				pauses = data.pauses
 				speeds = data.speeds
 				inline_mutations = data.inline_mutations
-				conditions = data.conditions
 				time = data.time
 				tags = data.tags
 
@@ -89,6 +88,7 @@ func _to_string() -> String:
 		_DialogueConstants.TYPE_MUTATION:
 			return "<DialogueLine mutation>"
 	return ""
+
 
 func get_tag_value(tag_name: String) -> String:
 	var wrapped := "%s=" % tag_name

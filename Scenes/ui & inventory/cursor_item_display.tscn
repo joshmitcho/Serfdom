@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scripts/ui & inventory/cursor_item_display.gd" id="1_smj1b"]
 [ext_resource type="PackedScene" uid="uid://dj4uo1mrdxxha" path="res://Scenes/shadow_sprite.tscn" id="2_bh0fd"]
-[ext_resource type="FontFile" uid="uid://c2it3k3fijg8r" path="res://stardew numbers font.png" id="3_ljtdj"]
+[ext_resource type="FontFile" uid="uid://c2it3k3fijg8r" path="res://Fonts/numbers PixelRPG outlined.png" id="3_ljtdj"]
 
 [sub_resource type="FontVariation" id="FontVariation_enra3"]
 base_font = ExtResource("3_ljtdj")
@@ -18,14 +18,17 @@ mouse_default_cursor_shape = 2
 script = ExtResource("1_smj1b")
 
 [node name="ShadowSprite" parent="." instance=ExtResource("2_bh0fd")]
-position = Vector2(-8, -8)
+clip_contents = false
+layout_mode = 2
 
 [node name="ItemAmountLabel" type="Label" parent="ShadowSprite"]
 unique_name_in_owner = true
+layout_mode = 2
 offset_left = 7.0
 offset_top = 13.0
 offset_right = 20.0
-offset_bottom = 23.0
+offset_bottom = 20.0
 theme_override_fonts/font = SubResource("FontVariation_enra3")
+theme_override_font_sizes/font_size = 7
 text = "999"
 horizontal_alignment = 2

@@ -1,6 +1,7 @@
 [gd_scene load_steps=26 format=3 uid="uid://cayxrobcojs74"]
 
 [ext_resource type="Script" path="res://Scripts/ground items/chest.gd" id="1_dwkwb"]
+[ext_resource type="PackedScene" uid="uid://cx2fyb2kru7a8" path="res://Scenes/ground items/shadowed_animated_sprite.tscn" id="2_1sry8"]
 [ext_resource type="Texture2D" uid="uid://dftmtilioeacy" path="res://Art/placeables.png" id="2_anmoq"]
 [ext_resource type="Script" path="res://Scripts/tweens/tween_shake.gd" id="3_1ntn7"]
 [ext_resource type="Texture2D" uid="uid://25r5c60pnjts" path="res://Art/UI/chest ui.png" id="4_5pntc"]
@@ -9,89 +10,68 @@
 [ext_resource type="Script" path="res://Scripts/ui & inventory/item_container_display.gd" id="6_vtwer"]
 [ext_resource type="PackedScene" uid="uid://dutjtyluty2rm" path="res://Scenes/ui & inventory/item_slot.tscn" id="8_k337s"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_qxhk0"]
-size = Vector2(14, 9)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_dvwnx"]
-animations = [{
-"frames": [],
-"loop": false,
-"name": &"crude_chest",
-"speed": 10.0
-}, {
-"frames": [],
-"loop": false,
-"name": &"deluxe_chest",
-"speed": 10.0
-}, {
-"frames": [],
-"loop": false,
-"name": &"improved_chest",
-"speed": 10.0
-}]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_wdamd"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_tyxaq"]
 atlas = ExtResource("2_anmoq")
 region = Rect2(0, 0, 16, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_vbced"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_52frv"]
 atlas = ExtResource("2_anmoq")
 region = Rect2(16, 0, 16, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_pg0wx"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_2ehs3"]
 atlas = ExtResource("2_anmoq")
 region = Rect2(32, 0, 16, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ppbw5"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_gyqo8"]
 atlas = ExtResource("2_anmoq")
 region = Rect2(48, 0, 16, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_nokj0"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_f02p3"]
 atlas = ExtResource("2_anmoq")
 region = Rect2(0, 64, 16, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_exjc4"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_e40su"]
 atlas = ExtResource("2_anmoq")
 region = Rect2(16, 64, 16, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_oe7vj"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_gckgb"]
 atlas = ExtResource("2_anmoq")
 region = Rect2(32, 64, 16, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ekqmg"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_wr1kf"]
 atlas = ExtResource("2_anmoq")
 region = Rect2(48, 64, 16, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_vh7bv"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_5bg0w"]
 atlas = ExtResource("2_anmoq")
 region = Rect2(0, 32, 16, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_qbc4j"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_j0lc5"]
 atlas = ExtResource("2_anmoq")
 region = Rect2(16, 32, 16, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_wsop4"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_d2ss4"]
 atlas = ExtResource("2_anmoq")
 region = Rect2(32, 32, 16, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_sublw"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_yr6q1"]
 atlas = ExtResource("2_anmoq")
 region = Rect2(48, 32, 16, 32)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_5j45q"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_o3k6w"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_wdamd")
+"texture": SubResource("AtlasTexture_tyxaq")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_vbced")
+"texture": SubResource("AtlasTexture_52frv")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_pg0wx")
+"texture": SubResource("AtlasTexture_2ehs3")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ppbw5")
+"texture": SubResource("AtlasTexture_gyqo8")
 }],
 "loop": false,
 "name": &"crude_chest",
@@ -99,16 +79,16 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_nokj0")
+"texture": SubResource("AtlasTexture_f02p3")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_exjc4")
+"texture": SubResource("AtlasTexture_e40su")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_oe7vj")
+"texture": SubResource("AtlasTexture_gckgb")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ekqmg")
+"texture": SubResource("AtlasTexture_wr1kf")
 }],
 "loop": false,
 "name": &"deluxe_chest",
@@ -116,16 +96,16 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_vh7bv")
+"texture": SubResource("AtlasTexture_5bg0w")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_qbc4j")
+"texture": SubResource("AtlasTexture_j0lc5")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_wsop4")
+"texture": SubResource("AtlasTexture_d2ss4")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_sublw")
+"texture": SubResource("AtlasTexture_yr6q1")
 }],
 "loop": false,
 "name": &"improved_chest",
@@ -135,31 +115,22 @@ animations = [{
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_r2gf4"]
 polygon = PackedVector2Array(0, 0, 3, 0, 6, 4, 6, 7, 4, 9, 0, 9, -3, 9, -5, 7, -5, 4, -3, 0)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qxhk0"]
+size = Vector2(14, 9)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_fgp61"]
 atlas = ExtResource("4_5pntc")
 region = Rect2(0, 158, 254, 79)
 
-[node name="Chest" type="Area2D"]
+[node name="Chest" type="Node2D"]
+z_index = 10
+z_as_relative = false
 script = ExtResource("1_dwkwb")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 2)
-shape = SubResource("RectangleShape2D_qxhk0")
-
-[node name="ShadowAnimatedSprite" type="AnimatedSprite2D" parent="."]
-z_index = 9
-position = Vector2(0, -8)
-sprite_frames = SubResource("SpriteFrames_dvwnx")
-animation = &"improved_chest"
-
-[node name="MainAnimatedSprite" type="AnimatedSprite2D" parent="ShadowAnimatedSprite"]
-unique_name_in_owner = true
-z_index = 1
-sprite_frames = SubResource("SpriteFrames_5j45q")
-animation = &"crude_chest"
+[node name="MainAnimator" parent="." instance=ExtResource("2_1sry8")]
+sprite_frames = SubResource("SpriteFrames_o3k6w")
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
-visible = false
 position = Vector2(0, -4)
 occluder = SubResource("OccluderPolygon2D_r2gf4")
 

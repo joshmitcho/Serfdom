@@ -1,0 +1,43 @@
+[gd_scene load_steps=3 format=3 uid="uid://by074veyeukw8"]
+
+[ext_resource type="Script" path="res://Scripts/ui & inventory/craftable_slot.gd" id="1_b3gqs"]
+[ext_resource type="PackedScene" uid="uid://dj4uo1mrdxxha" path="res://Scenes/shadow_sprite.tscn" id="3_bt7gt"]
+
+[node name="CraftableSlot" type="Control"]
+custom_minimum_size = Vector2(22, 23)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -298.0
+offset_bottom = -157.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+script = ExtResource("1_b3gqs")
+
+[node name="Control" type="Control" parent="."]
+custom_minimum_size = Vector2(19, 19)
+layout_mode = 3
+anchors_preset = 0
+offset_left = 3.0
+offset_top = 4.0
+offset_right = 22.0
+offset_bottom = 23.0
+
+[node name="ResultSprite" parent="Control" instance=ExtResource("3_bt7gt")]
+unique_name_in_owner = true
+position = Vector2(0, 0)
+
+[node name="Button" type="Button" parent="."]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+offset_right = 23.0
+offset_bottom = 23.0
+action_mode = 0
+
+[connection signal="mouse_entered" from="Button" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Button" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="Button" to="." method="_on_clicked"]

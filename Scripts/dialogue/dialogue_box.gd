@@ -9,7 +9,7 @@ extends CanvasLayer
 @onready var balloon: TextureRect = $Balloon
 @onready var margin: MarginContainer = $Balloon/Margin
 @onready var portrait_container: VBoxContainer = %PortraitContainer
-@onready var character_portrait: Sprite2D = %Sprite2D
+@onready var character_portrait: Sprite2D = %CharacterPortrait
 @onready var monarchy_label: RichTextLabel = %MonarchyLabel
 @onready var serf_label: RichTextLabel = %SerfLabel
 @onready var dialogue_label: DialogueLabel = %DialogueLabel
@@ -53,7 +53,7 @@ var dialogue_line: DialogueLine:
 			monarchy_label.text = "[center]" + tr(dialogue_line.character, "dialogue").capitalize()
 			monarchy_label.show()
 			serf_label.hide()
-			portrait_container.add_theme_constant_override("separation", 6)
+			portrait_container.add_theme_constant_override("separation", 7)
 		
 		character_portrait.frame = Compendium.ALL_NPCS.keys().find(dialogue_line.character) * 8
 		if dialogue_line.tags.size() > 0:
@@ -91,7 +91,7 @@ var dialogue_line: DialogueLine:
 		if dialogue_line.responses.size() > 0:
 			responses_menu.modulate.a = 1
 			configure_menu()
-		elif dialogue_line.time != null:
+		elif dialogue_line.time != "":
 			var time = dialogue_line.dialogue.length() * 0.02 if dialogue_line.time == "auto" else dialogue_line.time.to_float()
 			await get_tree().create_timer(time).timeout
 			next(dialogue_line.next_id)

@@ -20,8 +20,9 @@ func initialize(p_name: StringName = "name"):
 	
 	object_name = p_name
 	
-	animator.animation = object_name
-	animator.set_frame_and_progress(stage, 0)
+	animator.load_animation(object_name)
+	animator.set_frame(stage)
+	animator.load_offset(-8)
 	
 	compatible_tool_type = StringName("sickle")
 	
@@ -83,4 +84,4 @@ func grow_if_watered(season: int):
 		for key in lifecycle:
 			if days_watered >= lifecycle[key]:
 				stage = key
-	animator.set_frame_and_progress(stage, 0)
+	animator.set_frame(stage)

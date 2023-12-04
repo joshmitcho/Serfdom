@@ -19,10 +19,13 @@ signal bridge_get_next_dialogue_line_completed(line)
 
 
 const DialogueConstants = preload("./constants.gd")
-const DialogueSettings = preload("./components/settings.gd")
+const DialogueSettings = preload("./settings.gd")
 const DialogueResource = preload("./dialogue_resource.gd")
 const DialogueLine = preload("./dialogue_line.gd")
 const DialogueResponse = preload("./dialogue_response.gd")
+const DialogueManagerParser = preload("./components/parser.gd")
+const DialogueManagerParseResult = preload("./components/parse_result.gd")
+const ResolvedLineData = preload("./components/resolved_line_data.gd")
 
 
 enum MutationBehaviour {
@@ -90,8 +93,8 @@ func _ready() -> void:
 			game_states.append(state)
 
 	# Connect up the C# signals if need be
-	if ResourceLoader.exists("res://addons/dialogue_manager/DialogueManager.cs"):
-		load("res://addons/dialogue_manager/DialogueManager.cs").new().Prepare()
+	if _has_dotnet_solution():
+		_get_dotnet_dialogue_manager().Prepare()
 
 
 ## Step through lines and run any mutations until we either hit some dialogue or the end of the conversation
@@ -100,6 +103,15 @@ func get_next_dialogue_line(resource: DialogueResource, key: String = "", extra_
 	assert(resource != null, DialogueConstants.translate("runtime.no_resource"))
 	assert(resource.lines.size() > 0, DialogueConstants.translate("runtime.no_content").format({ file_path = resource.resource_path }))
 
+	# Inject any "using" states into the game_states
+	for state_name in resource.using_states:
+		var autoload = get_tree().root.get_node_or_null(state_name)
+		if autoload == null:
+			printerr(DialogueConstants.translate("runtime.unknown_autoload").format({ autoload = state_name }))
+		else:
+			extra_game_states = [autoload] + extra_game_states
+
+	# Get the line data
 	var dialogue: DialogueLine = await get_line(resource, key, extra_game_states)
 
 	# If our dialogue is nothing then we hit the end
@@ -136,49 +148,77 @@ func get_resolved_line_data(data: Dictionary, extra_game_states: Array = []) -> 
 		var value = await resolve(replacement.expression.duplicate(true), extra_game_states)
 		text = text.replace(replacement.value_in_text, str(value))
 
+	var parser: DialogueManagerParser = DialogueManagerParser.new()
+
 	# Resolve random groups
-	var random_regex: RegEx = RegEx.new()
-	random_regex.compile("\\[\\[(?<options>.*?)\\]\\]")
-	for found in random_regex.search_all(text):
+	for found in parser.INLINE_RANDOM_REGEX.search_all(text):
 		var options = found.get_string("options").split("|")
 		text = text.replace("[[%s]]" % found.get_string("options"), options[randi_range(0, options.size() - 1)])
 
 	# Do a pass on the markers to find any conditionals
-	var markers: ResolvedLineData = DialogueManagerParser.extract_markers_from_string(text)
+	var markers: ResolvedLineData = parser.extract_markers(text)
 
 	# Resolve any conditionals and update marker positions as needed
-	var resolved_text: String = ""
-	var should_display: bool = true
-	var should_display_stack: Array[bool] = []
-	var previous_should_display: bool = true
-	var previous_index_written: int = -1
-	for index in range(markers.text.length()):
-		if markers.conditions.has(index):
-			if markers.conditions[index] == null:
-				should_display = should_display_stack[-1]
-				should_display_stack.pop_back()
-			else:
-				var result = await check_condition({ condition = markers.conditions[index] }, extra_game_states)
-				should_display_stack.push_back(should_display)
-				should_display = should_display and result
-		if not previous_should_display and should_display:
-			adjust_marker_indices(previous_index_written, index, markers)
-		elif previous_should_display and not should_display:
-			previous_index_written = index
-		previous_should_display = should_display
-		if should_display:
-			resolved_text += markers.text[index]
+	var resolved_text: String = markers.text
+	var conditionals: Array[RegExMatch] = parser.INLINE_CONDITIONALS_REGEX.search_all(resolved_text)
+	var replacements: Array = []
+	for conditional in conditionals:
+		var condition_raw: String = conditional.strings[conditional.names.condition]
+		var body: String = conditional.strings[conditional.names.body]
+		var body_else: String = ""
+		if "[else]" in body:
+			var bits = body.split("[else]")
+			body = bits[0]
+			body_else = bits[1]
+		var condition: Dictionary = parser.extract_condition("if " + condition_raw, false, 0)
+		# If the condition fails then use the else of ""
+		if not await check_condition({ condition = condition }, extra_game_states):
+			body = body_else
+		replacements.append({
+			start = conditional.get_start(),
+			end = conditional.get_end(),
+			string = conditional.get_string(),
+			body = body
+		})
+
+	for i in range(replacements.size() -1, -1, -1):
+		var r: Dictionary = replacements[i]
+		resolved_text = resolved_text.substr(0, r.start) + r.body + resolved_text.substr(r.end, 9999)
+		# Move any other markers now that the text has changed
+		var offset: int = r.end - r.start - r.body.length()
+		for key in ["pauses", "speeds", "time"]:
+			if markers.get(key) == null: continue
+			var marker = markers.get(key)
+			var next_marker: Dictionary = {}
+			for index in marker:
+				if index < r.start:
+					next_marker[index] = marker[index]
+				elif index > r.start:
+					next_marker[index - offset] = marker[index]
+			markers.set(key, next_marker)
+		var mutations: Array[Array] = markers.mutations
+		var next_mutations: Array[Array] = []
+		for mutation in mutations:
+			var index = mutation[0]
+			if index < r.start:
+				next_mutations.append(mutation)
+			elif index > r.start:
+				next_mutations.append([index - offset, mutation[1]])
+		markers.mutations = next_mutations
+
 	markers.text = resolved_text
+
+	parser.free()
 
 	return markers
 
 
 ## Replace any variables, etc in the character name
 func get_resolved_character(data: Dictionary, extra_game_states: Array = []) -> String:
-	var character: String = data.character
+	var character: String = data.get("character", "")
 
 	# Resolve variables
-	for replacement in data.character_replacements:
+	for replacement in data.get("character_replacements", []):
 		var value = await resolve(replacement.expression.duplicate(true), extra_game_states)
 		character = character.replace(replacement.value_in_text, str(value))
 
@@ -219,18 +259,40 @@ func create_resource_from_text(text: String) -> Resource:
 
 ## Show the example balloon
 func show_example_dialogue_balloon(resource: DialogueResource, title: String = "", extra_game_states: Array = []) -> CanvasLayer:
-	var ExampleBalloonScene = load("res://addons/dialogue_manager/example_balloon/example_balloon.tscn")
-	var SmallExampleBalloonScene = load("res://addons/dialogue_manager/example_balloon/small_example_balloon.tscn")
-
-	var is_small_window: bool = ProjectSettings.get_setting("display/window/size/viewport_width") < 400
-	var balloon: Node = (SmallExampleBalloonScene if is_small_window else ExampleBalloonScene).instantiate()
+	var balloon: Node = load(_get_example_balloon_path()).instantiate()
 	get_current_scene.call().add_child(balloon)
 	balloon.start(resource, title, extra_game_states)
 
 	return balloon
 
 
+## Show the configured dialogue balloon
+func show_dialogue_balloon(resource: DialogueResource, title: String = "", extra_game_states: Array = []) -> Node:
+	var balloon: Node = load(DialogueSettings.get_setting("balloon_path", _get_example_balloon_path())).instantiate()
+	get_current_scene.call().add_child(balloon)
+	balloon.start(resource, title, extra_game_states)
+	return balloon
+
+
+# Get the path to the example balloon
+func _get_example_balloon_path() -> String:
+	var is_small_window: bool = ProjectSettings.get_setting("display/window/size/viewport_width") < 400
+	var balloon_path: String = "/example_balloon/small_example_balloon.tscn" if is_small_window else "/example_balloon/example_balloon.tscn"
+	return get_script().resource_path.get_base_dir() + balloon_path
+
+
 ### Dotnet bridge
+
+
+func _has_dotnet_solution() -> bool:
+	if not DialogueSettings.get_setting("has_dotnet_solution", false): return false
+	if not ResourceLoader.exists("res://addons/dialogue_manager/DialogueManager.cs"): return false
+	if load("res://addons/dialogue_manager/DialogueManager.cs") == null: return false
+	return true
+
+
+func _get_dotnet_dialogue_manager() -> Node:
+	return load("res://addons/dialogue_manager/DialogueManager.cs").new()
 
 
 func _bridge_get_next_dialogue_line(resource: DialogueResource, key: String, extra_game_states: Array = []) -> void:
@@ -388,20 +450,13 @@ func create_dialogue_line(data: Dictionary, extra_game_states: Array) -> Dialogu
 				pauses = resolved_data.pauses,
 				speeds = resolved_data.speeds,
 				inline_mutations = resolved_data.mutations,
-				conditions = resolved_data.conditions,
 				time = resolved_data.time,
 				tags = data.get("tags", []),
 				extra_game_states = extra_game_states
 			})
 
 		DialogueConstants.TYPE_RESPONSE:
-			return DialogueLine.new({
-				id = data.get("id", ""),
-				type = DialogueConstants.TYPE_RESPONSE,
-				next_id = data.next_id,
-				tags = data.get("tags", []),
-				extra_game_states = extra_game_states
-			})
+			return null
 
 		DialogueConstants.TYPE_MUTATION:
 			return DialogueLine.new({
@@ -423,6 +478,8 @@ func create_response(data: Dictionary, extra_game_states: Array) -> DialogueResp
 		type = DialogueConstants.TYPE_RESPONSE,
 		next_id = data.next_id,
 		is_allowed = await check_condition(data, extra_game_states),
+		character = await get_resolved_character(data, extra_game_states),
+		character_replacements = data.get("character_replacements", [] as Array[Dictionary]),
 		text = resolved_data.text,
 		text_replacements = data.text_replacements,
 		tags = data.get("tags", []),
@@ -992,31 +1049,6 @@ func apply_operation(operator: String, first_value, second_value):
 	assert(false, DialogueConstants.translate("runtime.unknown_operator"))
 
 
-# Move the position of any markers after a given position
-func adjust_marker_indices(from: int, to: int, markers: ResolvedLineData) -> void:
-	for key in ["pauses", "speeds", "time"]: # mutations
-		if markers.get(key) == null:
-			continue
-		var marker = markers.get(key)
-		var next_marker: Dictionary = {}
-		for index in marker:
-			if index < from:
-				next_marker[index] = marker[index]
-			elif index > to:
-				next_marker[index - (to - from)] = marker[index]
-		markers.set(key, next_marker)
-
-	var mutations: Array[Array] = markers.mutations
-	var next_mutations: Array[Array] = []
-	for mutation in mutations:
-		var index = mutation[0]
-		if index < from:
-			next_mutations.append(mutation)
-		elif index > to:
-			next_mutations.append([index - (to - from), mutation[index]])
-	markers.mutations = next_mutations
-
-
 # Check if a dialogue line contains meaningful information
 func is_valid(line: DialogueLine) -> bool:
 	if line == null:
@@ -1047,10 +1079,9 @@ func thing_has_method(thing, method: String, args: Array) -> bool:
 	if thing.has_method(method):
 		return true
 
-	if method.to_snake_case() != method and ResourceLoader.exists("res://addons/dialogue_manager/DialogueManager.cs"):
+	if method.to_snake_case() != method and _has_dotnet_solution():
 		# If we get this far then the method might be a C# method with a Task return type
-		var dotnet_dialogue_manager = load("res://addons/dialogue_manager/DialogueManager.cs").new()
-		return dotnet_dialogue_manager.ThingHasMethod(thing, method)
+		return _get_dotnet_dialogue_manager().ThingHasMethod(thing, method)
 
 	return false
 
@@ -1103,7 +1134,7 @@ func resolve_thing_method(thing, method: String, args: Array):
 		return await thing.callv(method, args)
 
 	# If we get here then it's probably a C# method with a Task return type
-	var dotnet_dialogue_manager = load("res://addons/dialogue_manager/DialogueManager.cs").new()
+	var dotnet_dialogue_manager = _get_dotnet_dialogue_manager()
 	dotnet_dialogue_manager.ResolveThingMethod(thing, method, args)
 	return await dotnet_dialogue_manager.Resolved
 

@@ -1,19 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://b86twncw80qmb"]
+[gd_scene load_steps=5 format=3 uid="uid://b86twncw80qmb"]
 
 [ext_resource type="Script" path="res://Scripts/ground items/pipe.gd" id="1_7ikox"]
+[ext_resource type="PackedScene" uid="uid://cx2fyb2kru7a8" path="res://Scenes/ground items/shadowed_animated_sprite.tscn" id="2_pki5u"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_qxhk0"]
-size = Vector2(14, 9)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_2xepm"]
-animations = [{
-"frames": [],
-"loop": false,
-"name": &"irrigation_pipe",
-"speed": 5.0
-}]
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_pkc24"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_0d2af"]
 animations = [{
 "frames": [],
 "loop": false,
@@ -24,24 +14,13 @@ animations = [{
 [sub_resource type="Gradient" id="Gradient_a7scd"]
 colors = PackedColorArray(0.301961, 0.607843, 0.901961, 1, 1, 1, 1, 1)
 
-[node name="Pipe" type="Area2D"]
+[node name="Pipe" type="Node2D"]
+z_index = 10
+z_as_relative = false
 script = ExtResource("1_7ikox")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 2)
-shape = SubResource("RectangleShape2D_qxhk0")
-
-[node name="ShadowAnimatedSprite" type="AnimatedSprite2D" parent="."]
-z_index = 9
-position = Vector2(0, -8)
-sprite_frames = SubResource("SpriteFrames_2xepm")
-animation = &"irrigation_pipe"
-
-[node name="MainAnimatedSprite" type="AnimatedSprite2D" parent="ShadowAnimatedSprite"]
-unique_name_in_owner = true
-z_index = 1
-sprite_frames = SubResource("SpriteFrames_pkc24")
-animation = &"irrigation_pipe"
+[node name="MainAnimator" parent="." instance=ExtResource("2_pki5u")]
+sprite_frames = SubResource("SpriteFrames_0d2af")
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
 z_index = 11

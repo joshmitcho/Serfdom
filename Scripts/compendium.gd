@@ -1,17 +1,19 @@
 # compendium.gd
 extends Node
 
-const TREES_INDICES: Vector2i = Vector2i(3, 6)
-const FARM_DESTROYABLES_INDICES: Vector2i = Vector2i(6, 9)
-const FOREST_DESTROYABLES_INDICES: Vector2i = Vector2i(3, 8)
-const MINE_DESTROYABLES_INDICES: Vector2i = Vector2i(9, 9)
+var tree_keys := all_destroyables.keys().slice(3, 6)
 
 var all_items: Dictionary
 var all_crops: Dictionary
+var all_recipes: Dictionary
 
 const items_spritesheet: Texture2D = preload("res://Art/items.png")
 var num_sprites: Vector2
 
+const error_sfx = preload("res://SFX/woodyHit.wav")
+const chest_open_sfx = preload("res://SFX/chest_open.wav")
+const chest_close_sfx = preload("res://SFX/chest_close.wav")
+const swap_tool_sfx = preload("res://SFX/toolSwap.wav")
 const thud_sfx = preload("res://SFX/woodyHit.wav")
 const dig_sfx = preload("res://SFX/hoeHit.wav")
 const watering_sfx = preload("res://SFX/watering.wav")
@@ -28,10 +30,15 @@ const sfx_plant_seed = [
 	preload("res://SFX/plant_seed_1.wav"),
 	preload("res://SFX/plant_seed_2.wav")
 ]
+const sfx_pop = preload("res://SFX/pop.wav")
+
 const DAY_JINGLE = preload("res://SFX/morningcrow.ogg")
 const NIGHT_JINGLE = preload("res://SFX/howlingwolf.ogg")
 const DAY_SOUNDSCAPE = preload("res://SFX/nature-soundscape.ogg")
 const NIGHT_SOUNDSCAPE = preload("res://SFX/creepy-soundscape.ogg")
+const CAVE_SOUNDSCAPE = preload("res://SFX/creepy-soundscape.ogg")
+
+enum MAP_TYPE {INTERIOR, FARM, CAVE, FOREST, TOWN}
 
 const TOOL_TIERS: Dictionary = {
 	rusty = 10,
@@ -47,6 +54,8 @@ const CHEST_SIZES: Dictionary = {
 	deluxe = 3
 }
 
+const TREE_INTERVALS: Array = [1, 2, 3]
+
 const ALL_NPCS: Dictionary = {
 	bloom = [
 		"serf", 1.5
@@ -54,7 +63,7 @@ const ALL_NPCS: Dictionary = {
 	clyne = [
 		"serf", 0.8
 	],
-	daru = [
+	king_leodhata = [
 		"monarchy", 0.6
 	],
 	swain = [
@@ -66,6 +75,12 @@ const ALL_NPCS: Dictionary = {
 }
 
 const all_destroyables: Dictionary = {
+	#destroyable_name = [
+		#"compatible_tool", health,
+		#hit_sfx, [die_sfx_1, die_sfx_2],
+		#num_drops, ["drop_type_1", "drop_type_2", "drop_type_3",...],
+		#vertical_sprite_offset
+	#],
 	stump_0 = [
 		"axe", 20,
 		sfx_axchop, [sfx_axe],
@@ -117,15 +132,41 @@ const all_destroyables: Dictionary = {
 	rock_small = [
 		"hammer", 10,
 		sfx_hammer, [sfx_brick1, sfx_brick2],
-		1.25, ["stone", "stone", "stone", "stone", "stone", "stone", "stone", "coal"],
+		1.25, ["stone"],
+		0
+	],
+	rock_cave = [
+		"hammer", 10,
+		sfx_hammer, [sfx_brick1, sfx_brick2],
+		1.25, ["stone"],
+		0
+	],
+	copper_node = [
+		"hammer", 30,
+		sfx_hammer, [sfx_brick1, sfx_brick2],
+		2.2, ["copper_ore"],
+		0
+	],
+	coal_node = [
+		"hammer", 20,
+		sfx_hammer, [sfx_brick1, sfx_brick2],
+		2.2, ["coal"],
+		0
+	],
+	iron_node = [
+		"hammer", 50,
+		sfx_hammer, [sfx_brick1, sfx_brick2],
+		2.2, ["iron_ore"],
+		0
+	],
+	mushroom = [
+		"sickle", 10,
+		sfx_swish, [sfx_cut],
+		1.05, ["potato"],
 		0
 	]
 }
 
-var tree_keys = all_destroyables.keys().slice(TREES_INDICES.x, TREES_INDICES.y)
-var farm_destroyable_keys = all_destroyables.keys().slice(FARM_DESTROYABLES_INDICES.x, FARM_DESTROYABLES_INDICES.y)
-var forest_destroyable_keys = all_destroyables.keys().slice(FOREST_DESTROYABLES_INDICES.x, FOREST_DESTROYABLES_INDICES.y)
-var mine_destroyable_keys = all_destroyables.keys().slice(MINE_DESTROYABLES_INDICES.x, MINE_DESTROYABLES_INDICES.y)
 
 func _ready():
 	_load_items_from_csv()
@@ -145,6 +186,11 @@ func _load_items_from_csv():
 		new_item.initialize(i, item_data)
 		all_items[new_item.item_name] = new_item
 		i += 1
+	
+	for item in all_items.values():
+		var new_recipe = item.get_recipe()
+		if new_recipe != []:
+			all_recipes[item.item_name] = new_recipe
 
 
 func _load_crops_from_csv():

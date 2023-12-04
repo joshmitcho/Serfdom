@@ -8,8 +8,8 @@ func initialize(p_name: StringName = "name"):
 	play_pitched_sfx(Compendium.sfx_axe)
 	object_name = p_name
 	
-	animator.animation = object_name
-	animator.set_frame_and_progress(0, 0)
+	animator.load_animation(object_name)
+	animator.load_offset(-8)
 	
 	compatible_tool_type = StringName("axe")
 	

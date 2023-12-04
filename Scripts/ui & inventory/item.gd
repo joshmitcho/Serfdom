@@ -4,11 +4,14 @@ class_name Item
 # all these fields are exported because duplicate() only copies exported fields
 @export var compendium_index: int
 @export var item_name: StringName
+
 @export var value: int
 @export var is_edible: bool
 @export var power: int = 0
 @export var tag: StringName
 @export var description: String
+@export var recipe_string: String
+
 @export var is_stackable: bool = true
 @export var is_tool: bool = false
 @export var is_crop: bool = false
@@ -27,6 +30,7 @@ func initialize(index: int, input_values: Array):
 	value = int(input_values[1])
 	tag = StringName(input_values[2].strip_edges())
 	description = input_values[3]
+	recipe_string = input_values[4].strip_edges()
 	
 	placeable_name = item_name
 	
@@ -52,3 +56,14 @@ func initialize(index: int, input_values: Array):
 	if tag == StringName("pipe"):
 		is_placeable = true
 		is_pipe = true
+
+
+func get_recipe() -> Array[Item]:
+	var recipe: Array[Item] = []
+	if recipe_string != "":
+		var recipe_components = recipe_string.split(";", false)
+		for i in range(0, recipe_components.size() - 1, 2):
+			var component_item: Item = Compendium.all_items[recipe_components[i]].duplicate()
+			component_item.amount = int(recipe_components[i+1])
+			recipe.append(component_item)
+	return recipe

@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://b0jvnjccc7dix"]
+
+[ext_resource type="Script" path="res://Scripts/map_connector.gd" id="1_nsw21"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f0vuv"]
+size = Vector2(16, 64)
+
+[node name="MapConnector" type="Area2D"]
+z_index = 99
+script = ExtResource("1_nsw21")
+destination_map = &"town"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+z_index = 1
+shape = SubResource("RectangleShape2D_f0vuv")
+
+[node name="ExitPoint" type="Marker2D" parent="."]
+position = Vector2(32, 0)
+gizmo_extents = 25.0
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

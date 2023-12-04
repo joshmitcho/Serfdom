@@ -18,11 +18,9 @@ func initialize_item_container_display():
 	for i in Inventory.MAX_SIZE:
 		slots[i].hotkey_label.text = ""
 		slots[i].item_amount_label.text = ""
-		slots[i].shadow_spill_cover.hide()
 	for i in Inventory.slots_unlocked:
 		update_inventory_slot_display(i)
 		slots[i].locked = false
-		slots[i].shadow_spill_cover.show()
 	for i in Inventory.BAR_SIZE:
 		slots[i].hotkey_label.text = hotbar_hotkeys[i]
 	slots[Inventory.active_index].highlight.show()
@@ -43,4 +41,4 @@ func set_active_slot_display(index: int):
 	for slot in slots:
 		slot.highlight.hide()
 	slots[index].highlight.show()
-	SoundManager.play_pitched_sfx(swap_tool_sfx)
+	SoundManager.play_pitched_sfx(Compendium.swap_tool_sfx)

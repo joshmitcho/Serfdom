@@ -1,17 +1,28 @@
 # map.gd
 extends TileMap
+class_name Map
 
-signal destroyables_initialized()
+#signal destroyables_initialized()
+signal map_exited(destination_map: StringName, destination_connector: int)
 
-enum LAYER_NAMES {BASE, DUG_SOIL, WATERED_SOIL, GRASS, WATER, PIPES, GROUND_ITEMS, DECORATION_LOW, DECORATION_HIGH, NAVIGATION}
+enum LAYER_NAMES {
+	BASE, DUG_SOIL, WATERED_SOIL, GRASS, WATER,
+	PIPES, GROUND_ITEMS, DECORATION_LOW, DECORATION_HIGH,
+	NO_OBSTRUCTIONS, NAVIGATION
+}
+
+@export var map_type: Compendium.MAP_TYPE
+@export var destroyable_spawn_rate: float = 1.0 / 5
+@export var trees_percent: float = 0.0
+@export var available_destroyables: Dictionary
+
 const SCENE_TILES_SOURCE_ID: int = 2
 const WATER_SOURCE_ID: int = 10
-const GROUND_ITEMS_SPAWN_RATE: float = 1.0 / 5
-const TREES_PERCENT: float = 0.3
 
-@onready var player: Player = %Player
+var connectors: Array[MapConnector]
 
-@onready var tile_aim_indicator = $TileAimIndicator
+var player: Player
+var tile_aim_indicator: TextureRect
 var players_held_item: Item
 const GREEN_HIGHLIGHT = Color(0, 1, 0, 0.3)
 const RED_HIGHLIGHT = Color(1, 0, 0, 0.3)
@@ -21,28 +32,60 @@ const destroyable_base = preload("res://Scenes/ground items/destroyable.tscn")
 const drop_base = preload("res://Scenes/ui & inventory/drop.tscn")
 
 
+func _ready():
+	set_layer_modulate(LAYER_NAMES.NO_OBSTRUCTIONS, Color.TRANSPARENT)
+	for child in get_children():
+		if child is MapConnector:
+			connectors.append(child)
+			child.map_connector_triggered.connect(_on_map_connector_triggered)
+
+
+func connect_player(p_player: Player):
+	player = p_player
+	player.do_action_pressed.connect(do_action_pressed)
+	player.place_attempted.connect(_on_player_place_attempted)
+	player.tool_used.connect(_on_player_tool_used)
+	player.hold_changed.connect(_on_player_hold_changed)
+
+
 func scatter_destroyables() -> void:
+	if map_type == Compendium.MAP_TYPE.INTERIOR or map_type == Compendium.MAP_TYPE.TOWN:
+		return
+	
 	var cells = get_used_cells(LAYER_NAMES.BASE)
 	cells.erase(local_to_map(player.position))
 	
 	for npc in NpcManager.all_npcs.values():
 		cells.erase(local_to_map(npc.position))
 	
-	for i in cells.size() * GROUND_ITEMS_SPAWN_RATE:
+	for i in cells.size() * destroyable_spawn_rate:
 		var rand_cell_coords = cells.pick_random()
 		if is_tile_empty(rand_cell_coords):
-			set_cell(LAYER_NAMES.GROUND_ITEMS, rand_cell_coords, SCENE_TILES_SOURCE_ID, Vector2i.ZERO, int(randf() + TREES_PERCENT))
-	initialize_destroyable_objects.call_deferred(Compendium.farm_destroyable_keys, Compendium.tree_keys)
+			set_cell(LAYER_NAMES.GROUND_ITEMS, rand_cell_coords, SCENE_TILES_SOURCE_ID, Vector2i.ZERO, int(randf() + trees_percent))
+	initialize_destroyable_objects.call_deferred()
 
 
-func initialize_destroyable_objects(names: Array, tree_names: Array) -> void:
-	for destroyable in destroyables.values():
-		if destroyable is WoodTree:
-			destroyable.initialize(tree_names.pick_random())
+func initialize_destroyable_objects() -> void:
+	var raw_weights: Array = available_destroyables.values()
+	var total_weight: float = 0
+	var weighted_odds: Array[float] = []
+	
+	for weight in raw_weights:
+		total_weight += weight
+	
+	for weight: float in raw_weights:
+		if weighted_odds == []:
+			weighted_odds.append(weight / total_weight)
 		else:
-			destroyable.initialize(names.pick_random())
+			weighted_odds.append(weighted_odds.back() + (weight / total_weight))
+	
+	for destroyable: Destroyable in destroyables.values():
+		if destroyable is WoodTree:
+			destroyable.initialize(Compendium.tree_keys.pick_random())
+		else:
+			var weighted_random_index = weighted_random_selection(weighted_odds)
+			destroyable.initialize(available_destroyables.keys()[weighted_random_index])
 		destroyable.items_dropped.connect(spawn_drops)
-	destroyables_initialized.emit()
 
 
 func do_action_pressed(offsets: Array) -> void:
@@ -79,7 +122,10 @@ func _on_player_tool_used(tool: StringName, tool_offsets: Array, power: int) -> 
 func use_shovel(tool_tiles: Array) -> void:
 	for tile in tool_tiles:
 		if is_tile_tillable(tile):
-			set_cells_terrain_connect(LAYER_NAMES.DUG_SOIL, [tile], 1, 0)
+			if map_type == Compendium.MAP_TYPE.CAVE:
+				set_cells_terrain_connect(LAYER_NAMES.DUG_SOIL, [tile], 1, 2)
+			else:
+				set_cells_terrain_connect(LAYER_NAMES.DUG_SOIL, [tile], 1, 0)
 			SoundManager.play_pitched_sfx(Compendium.dig_sfx)
 			return
 	SoundManager.play_pitched_sfx(Compendium.thud_sfx)
@@ -99,13 +145,16 @@ func use_pail(tool_tiles: Array) -> void:
 		SoundManager.play_pitched_sfx(Compendium.watering_sfx)
 		for tile in tool_tiles:
 			if get_cell_source_id(LAYER_NAMES.DUG_SOIL, tile) >= 0:
-				set_cells_terrain_connect(LAYER_NAMES.WATERED_SOIL, [tile], 1, 1)
+				if map_type == Compendium.MAP_TYPE.CAVE:
+					set_cells_terrain_connect(LAYER_NAMES.WATERED_SOIL, [tile], 1, 3)
+				else:
+					set_cells_terrain_connect(LAYER_NAMES.WATERED_SOIL, [tile], 1, 1)
 				return
 
 
 func use_breaking_tool(tool: StringName, tool_tiles: Array, power: int) -> void:
 	for tile in tool_tiles:
-		var destroyable = destroyables.get(tile)
+		var destroyable: Destroyable = destroyables.get(tile)
 		if destroyable == null or destroyable.is_dying:
 			continue
 		if tool == destroyable.compatible_tool_type:
@@ -146,10 +195,12 @@ func initialize_placeable_object(tile: Vector2i, placeable_name: StringName) -> 
 
 
 func new_day(_year: int, season: int) -> void:
-#	grow all watered crops
-	for crop in destroyables.values():
-		if crop is Crop:
-			crop.grow_if_watered(season)
+#	grow all trees and watered crops
+	for dest in destroyables.values():
+		if dest is WoodTree:
+			dest.grow_if_alive(season)
+		elif dest is Crop:
+			dest.grow_if_watered(season)
 	
 #	wipe all watering from previous day
 	var watered_tiles = get_used_cells(LAYER_NAMES.WATERED_SOIL)
@@ -202,6 +253,10 @@ func spawn_drops(drops: Array[Drop], destroyable_position, remove: bool = true) 
 		drop.spawn()
 
 
+func _on_map_connector_triggered(destination_map: StringName, destination_connector: int):
+	map_exited.emit(destination_map, destination_connector)
+
+
 func _physics_process(_delta) -> void:
 	var map_space_posistion = local_to_map(player.position) + player.facing
 	var snapped_position = map_to_local(map_space_posistion)  + Vector2(-8, -8)
@@ -223,6 +278,15 @@ func tile_aim_indicator_colour(tile: Vector2i) -> Color:
 	return RED_HIGHLIGHT
 
 
+func weighted_random_selection(weighted_odds: Array[float]) -> int:
+	var random_value = randf()
+	for i in weighted_odds.size():
+		if random_value <= weighted_odds[i]:
+			return i
+	print("something has gone wrong")
+	return 999 #something has gone wrong
+
+
 func is_tile_tillable(tile_coord: Vector2i) -> bool:
 	if not is_tile_empty(tile_coord):
 		return false
@@ -236,6 +300,8 @@ func is_tile_tillable(tile_coord: Vector2i) -> bool:
 
 
 func is_tile_plantable(tile_coord: Vector2i) -> bool:
+	if map_type != Compendium.MAP_TYPE.FARM:
+		return false
 	if not is_tile_empty(tile_coord):
 		return false
 	if get_cell_source_id(LAYER_NAMES.DUG_SOIL, tile_coord) != 3:
@@ -254,7 +320,7 @@ func is_tile_over_water(tile: Vector2i) -> bool:
 func is_tile_empty(tile_coord: Vector2i, ignored_layers: Array = []) -> bool:
 	if destroyables.get(tile_coord):
 		return false
-	for layer in range(LAYER_NAMES.WATER, LAYER_NAMES.DECORATION_HIGH):
+	for layer in range(LAYER_NAMES.WATER, LAYER_NAMES.NAVIGATION): #doesn't include NAVIGATION
 		if layer in ignored_layers:
 			continue
 		if get_cell_source_id(layer, tile_coord) != -1:
@@ -268,6 +334,4 @@ func _on_player_hold_changed() -> void:
 		tile_aim_indicator.show()
 	else:
 		tile_aim_indicator.hide()
-
-
 

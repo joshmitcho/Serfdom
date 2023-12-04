@@ -1,10 +1,13 @@
-[gd_scene load_steps=18 format=3 uid="uid://c6ovpkyegha2i"]
+[gd_scene load_steps=22 format=3 uid="uid://c6ovpkyegha2i"]
 
 [ext_resource type="Texture2D" uid="uid://dkj6s6022obi0" path="res://Art/UI/hotbar.png" id="1_fdtle"]
 [ext_resource type="Script" path="res://Scripts/ui & inventory/main_ui.gd" id="1_jlsw2"]
 [ext_resource type="Texture2D" uid="uid://btb3lsxgf8w05" path="res://Art/UI/menu tabs.png" id="2_vd1n6"]
 [ext_resource type="PackedScene" uid="uid://dutjtyluty2rm" path="res://Scenes/ui & inventory/item_slot.tscn" id="4_3q8l1"]
 [ext_resource type="Texture2D" uid="uid://tytlnjvhxca5" path="res://Art/UI/menu tab icons.png" id="5_ie0lv"]
+[ext_resource type="Texture2D" uid="uid://83g3hscqbkiu" path="res://Art/UI/crafting ui.png" id="7_bk8lh"]
+[ext_resource type="Script" path="res://Scripts/ui & inventory/craftables_display.gd" id="8_fciwf"]
+[ext_resource type="FontFile" uid="uid://dsnajbdx217pn" path="res://Fonts/text 04B03.TTF" id="8_oenst"]
 [ext_resource type="Script" path="res://Scripts/ui & inventory/inventory_display.gd" id="10_0lx4k"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jfvni"]
@@ -36,6 +39,8 @@ texture = SubResource("AtlasTexture_u3uf8")
 texture_margin_top = 3.0
 axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6yua0"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gkhxy"]
 atlas = ExtResource("5_ie0lv")
@@ -69,7 +74,6 @@ mouse_filter = 2
 script = ExtResource("1_jlsw2")
 
 [node name="TabBar" type="TabBar" parent="."]
-unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -77,17 +81,18 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -100.0
-offset_top = -55.0
+offset_top = -90.0
 offset_right = -16.0
-offset_bottom = -22.0
+offset_bottom = -57.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/tab_selected = SubResource("StyleBoxTexture_fubql")
 theme_override_styles/tab_hovered = SubResource("StyleBoxTexture_p24fo")
 theme_override_styles/tab_unselected = SubResource("StyleBoxTexture_tjcc8")
+theme_override_styles/tab_focus = SubResource("StyleBoxEmpty_6yua0")
+tab_count = 4
 clip_tabs = false
 scroll_to_selected = false
-tab_count = 4
 tab_0/title = ""
 tab_0/icon = SubResource("AtlasTexture_gkhxy")
 tab_1/title = ""
@@ -96,6 +101,116 @@ tab_2/title = ""
 tab_2/icon = SubResource("AtlasTexture_si0uh")
 tab_3/title = ""
 tab_3/icon = SubResource("AtlasTexture_fshix")
+
+[node name="FirstTexture" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -111.0
+offset_top = -67.0
+offset_right = 111.0
+offset_bottom = 18.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_bk8lh")
+
+[node name="Label" type="Label" parent="FirstTexture"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 8.0
+offset_right = 52.0
+offset_bottom = 31.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0.811765, 0.501961, 0.407843, 1)
+theme_override_fonts/font = ExtResource("8_oenst")
+theme_override_font_sizes/font_size = 8
+text = "First"
+
+[node name="CraftingTexture" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -111.0
+offset_top = -67.0
+offset_right = 111.0
+offset_bottom = 18.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_bk8lh")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CraftingTexture"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 7.0
+offset_right = 212.0
+offset_bottom = 68.0
+
+[node name="CraftablesDisplay" type="GridContainer" parent="CraftingTexture/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = -3
+columns = 10
+script = ExtResource("8_fciwf")
+
+[node name="OptionsTexture" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -111.0
+offset_top = -67.0
+offset_right = 111.0
+offset_bottom = 18.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_bk8lh")
+
+[node name="Label" type="Label" parent="OptionsTexture"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 8.0
+offset_right = 52.0
+offset_bottom = 31.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0.811765, 0.501961, 0.407843, 1)
+theme_override_fonts/font = ExtResource("8_oenst")
+theme_override_font_sizes/font_size = 8
+text = "Options"
+
+[node name="QuitTexture" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -111.0
+offset_top = -67.0
+offset_right = 111.0
+offset_bottom = 18.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_bk8lh")
+
+[node name="Label" type="Label" parent="QuitTexture"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 8.0
+offset_right = 52.0
+offset_bottom = 31.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0.811765, 0.501961, 0.407843, 1)
+theme_override_fonts/font = ExtResource("8_oenst")
+theme_override_font_sizes/font_size = 8
+text = "Quit"
 
 [node name="InventoryTexture" type="TextureRect" parent="."]
 layout_mode = 1

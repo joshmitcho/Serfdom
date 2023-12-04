@@ -41,10 +41,9 @@ general/custom_test_scene_path="res://Scenes/dialogue/dialogue_test.tscn"
 
 window/size/viewport_width=320
 window/size/viewport_height=180
-window/size/initial_position_type=0
-window/size/window_width_override=1280
-window/size/window_height_override=720
 window/stretch/mode="viewport"
+mouse_cursor/custom_image="res://Art/cursor_96.png"
+mouse_cursor/custom_image_hotspot=Vector2(6, 6)
 
 [editor_plugins]
 
@@ -159,7 +158,7 @@ skip_time={
 
 [internationalization]
 
-locale/translations_pot_files=PackedStringArray("res://Dialogue/test.dialogue", "res://Dialogue/swain.dialogue", "res://Dialogue/bloom.dialogue", "res://Dialogue/clyne.dialogue", "res://Dialogue/daru.dialogue", "res://Dialogue/wilfred.dialogue")
+locale/translations_pot_files=PackedStringArray("res://Dialogue/test.dialogue", "res://Dialogue/swain.dialogue", "res://Dialogue/bloom.dialogue", "res://Dialogue/clyne.dialogue", "res://Dialogue/wilfred.dialogue", "res://Dialogue/king_leodhata.dialogue")
 
 [rendering]
 
