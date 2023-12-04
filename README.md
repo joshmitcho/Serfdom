@@ -35,6 +35,8 @@ Dynamic day/night lighting and shadows
 - Economy
 - Cutscenes
 
+<!-- need a comment to end the list, markdown is dumb -->
+
 That should be enough systems to release a true vertical slice of the game as a demo, then I can get started filling out the actual content.
 
 **note:** this repo is for education/archival purposes. It won't run without the art and sound assets, and I don't have the rights to distribute them outside of the game itself. You can download a playable version from the Itch page: https://joshmitcho.itch.io/serfdom
